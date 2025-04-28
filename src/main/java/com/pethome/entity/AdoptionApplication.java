@@ -2,7 +2,7 @@ package com.pethome.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.pethome.entity.enums.AdoptionApplicationStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,11 +29,13 @@ public class AdoptionApplication implements Serializable {
     @TableId(value = "adoption_id", type = IdType.AUTO)
     private Integer adoptionId;
 
+    private Integer animalId;
+
     private String career;
 
     private String houseCondition;
 
     private String experience;
 
-    private String applicationStatus;
+    private AdoptionApplicationStatusEnum applicationStatus;
 }

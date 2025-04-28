@@ -2,7 +2,7 @@ package com.pethome.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.pethome.entity.enums.RescueStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,7 +36,9 @@ public class RescueRecord implements Serializable {
 
     private String rescuerPhone;
 
-    private String rescueStatus;
+    private RescueStatusEnum rescueStatus;
+
+    private Integer rescueStationId;
 
     private String extraInfo;
 }

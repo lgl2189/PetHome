@@ -2,7 +2,7 @@ package com.pethome.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.pethome.entity.enums.SupplyDemandStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,5 +35,5 @@ public class SupplyDemandRecord implements Serializable {
 
     private Integer demandQuantity;
 
-    private String demandStatus;
+    private SupplyDemandStatusEnum demandStatus;
 }

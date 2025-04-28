@@ -2,6 +2,7 @@ package com.pethome.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.pethome.entity.enums.AnimalHealthStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,7 +37,7 @@ public class Animal implements Serializable {
 
     private Integer age;
 
-    private String healthStatus;
+    private AnimalHealthStatusEnum healthStatus;
 
     private Boolean isSterilized;
 

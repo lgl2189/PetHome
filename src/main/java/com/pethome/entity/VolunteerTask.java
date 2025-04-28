@@ -2,7 +2,7 @@ package com.pethome.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.pethome.entity.enums.VolunteerTaskStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,13 +31,15 @@ public class VolunteerTask implements Serializable {
     @TableId(value = "task_id", type = IdType.AUTO)
     private Integer taskId;
 
+    private Integer rescueStationId;
+
     private LocalDate taskDate;
 
     private String taskPosition;
 
     private String taskContent;
 
-    private String taskStatus;
+    private VolunteerTaskStatusEnum taskStatus;
 
     private Boolean isSignIn;
 
