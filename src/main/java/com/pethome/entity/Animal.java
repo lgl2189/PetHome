@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -21,6 +22,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Animal implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "animal_id", type = IdType.AUTO)
@@ -54,144 +56,5 @@ public class Animal implements Serializable {
 
     private Boolean abnormalWarning;
 
-    public Integer getAnimalId() {
-        return animalId;
-    }
-
-    public void setAnimalId(Integer animalId) {
-        this.animalId = animalId;
-    }
-
-    public String getSpecies() {
-        return species;
-    }
-
-    public void setSpecies(String species) {
-        this.species = species;
-    }
-
-    public String getBreed() {
-        return breed;
-    }
-
-    public void setBreed(String breed) {
-        this.breed = breed;
-    }
-
-    public Boolean getGender() {
-        return gender;
-    }
-
-    public void setGender(Boolean gender) {
-        this.gender = gender;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getHealthStatus() {
-        return healthStatus;
-    }
-
-    public void setHealthStatus(String healthStatus) {
-        this.healthStatus = healthStatus;
-    }
-
-    public Boolean getIsSterilized() {
-        return isSterilized;
-    }
-
-    public void setIsSterilized(Boolean isSterilized) {
-        this.isSterilized = isSterilized;
-    }
-
-    public String getPersonality() {
-        return personality;
-    }
-
-    public void setPersonality(String personality) {
-        this.personality = personality;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public String getVideoUrl() {
-        return videoUrl;
-    }
-
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
-    }
-
-    public String getVaccinationRecord() {
-        return vaccinationRecord;
-    }
-
-    public void setVaccinationRecord(String vaccinationRecord) {
-        this.vaccinationRecord = vaccinationRecord;
-    }
-
-    public String getDewormingRecord() {
-        return dewormingRecord;
-    }
-
-    public void setDewormingRecord(String dewormingRecord) {
-        this.dewormingRecord = dewormingRecord;
-    }
-
-    public String getMedicalReportUrl() {
-        return medicalReportUrl;
-    }
-
-    public void setMedicalReportUrl(String medicalReportUrl) {
-        this.medicalReportUrl = medicalReportUrl;
-    }
-
-    public Boolean getAbnormalWarning() {
-        return abnormalWarning;
-    }
-
-    public void setAbnormalWarning(Boolean abnormalWarning) {
-        this.abnormalWarning = abnormalWarning;
-    }
-
-    @Override
-    public String toString() {
-        return "Animal{" +
-        "animalId = " + animalId +
-        ", species = " + species +
-        ", breed = " + breed +
-        ", gender = " + gender +
-        ", age = " + age +
-        ", healthStatus = " + healthStatus +
-        ", isSterilized = " + isSterilized +
-        ", personality = " + personality +
-        ", description = " + description +
-        ", imgUrl = " + imgUrl +
-        ", videoUrl = " + videoUrl +
-        ", vaccinationRecord = " + vaccinationRecord +
-        ", dewormingRecord = " + dewormingRecord +
-        ", medicalReportUrl = " + medicalReportUrl +
-        ", abnormalWarning = " + abnormalWarning +
-        "}";
-    }
+    private Integer rescueStationId;
 }
