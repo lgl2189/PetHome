@@ -1,0 +1,37 @@
+package com.pethome.entity;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
+/**
+ * <p>
+ * 存储领养信息
+ * </p>
+ *
+ * @author lgl
+ * @since 2025-04-27
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class AdoptionApplication implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "adoption_id", type = IdType.AUTO)
+    private Integer adoptionId;
+
+    private String career;
+
+    private String houseCondition;
+
+    private String experience;
+
+    private String applicationStatus;
+}
