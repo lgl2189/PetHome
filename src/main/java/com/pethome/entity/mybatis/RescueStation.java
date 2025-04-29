@@ -1,4 +1,4 @@
-package com.pethome.entity;
+package com.pethome.entity.mybatis;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -8,11 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
 
 /**
  * <p>
- * 存放用户信息
+ * 存储救助站信息
  * </p>
  *
  * @author lgl
@@ -21,25 +20,15 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Serializable {
+public class RescueStation implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "user_id", type = IdType.AUTO)
-    private Integer userId;
+    @TableId(value = "rescue_station_id", type = IdType.AUTO)
+    private Integer rescueStationId;
 
-    private String userName;
+    private String position;
 
-    private String userPassword;
-
-    private String chinaId;
-
-    private String realName;
-
-    private LocalDate birthDate;
-
-    private String phone;
-
-    private String email;
+    private Integer adminUserId;
 }

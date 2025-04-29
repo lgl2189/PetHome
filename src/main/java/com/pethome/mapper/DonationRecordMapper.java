@@ -1,7 +1,7 @@
 package com.pethome.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.pethome.entity.DonationRecord;
+import com.pethome.entity.mybatis.DonationRecord;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

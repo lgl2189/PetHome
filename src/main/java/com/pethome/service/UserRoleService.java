@@ -1,6 +1,6 @@
 package com.pethome.service;
 
-import com.pethome.entity.UserRole;
+import com.pethome.entity.mybatis.UserRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

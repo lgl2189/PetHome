@@ -1,6 +1,6 @@
 package com.pethome.service;
 
-import com.pethome.entity.CommunicationRecord;
+import com.pethome.entity.mybatis.CommunicationRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

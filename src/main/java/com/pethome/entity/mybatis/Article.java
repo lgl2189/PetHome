@@ -1,8 +1,7 @@
-package com.pethome.entity;
+package com.pethome.entity.mybatis;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ import java.time.LocalDate;
 
 /**
  * <p>
- * 存储捐赠记录
+ * 存储文章信息
  * </p>
  *
  * @author lgl
@@ -22,17 +21,17 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DonationRecord implements Serializable {
+public class Article implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "donation_id", type = IdType.AUTO)
-    private Integer donationId;
+    @TableId(value = "article_id", type = IdType.AUTO)
+    private Integer articleId;
 
-    private Integer userId;
+    private Integer publisherId;
 
-    private LocalDate donationDate;
+    private LocalDate publishDate;
 
-    private Integer donationMoney;
+    private String content;
 }

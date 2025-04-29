@@ -1,7 +1,7 @@
 package com.pethome.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.pethome.entity.Permission;
+import com.pethome.entity.mybatis.Permission;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

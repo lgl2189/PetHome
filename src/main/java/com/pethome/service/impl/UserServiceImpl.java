@@ -1,12 +1,9 @@
 package com.pethome.service.impl;
 
-import com.pethome.entity.User;
+import com.pethome.entity.mybatis.User;
 import com.pethome.mapper.UserMapper;
 import com.pethome.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**

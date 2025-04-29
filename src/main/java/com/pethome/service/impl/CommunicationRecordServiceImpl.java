@@ -1,6 +1,6 @@
 package com.pethome.service.impl;
 
-import com.pethome.entity.CommunicationRecord;
+import com.pethome.entity.mybatis.CommunicationRecord;
 import com.pethome.mapper.CommunicationRecordMapper;
 import com.pethome.service.CommunicationRecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

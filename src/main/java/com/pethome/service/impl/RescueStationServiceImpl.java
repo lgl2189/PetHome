@@ -1,6 +1,6 @@
 package com.pethome.service.impl;
 
-import com.pethome.entity.RescueStation;
+import com.pethome.entity.mybatis.RescueStation;
 import com.pethome.mapper.RescueStationMapper;
 import com.pethome.service.RescueStationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

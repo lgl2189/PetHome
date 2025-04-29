@@ -1,4 +1,4 @@
-package com.pethome.entity;
+package com.pethome.entity.mybatis;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -11,22 +11,28 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 存储超级管理员信息
+ * 存储权限信息
  * </p>
  *
  * @author lgl
- * @since 2025-04-27
+ * @since 2025-04-29
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Admin implements Serializable {
+public class Permission implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "admin_id", type = IdType.AUTO)
-    private Integer adminId;
+    @TableId(value = "permission_id", type = IdType.AUTO)
+    private Integer permissionId;
 
-    private String adminPassword;
+    private String permissionName;
+
+    private String permissionCode;
+
+    private String permissionUrl;
+
+    private Integer parentId;
 }

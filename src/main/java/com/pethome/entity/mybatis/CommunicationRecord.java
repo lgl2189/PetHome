@@ -1,4 +1,4 @@
-package com.pethome.entity;
+package com.pethome.entity.mybatis;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 /**
  * <p>
- * 存储文章信息
+ * 存储用户间交流记录
  * </p>
  *
  * @author lgl
@@ -21,17 +21,19 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Article implements Serializable {
+public class CommunicationRecord implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "article_id", type = IdType.AUTO)
-    private Integer articleId;
+    @TableId(value = "communication_id", type = IdType.AUTO)
+    private Integer communicationId;
 
-    private Integer publisherId;
+    private Integer user_id_from;
 
-    private LocalDate publishDate;
+    private Integer user_id_to;
 
-    private String content;
+    private LocalDate communicationDate;
+
+    private String communicationContent;
 }

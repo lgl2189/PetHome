@@ -1,4 +1,4 @@
-package com.pethome.entity;
+package com.pethome.entity.mybatis;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -11,24 +11,28 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 存储角色信息
+ * 存储救助站库存
  * </p>
  *
  * @author lgl
- * @since 2025-04-29
+ * @since 2025-04-27
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role implements Serializable {
+public class Inventory implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "role_id", type = IdType.AUTO)
-    private Integer roleId;
+    @TableId(value = "inventory_id", type = IdType.AUTO)
+    private Integer inventoryId;
 
-    private String roleTag;
+    private Integer rescueStationId;
 
-    private String roleName;
+    private String supplyName;
+
+    private Integer supplyQuantity;
+
+    private Integer warningQuantity;
 }

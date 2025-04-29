@@ -1,6 +1,6 @@
 package com.pethome.service.impl;
 
-import com.pethome.entity.UserRole;
+import com.pethome.entity.mybatis.UserRole;
 import com.pethome.mapper.UserRoleMapper;
 import com.pethome.service.UserRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

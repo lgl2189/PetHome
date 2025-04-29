@@ -1,6 +1,6 @@
 package com.pethome.service.impl;
 
-import com.pethome.entity.Admin;
+import com.pethome.entity.mybatis.Admin;
 import com.pethome.mapper.AdminMapper;
 import com.pethome.service.AdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
