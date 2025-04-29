@@ -2,7 +2,6 @@ package com.pethome.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,9 +29,9 @@ public class CommunicationRecord implements Serializable {
     @TableId(value = "communication_id", type = IdType.AUTO)
     private Integer communicationId;
 
-    private Integer userIdFirst;
+    private Integer user_id_from;
 
-    private Integer userIdSecond;
+    private Integer user_id_to;
 
     private LocalDate communicationDate;
 

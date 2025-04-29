@@ -3,7 +3,9 @@ package com.pethome.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -14,9 +16,12 @@ import java.io.Serializable;
  * @author lgl
  * @since 2025-04-29
  */
-@TableName("role_permission")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RolePermission implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "role_permission_id", type = IdType.AUTO)
@@ -26,36 +31,4 @@ public class RolePermission implements Serializable {
 
     private Integer permissionId;
 
-    public Integer getRolePermissionId() {
-        return rolePermissionId;
-    }
-
-    public void setRolePermissionId(Integer rolePermissionId) {
-        this.rolePermissionId = rolePermissionId;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    public Integer getPermissionId() {
-        return permissionId;
-    }
-
-    public void setPermissionId(Integer permissionId) {
-        this.permissionId = permissionId;
-    }
-
-    @Override
-    public String toString() {
-        return "RolePermission{" +
-        "rolePermissionId = " + rolePermissionId +
-        ", roleId = " + roleId +
-        ", permissionId = " + permissionId +
-        "}";
-    }
 }

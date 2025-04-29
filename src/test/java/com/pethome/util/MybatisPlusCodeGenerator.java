@@ -34,7 +34,7 @@ public class MybatisPlusCodeGenerator {
                 )
                 .packageConfig(builder ->
                         builder.parent("com.pethome") // 设置父包名
-                                .pathInfo(Collections.singletonMap(OutputFile.xml, "C:\\Users\\12145\\Desktop\\abc\\src\\main\\resources\\com\\pethome\\mapper")) // 设置mapperXml生成路径
+                                .pathInfo(Collections.singletonMap(OutputFile.xml, "C:\\Users\\12145\\Desktop\\MybatisPlus生成代码\\src\\main\\resources\\com\\pethome\\mapper")) // 设置mapperXml生成路径
                 )
                 .strategyConfig(builder -> builder.serviceBuilder().formatServiceFileName("%sService"))
 //                .strategyConfig(builder ->
