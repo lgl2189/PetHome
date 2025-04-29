@@ -20,7 +20,7 @@ public class MybatisPlusCodeGenerator {
         FastAutoGenerator.create("jdbc:mysql://localhost:3306/pet_home", "root", "12345678")
                 .globalConfig(builder -> {
                     builder.author("lgl") // 设置作者
-                            .outputDir("C:\\Users\\12145\\Desktop\\abc\\src\\main\\java"); // 指定输出目录
+                            .outputDir("C:\\Users\\12145\\Desktop\\MybatisPlus生成代码\\src\\main\\java"); // 指定输出目录
                 })
                 .dataSourceConfig(builder ->
                         builder.typeConvertHandler((globalConfig, typeRegistry, metaInfo) -> {
