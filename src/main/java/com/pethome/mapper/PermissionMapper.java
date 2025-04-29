@@ -2,6 +2,7 @@ package com.pethome.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pethome.entity.Permission;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.pethome.entity.Permission;
  * @author lgl
  * @since 2025-04-29
  */
+@Mapper
 public interface PermissionMapper extends BaseMapper<Permission> {
 
 }
