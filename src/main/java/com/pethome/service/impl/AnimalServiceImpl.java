@@ -1,9 +1,9 @@
 package com.pethome.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pethome.entity.mybatis.Animal;
 import com.pethome.mapper.AnimalMapper;
 import com.pethome.service.AnimalService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

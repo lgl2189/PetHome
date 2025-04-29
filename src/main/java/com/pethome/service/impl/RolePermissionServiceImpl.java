@@ -1,9 +1,9 @@
 package com.pethome.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pethome.entity.mybatis.RolePermission;
 import com.pethome.mapper.RolePermissionMapper;
 import com.pethome.service.RolePermissionService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

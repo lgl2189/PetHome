@@ -1,7 +1,7 @@
 package com.pethome.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -15,5 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
+    @PreAuthorize("hasRole('super')")
+    @RequestMapping("/test")
+    public String test() {
+        return "test";
+    }
 }

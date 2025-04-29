@@ -1,7 +1,7 @@
 package com.pethome.service;
 
-import com.pethome.entity.mybatis.RolePermission;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pethome.entity.mybatis.RolePermission;
 
 /**
  * <p>
