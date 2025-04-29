@@ -1,16 +1,16 @@
 package com.pethome.service;
 
-import com.pethome.entity.Role;
+import com.pethome.entity.UserRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- * 存储角色信息 服务类
+ * 存储用户-角色关系 服务类
  * </p>
  *
  * @author lgl
  * @since 2025-04-29
  */
-public interface RoleService extends IService<Role> {
+public interface UserRoleService extends IService<UserRole> {
 
 }

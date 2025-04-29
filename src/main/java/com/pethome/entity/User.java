@@ -42,6 +42,4 @@ public class User implements Serializable {
     private String phone;
 
     private String email;
-
-    private Integer roleId;
 }
