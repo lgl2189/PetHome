@@ -15,9 +15,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @PreAuthorize("hasRole('super')")
-    @RequestMapping("/test")
-    public String test() {
-        return "test";
-    }
+
 }

@@ -1,8 +1,11 @@
 package com.pethome.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.pethome.entity.mybatis.Role;
 import com.pethome.entity.mybatis.UserRole;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +17,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserRoleMapper extends BaseMapper<UserRole> {
-
+    List<Role> getRolesByUserId(Integer userId);
 }
