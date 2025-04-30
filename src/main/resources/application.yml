@@ -1,5 +1,12 @@
 server:
   port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      # 开启Http编码支持
+      enabled: true
+      # 强制在请求和响应中使用指定的字符编码
+      force: true
 spring:
   main:
     banner-mode: off
