@@ -1,0 +1,24 @@
+package com.pethome.entity.web;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * @author ：李冠良
+ * @description： 无描述
+ * @date ：2024/10/27 下午2:07
+ */
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Result {
+    private Object data;
+    private String status;
+    private String message;
+
+    public Result(Object data) {
+        this.data = data;
+    }
+}
