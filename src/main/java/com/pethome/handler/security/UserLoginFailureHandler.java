@@ -3,8 +3,10 @@ package com.pethome.handler.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pethome.entity.web.Result;
 import com.pethome.util.ResultUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import javax.servlet.ServletException;
@@ -18,11 +20,12 @@ import java.io.IOException;
  * @date ：2025 4月 30 15:25
  */
 
-
+@Component
 public class UserLoginFailureHandler implements AuthenticationFailureHandler {
 
     private final ObjectMapper objectMapper;
 
+    @Autowired
     public UserLoginFailureHandler(ObjectMapper objectMapper) {
         Assert.notNull(objectMapper, "ObjectMapper must not be null");
         this.objectMapper = objectMapper;

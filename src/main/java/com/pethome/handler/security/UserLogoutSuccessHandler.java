@@ -3,8 +3,10 @@ package com.pethome.handler.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pethome.entity.web.Result;
 import com.pethome.util.ResultUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import javax.servlet.ServletException;
@@ -18,11 +20,12 @@ import java.io.IOException;
  * @date ：2025 5月 01 17:37
  */
 
-
+@Component
 public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
 
     private ObjectMapper objectMapper;
 
+    @Autowired
     public UserLogoutSuccessHandler(ObjectMapper objectMapper) {
         Assert.notNull(objectMapper, "objectMapper cannot be null");
         this.objectMapper = objectMapper;
