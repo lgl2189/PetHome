@@ -39,6 +39,7 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         Result result = ResultUtil.success_200(null,"登陆成功");
         String json = objectMapper.writeValueAsString(result);
+        response.setContentType("application/json");
         response.getWriter().write(json);
     }
 }

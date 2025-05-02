@@ -16,6 +16,7 @@ public class JacksonConfig {
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
+        // 启动对时间的支持
         objectMapper.registerModule(new JavaTimeModule());
         return objectMapper;
     }
