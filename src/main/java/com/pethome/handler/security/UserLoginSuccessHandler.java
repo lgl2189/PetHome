@@ -49,11 +49,14 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         //生成JWT
+        //TODO: 将JWT生成逻辑抽象到工具类中
         UserDetail userDetail = UserUtil.removeSensitiveInfo(
                 (UserDetail) authentication.getPrincipal());
         String userJson = objectMapper.writeValueAsString(userDetail);
         String jwt = JWTUtil.createToken(Map.of("user", userJson), Constant.JWT_SECRET_BYTE);
-        Result result = ResultUtil.success_200(null, "登陆成功");
+        //存入redis
+        redisTemplate.opsForHash().put(Constant.REDIS_TOKEN_KEY,userDetail.getUserId().toString(),jwt);
+        Result result = ResultUtil.success_200(Map.of("token", jwt), "登陆成功");
         String json = objectMapper.writeValueAsString(result);
         response.setContentType("application/json");
         response.getWriter().write(json);

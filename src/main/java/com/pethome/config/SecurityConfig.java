@@ -1,22 +1,27 @@
 package com.pethome.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pethome.constant.Constant;
+import com.pethome.filter.JwtFilter;
 import com.pethome.handler.security.UserLoginFailureHandler;
 import com.pethome.handler.security.UserLoginSuccessHandler;
+import com.pethome.handler.security.UserLogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.util.Assert;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,30 +34,54 @@ import java.util.List;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
-    private final ObjectMapper objectMapper;
+    private final UserLoginSuccessHandler userLoginSuccessHandler;
+    private final UserLoginFailureHandler userLoginFailureHandler;
+    private final UserLogoutSuccessHandler userLogoutSuccessHandler;
+    private final JwtFilter jwtFilter;
 
     @Autowired
-    public SecurityConfig(ObjectMapper objectMapper) {
-        Assert.notNull(objectMapper, "ObjectMapper must not be null");
-        this.objectMapper = objectMapper;
+    public SecurityConfig(UserLoginSuccessHandler userLoginSuccessHandler,
+                          UserLoginFailureHandler userLoginFailureHandler,
+                          UserLogoutSuccessHandler userLogoutSuccessHandler,
+                          JwtFilter jwtFilter) {
+        Assert.notNull(userLoginSuccessHandler, "userLoginSuccessHandler cannot be null");
+        Assert.notNull(userLoginFailureHandler, "userLoginFailureHandler cannot be null");
+        Assert.notNull(userLogoutSuccessHandler, "userLogoutSuccessHandler cannot be null");
+        Assert.notNull(jwtFilter, "jwtFilter cannot be null");
+        this.userLoginSuccessHandler = userLoginSuccessHandler;
+        this.userLoginFailureHandler = userLoginFailureHandler;
+        this.userLogoutSuccessHandler = userLogoutSuccessHandler;
+        this.jwtFilter = jwtFilter;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+        characterEncodingFilter.setEncoding("UTF-8");
+        characterEncodingFilter.setForceEncoding(true);
         return httpSecurity
+                .addFilterBefore(characterEncodingFilter, CsrfFilter.class)
+                .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(formLogin -> {
                     //没有设置登录成功跳转地址，默认跳转到根路径斜杠（"/"）
-                    formLogin.loginProcessingUrl("/user/login")
-                            .successHandler(new UserLoginSuccessHandler(objectMapper))
-                            .failureHandler(new UserLoginFailureHandler(objectMapper));
+                    formLogin.loginProcessingUrl(Constant.USER_LOGIN_URL)
+                            .successHandler(userLoginSuccessHandler)
+                            .failureHandler(userLoginFailureHandler);
+                })
+                .logout(logout -> {
+                    logout.logoutUrl(Constant.USER_LOGOUT_URL)
+                            .logoutSuccessHandler(userLogoutSuccessHandler);
+                })
+                .sessionManagement(sessionManagement -> {
+                    sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
                 .authorizeHttpRequests(authorize -> {
-                    authorize.anyRequest().authenticated();
+                    authorize.anyRequest().permitAll();
                 })
                 //跨站请求伪造保护关闭
                 .csrf().disable()
                 //允许跨域请求访问
-                .cors(cors->{
+                .cors(cors -> {
                     cors.configurationSource(corsConfigurationSource());
                 })
                 .build();
@@ -66,7 +95,7 @@ public class SecurityConfig {
         corsConfiguration.setAllowedOrigins(List.of("*"));
         corsConfiguration.setAllowedMethods(List.of("*"));
         corsConfiguration.setAllowedHeaders(List.of("*"));
-        configurationSource.registerCorsConfiguration("/**",corsConfiguration);
+        configurationSource.registerCorsConfiguration("/**", corsConfiguration);
         return configurationSource;
     }
 

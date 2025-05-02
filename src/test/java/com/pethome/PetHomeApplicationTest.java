@@ -1,5 +1,9 @@
 package com.pethome;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pethome.entity.web.UserDetail;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
@@ -11,4 +15,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class PetHomeApplicationTest {
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Test
+    void contextLoads() throws Exception {
+        UserDetail userDetail = new UserDetail();
+        userDetail.setUserId(1);
+        userDetail.setUserName("admin");
+        userDetail.setUserPassword("123456");
+        userDetail.setEmail("admin@pethome.com");
+        String json = objectMapper.writeValueAsString(userDetail);
+        System.out.println(json);
+    }
 }

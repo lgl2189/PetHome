@@ -1,5 +1,7 @@
 package com.pethome.entity.web;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pethome.entity.mybatis.Role;
 import com.pethome.entity.mybatis.User;
 import lombok.AllArgsConstructor;
@@ -33,6 +35,9 @@ public class UserDetail implements UserDetails, Serializable {
 
     private Integer userId;
 
+    // 因为getUsername方法被@JsonIgnore注解，所以Json序列化时会默认不序列化userName字段
+    // 使用@JsonProperty注解来指定Json序列化时属性名称，来让jackson序列化userName字段
+    @JsonProperty("userName")
     private String userName;
 
     private String userPassword;
@@ -61,6 +66,7 @@ public class UserDetail implements UserDetails, Serializable {
         this.roleList = roleList;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (roleList == null || roleList.isEmpty()) {
@@ -71,31 +77,38 @@ public class UserDetail implements UserDetails, Serializable {
                 .collect(Collectors.toList());
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return userPassword;
     }
 
+    // 在Json序列化时，忽略掉这个方法，避免影响到userName，导致前端代码期望的属性名称为userName，而JSON序列化时属性名称为username
+    @JsonIgnore
     @Override
     public String getUsername() {
         return userName;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
