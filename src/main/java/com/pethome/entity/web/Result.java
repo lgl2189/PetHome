@@ -1,7 +1,6 @@
 package com.pethome.entity.web;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * @author ：李冠良
- * @description： 无描述
+ * @description ：无描述
  * @date ：2024/10/27 下午2:07
  */
 

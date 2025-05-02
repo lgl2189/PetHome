@@ -3,12 +3,10 @@ package com.pethome.handler.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pethome.entity.web.Result;
 import com.pethome.util.ResultUtil;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.util.Assert;
 
-import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

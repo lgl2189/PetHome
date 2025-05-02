@@ -1,7 +1,5 @@
 package com.pethome.util;
 
-import cn.hutool.jwt.JWTUtil;
-import cn.hutool.jwt.signers.JWTSignerUtil;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 import java.security.SecureRandom;
