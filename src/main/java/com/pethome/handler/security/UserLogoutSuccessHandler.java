@@ -1,9 +1,12 @@
 package com.pethome.handler.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pethome.constant.Constant;
 import com.pethome.entity.web.Result;
+import com.pethome.entity.web.UserDetail;
 import com.pethome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -23,19 +26,34 @@ import java.io.IOException;
 @Component
 public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
-    public UserLogoutSuccessHandler(ObjectMapper objectMapper) {
+    public UserLogoutSuccessHandler(ObjectMapper objectMapper, RedisTemplate<String, Object> redisTemplate) {
         Assert.notNull(objectMapper, "objectMapper cannot be null");
+        Assert.notNull(redisTemplate, "redisTemplate cannot be null");
         this.objectMapper = objectMapper;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        Result result = ResultUtil.success_200(null,"登出成功");
-        String json = objectMapper.writeValueAsString(result);
         response.setContentType("application/json");
-        response.getWriter().write(json);
+        // 清除redis中的token
+        if (authentication == null) {
+            Result result = ResultUtil.fail_402("参数错误，用户未登录");
+            response.getWriter().write(objectMapper.writeValueAsString(result));
+            return;
+        }
+        UserDetail userDetail = (UserDetail) authentication.getPrincipal();
+        if (userDetail == null || userDetail.getUserId() == null) {
+            Result result = ResultUtil.fail_402("参数错误，用户未登录");
+            response.getWriter().write(objectMapper.writeValueAsString(result));
+            return;
+        }
+        redisTemplate.opsForHash().delete(Constant.REDIS_TOKEN_KEY, userDetail.getUserId().toString());
+        Result result = ResultUtil.success_200(null, "登出成功");
+        response.getWriter().write(objectMapper.writeValueAsString(result));
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.util.Assert;
 import org.springframework.web.cors.CorsConfiguration;
@@ -61,7 +61,7 @@ public class SecurityConfig {
         characterEncodingFilter.setForceEncoding(true);
         return httpSecurity
                 .addFilterBefore(characterEncodingFilter, CsrfFilter.class)
-                .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtFilter, LogoutFilter.class)
                 .formLogin(formLogin -> {
                     //没有设置登录成功跳转地址，默认跳转到根路径斜杠（"/"）
                     formLogin.loginProcessingUrl(Constant.USER_LOGIN_URL)
