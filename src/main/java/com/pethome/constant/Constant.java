@@ -16,4 +16,13 @@ public class Constant {
 
     public static final String USER_LOGIN_URL = "/user/login";
     public static final String USER_LOGOUT_URL = "/user/logout";
+
+    // 权限相关
+    public static final String ROLE_SUPER="super";
+    public static final String ROLE_ADMIN="admin";
+    public static final String ROLE_VOLUNTEER="volunteer";
+    public static final String ROLE_ADOPTER="adopter";
+    public static final String ROLE_DONATOR="donator";
+    public static final String ROLE_NORMAL="normal";
+    public static final String ROLE_VISITOR="visitor";
 }

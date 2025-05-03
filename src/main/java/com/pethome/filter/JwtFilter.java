@@ -10,7 +10,10 @@ import com.pethome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -22,6 +25,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author ：李冠良
@@ -78,7 +84,7 @@ public class JwtFilter extends OncePerRequestFilter {
         Result result = ResultUtil.fail_402("token不合法");
         try {
             String userJson = JWT.of(token).getPayloads().get("user", String.class);
-            user = objectMapper.readValue(userJson,UserDetail.class);
+            user = objectMapper.readValue(userJson, UserDetail.class);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -98,10 +104,12 @@ public class JwtFilter extends OncePerRequestFilter {
             response.getWriter().write(objectMapper.writeValueAsString(result));
             return;
         }
+        // 获取用户权限信息
+        List<GrantedAuthority> authorityList = new ArrayList<>(user.getAuthorities());
         // token通过验证后，还需要在SpringSecurity的上下文中设置认证对象，保证在执行后续的Filter时知道该请求是通过登录验证的
         // 否则后续的Filter将误认为该请求为未登录
         UsernamePasswordAuthenticationToken authenticationToken
-                =new UsernamePasswordAuthenticationToken(user,null, AuthorityUtils.NO_AUTHORITIES);
+                = new UsernamePasswordAuthenticationToken(user, null, authorityList);
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         // 执行后续的Filter
         filterChain.doFilter(request, response);

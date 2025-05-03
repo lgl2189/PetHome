@@ -20,7 +20,6 @@ public class UserUtil {
         userDetail.setUserPassword(null);
         userDetail.setChinaId(null);
         userDetail.setRealName(null);
-        userDetail.setRoleList(null);
         return userDetail;
     }
 

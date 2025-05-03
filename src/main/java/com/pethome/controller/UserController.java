@@ -1,5 +1,6 @@
 package com.pethome.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
     @PostMapping("/test")
+    @PreAuthorize("hasRole('super')")
     public String test() {
         return "TestSuccess!";
     }
