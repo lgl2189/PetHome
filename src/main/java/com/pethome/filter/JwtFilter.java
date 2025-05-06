@@ -40,8 +40,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private static final List<String> ignoreJwtUrlList = Constant.IGNORE_JWT_URL_LIST;
 
     @Autowired
-    public JwtFilter(RedisTemplate<String, Object> redisTemplate, ObjectMapper objectMapper,
-                     RequestMappingHandlerMapping requestMappingHandlerMapping) {
+    public JwtFilter(RedisTemplate<String, Object> redisTemplate, ObjectMapper objectMapper) {
         Assert.notNull(redisTemplate, "redisTemplate must not be null");
         Assert.notNull(objectMapper, "objectMapper must not be null");
         this.redisTemplate = redisTemplate;
