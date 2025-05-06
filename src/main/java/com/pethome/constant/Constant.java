@@ -25,5 +25,11 @@ public class Constant {
     public static final String ROLE_ADOPTER="adopter";
     public static final String ROLE_DONATOR="donator";
     public static final String ROLE_NORMAL="normal";
-    public static final String ROLE_VISITOR="visitor";
+
+    public static final String ROLE_SUPER_ID="1";
+    public static final String ROLE_ADMIN_ID="2";
+    public static final String ROLE_VOLUNTEER_ID="3";
+    public static final String ROLE_ADOPTER_ID="4";
+    public static final String ROLE_DONATOR_ID="5";
+    public static final String ROLE_NORMAL_ID="6";
 }
