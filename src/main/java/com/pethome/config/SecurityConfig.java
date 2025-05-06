@@ -75,8 +75,9 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement -> {
                     sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
-                .authorizeHttpRequests(authorize -> {
-                    authorize.anyRequest().permitAll();
+                .authorizeHttpRequests(requests -> {
+                    requests.antMatchers(Constant.USER_LOGIN_URL,Constant.USER_LOGOUT_URL).permitAll()
+                            .anyRequest().authenticated();
                 })
                 //跨站请求伪造保护关闭
                 .csrf().disable()

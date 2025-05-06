@@ -53,7 +53,7 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //排除登录接口，不验证token
         String requestUri = request.getRequestURI();
-        if (requestUri.contains(Constant.USER_LOGIN_URL)) {
+        if (requestUri.contains(Constant.USER_LOGIN_URL) || requestUri.contains(Constant.USER_REGISTER_URL)) {
             filterChain.doFilter(request, response);
             return;
         }

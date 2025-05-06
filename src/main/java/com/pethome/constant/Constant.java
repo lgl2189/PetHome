@@ -16,6 +16,7 @@ public class Constant {
 
     public static final String USER_LOGIN_URL = "/user/login";
     public static final String USER_LOGOUT_URL = "/user/logout";
+    public static final String USER_REGISTER_URL = "/user/regist";
 
     // 权限相关
     public static final String ROLE_SUPER="super";
