@@ -2,8 +2,12 @@ package com.pethome.controller;
 
 import com.pethome.entity.mybatis.User;
 import com.pethome.entity.web.Result;
+import com.pethome.service.UserService;
+import com.pethome.service.impl.UserServiceImpl;
 import com.pethome.util.ResultUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -19,6 +23,15 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    private final UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        Assert.notNull(userService, "userService must not be null");
+        this.userService = userService;
+    }
+
     @PostMapping("/tokenVerify")
     @PreAuthorize("hasRole('super') or hasRole('admin') or hasRole('volunteer') " +
             "or hasRole('adopter') or hasRole('donator') or hasRole('normal')")
@@ -28,7 +41,7 @@ public class UserController {
 
     @PostMapping("/regist")
     public Result regist(@RequestBody User user){
-        System.out.println(user);
+        userService.addUser(user);
         return ResultUtil.success_200(null,"注册成功");
     }
 }

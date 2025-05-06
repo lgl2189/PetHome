@@ -13,4 +13,5 @@ import com.pethome.entity.mybatis.User;
  */
 public interface UserService extends IService<User>{
 
+    boolean addUser(User user);
 }
