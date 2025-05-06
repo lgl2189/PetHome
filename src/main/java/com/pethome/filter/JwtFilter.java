@@ -10,15 +10,13 @@ import com.pethome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -27,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author ：李冠良
@@ -40,9 +37,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper objectMapper;
+    private static final List<String> ignoreJwtUrlList = Constant.IGNORE_JWT_URL_LIST;
 
     @Autowired
-    public JwtFilter(RedisTemplate<String, Object> redisTemplate, ObjectMapper objectMapper) {
+    public JwtFilter(RedisTemplate<String, Object> redisTemplate, ObjectMapper objectMapper,
+                     RequestMappingHandlerMapping requestMappingHandlerMapping) {
         Assert.notNull(redisTemplate, "redisTemplate must not be null");
         Assert.notNull(objectMapper, "objectMapper must not be null");
         this.redisTemplate = redisTemplate;
@@ -53,9 +52,11 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //排除登录接口，不验证token
         String requestUri = request.getRequestURI();
-        if (requestUri.contains(Constant.USER_LOGIN_URL) || requestUri.contains(Constant.USER_REGISTER_URL)) {
-            filterChain.doFilter(request, response);
-            return;
+        for(String ignoreJwtUrl : ignoreJwtUrlList){
+            if(requestUri.startsWith(ignoreJwtUrl)){
+                filterChain.doFilter(request, response);
+                return;
+            }
         }
         response.setContentType("application/json");
         String token = request.getHeader("token");

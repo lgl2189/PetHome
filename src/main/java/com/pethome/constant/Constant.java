@@ -1,5 +1,7 @@
 package com.pethome.constant;
 
+import java.util.List;
+
 /**
  * @author ：李冠良
  * @description ：无描述
@@ -17,6 +19,13 @@ public class Constant {
     public static final String USER_LOGIN_URL = "/user/login";
     public static final String USER_LOGOUT_URL = "/user/logout";
     public static final String USER_REGISTER_URL = "/user/regist";
+    public static final String USER_GET_USERINFO = "/user/getInfo";
+
+    public static final List<String> IGNORE_JWT_URL_LIST = List.of(
+            USER_LOGIN_URL,
+            USER_REGISTER_URL,
+            USER_GET_USERINFO
+    );
 
     // 权限相关
     public static final String ROLE_SUPER="super";

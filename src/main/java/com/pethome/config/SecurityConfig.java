@@ -78,7 +78,7 @@ public class SecurityConfig {
                 // 这个配置用户豁免的登陆和注册对于身份的验证，但不豁免token验证，
                 // 所以需要在JwtFilter中手动豁免登录和注册的请求
                 .authorizeHttpRequests(requests -> {
-                    requests.antMatchers(Constant.USER_LOGIN_URL,Constant.USER_REGISTER_URL).permitAll()
+                    requests.antMatchers(Constant.IGNORE_JWT_URL_LIST.toArray(String[]::new)).permitAll()
                             .anyRequest().authenticated();
                 })
                 //跨站请求伪造保护关闭

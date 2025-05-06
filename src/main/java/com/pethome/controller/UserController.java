@@ -3,14 +3,11 @@ package com.pethome.controller;
 import com.pethome.entity.mybatis.User;
 import com.pethome.entity.web.Result;
 import com.pethome.service.UserService;
-import com.pethome.service.impl.UserServiceImpl;
 import com.pethome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 /**
  * <p>
@@ -43,5 +40,10 @@ public class UserController {
     public Result regist(@RequestBody User user){
         userService.addUser(user);
         return ResultUtil.success_200(null,"注册成功");
+    }
+
+    @GetMapping("/getInfo")
+    public Result getInfo(){
+        return ResultUtil.success_200("获取用户信息成功");
     }
 }
