@@ -58,7 +58,7 @@ public class JwtFilter extends OncePerRequestFilter {
         ignoreJwtUrlList.addAll(jwtIgnoreScanner.getIgnoreUrlList());
         String requestUri = request.getRequestURI();
         for (String ignoreJwtUrl : ignoreJwtUrlList) {
-            if (requestUri.startsWith(ignoreJwtUrl)) {
+            if (requestUri.equals(ignoreJwtUrl)) {
                 filterChain.doFilter(request, response);
                 return;
             }

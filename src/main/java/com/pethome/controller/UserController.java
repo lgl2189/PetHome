@@ -44,7 +44,7 @@ public class UserController {
      */
     @PreAuthorize("permitAll()")
     @PostMapping("/login/token")
-    public Result tokenVerify() {
+    public Result loginToken() {
         return ResultUtil.success_200(null,"token验证成功");
     }
 
