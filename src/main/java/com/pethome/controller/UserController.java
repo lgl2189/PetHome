@@ -40,7 +40,7 @@ public class UserController {
 
     /**
      * token验证，只关闭权限认账，保留jwt验证用于登录验证
-     * @return
+     * @return Result
      */
     @PreAuthorize("permitAll()")
     @PostMapping("/login/token")

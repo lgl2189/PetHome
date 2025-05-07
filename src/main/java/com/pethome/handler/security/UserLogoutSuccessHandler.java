@@ -52,7 +52,7 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
             response.getWriter().write(objectMapper.writeValueAsString(result));
             return;
         }
-        redisTemplate.opsForHash().delete(Constant.REDIS_TOKEN_KEY, userDetail.getUserId().toString());
+        redisTemplate.opsForHash().delete(Constant.REDIS_KEY_LOGIN_TOKEN, userDetail.getUserId().toString());
         Result result = ResultUtil.success_200(null, "登出成功");
         response.getWriter().write(objectMapper.writeValueAsString(result));
     }

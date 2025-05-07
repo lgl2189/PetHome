@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -54,6 +55,8 @@ public class UserDetail implements UserDetails, Serializable {
 
     private List<Role> roleList;
 
+    private LocalDateTime expireDateTime;
+
     public UserDetail(User user, List<Role> roleList) {
         this.userId = user.getUserId();
         this.userName = user.getUserName();
@@ -64,6 +67,7 @@ public class UserDetail implements UserDetails, Serializable {
         this.phone = user.getPhone();
         this.email = user.getEmail();
         this.roleList = roleList;
+        this.expireDateTime = LocalDateTime.now();
     }
 
     @JsonIgnore

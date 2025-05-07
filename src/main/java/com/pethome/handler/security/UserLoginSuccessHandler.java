@@ -19,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -47,15 +48,20 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
     }
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         //生成JWT
-        //TODO: 将JWT生成逻辑抽象到工具类中
         UserDetail userDetail = UserUtil.removeSensitiveInfo(
                 (UserDetail) authentication.getPrincipal());
+        // 设置过期时间
+        LocalDateTime expireDateTime = LocalDateTime.now().plusDays(1);
+        userDetail.setExpireDateTime(expireDateTime);
+
         String userJson = objectMapper.writeValueAsString(userDetail);
         String jwt = JWTUtil.createToken(Map.of("user", userJson), Constant.JWT_SECRET_BYTE);
-        //存入redis
-        redisTemplate.opsForHash().put(Constant.REDIS_TOKEN_KEY,userDetail.getUserId().toString(),jwt);
+        // 存入Redis
+        String userId = userDetail.getUserId().toString();
+        String redisKey = Constant.REDIS_KEY_LOGIN_TOKEN + userId;
+        redisTemplate.opsForList().rightPush(redisKey, jwt);
         Result result = ResultUtil.success_200(Map.of("token", jwt), "登陆成功");
         String json = objectMapper.writeValueAsString(result);
         response.setContentType("application/json");
