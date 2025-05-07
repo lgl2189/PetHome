@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pethome.constant.Constant;
 import com.pethome.entity.web.Result;
 import com.pethome.entity.web.UserDetail;
+import com.pethome.scanner.JwtIgnoreScanner;
 import com.pethome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -28,7 +28,7 @@ import java.util.List;
 
 /**
  * @author ：李冠良
- * @description ：无描述
+ * @description ：用于验证token的Filter
  * @date ：2025 5月 02 19:07
  */
 
@@ -37,22 +37,28 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper objectMapper;
-    private static final List<String> ignoreJwtUrlList = Constant.IGNORE_JWT_URL_LIST;
+    private final JwtIgnoreScanner jwtIgnoreScanner;
 
     @Autowired
-    public JwtFilter(RedisTemplate<String, Object> redisTemplate, ObjectMapper objectMapper) {
+    public JwtFilter(RedisTemplate<String, Object> redisTemplate,
+                     ObjectMapper objectMapper,
+                     JwtIgnoreScanner jwtIgnoreScanner) {
         Assert.notNull(redisTemplate, "redisTemplate must not be null");
         Assert.notNull(objectMapper, "objectMapper must not be null");
+        Assert.notNull(jwtIgnoreScanner, "jwtIgnoreScanner must not be null");
         this.redisTemplate = redisTemplate;
         this.objectMapper = objectMapper;
+        this.jwtIgnoreScanner = jwtIgnoreScanner;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //排除登录接口，不验证token
+        List<String> ignoreJwtUrlList = new ArrayList<>(Constant.EXTRA_IGNORE_JWT_URL_LIST);
+        ignoreJwtUrlList.addAll(jwtIgnoreScanner.getIgnoreUrlList());
         String requestUri = request.getRequestURI();
-        for(String ignoreJwtUrl : ignoreJwtUrlList){
-            if(requestUri.startsWith(ignoreJwtUrl)){
+        for (String ignoreJwtUrl : ignoreJwtUrlList) {
+            if (requestUri.startsWith(ignoreJwtUrl)) {
                 filterChain.doFilter(request, response);
                 return;
             }

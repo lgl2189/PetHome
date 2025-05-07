@@ -1,5 +1,6 @@
 package com.pethome.controller;
 
+import com.pethome.annotation.JwtIgnore;
 import com.pethome.entity.mybatis.User;
 import com.pethome.entity.web.Result;
 import com.pethome.service.UserService;
@@ -36,12 +37,14 @@ public class UserController {
         return ResultUtil.success_200(null,"token验证成功");
     }
 
+    @JwtIgnore
     @PostMapping("/regist")
     public Result regist(@RequestBody User user){
         userService.addUser(user);
         return ResultUtil.success_200(null,"注册成功");
     }
 
+    @JwtIgnore
     @GetMapping("/getInfo")
     public Result getInfo(){
         return ResultUtil.success_200("获取用户信息成功");

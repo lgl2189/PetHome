@@ -16,15 +16,12 @@ public class Constant {
     // 项目名:模块名:功能名:[唯一业务参数]
     public static final String REDIS_TOKEN_KEY = "pethome:login:token";
 
+    // 接口相关
     public static final String USER_LOGIN_URL = "/user/login";
     public static final String USER_LOGOUT_URL = "/user/logout";
-    public static final String USER_REGISTER_URL = "/user/regist";
-    public static final String USER_GET_USERINFO = "/user/getInfo";
 
-    public static final List<String> IGNORE_JWT_URL_LIST = List.of(
-            USER_LOGIN_URL,
-            USER_REGISTER_URL,
-            USER_GET_USERINFO
+    public static List<String> EXTRA_IGNORE_JWT_URL_LIST = List.of(
+            Constant.USER_LOGIN_URL
     );
 
     // 权限相关
