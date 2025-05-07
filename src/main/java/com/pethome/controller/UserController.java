@@ -33,25 +33,29 @@ public class UserController {
     @JwtIgnore
     @PreAuthorize("permitAll()")
     @PostMapping("/regist")
-    public Result regist(@RequestBody User user){
-        userService.addUser(user);
-        return ResultUtil.success_200(null,"注册成功");
+    public Result regist(@RequestBody User user) {
+        boolean isSuccess = userService.addUser(user);
+        if (!isSuccess) {
+            return ResultUtil.fail_400(null, "注册失败");
+        }
+        return ResultUtil.success_200(null, "注册成功");
     }
 
     /**
      * token验证，只关闭权限认账，保留jwt验证用于登录验证
+     *
      * @return Result
      */
     @PreAuthorize("permitAll()")
     @PostMapping("/login/token")
     public Result loginToken() {
-        return ResultUtil.success_200(null,"token验证成功");
+        return ResultUtil.success_200(null, "token验证成功");
     }
 
     @JwtIgnore
     @PreAuthorize("permitAll()")
     @GetMapping("/getInfo")
-    public Result getInfo(){
+    public Result getInfo() {
         return ResultUtil.success_200("获取用户信息成功");
     }
 }
