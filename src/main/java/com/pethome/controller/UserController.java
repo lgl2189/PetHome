@@ -30,21 +30,26 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/tokenVerify")
-    @PreAuthorize("hasRole('super') or hasRole('admin') or hasRole('volunteer') " +
-            "or hasRole('adopter') or hasRole('donator') or hasRole('normal')")
-    public Result tokenVerify() {
-        return ResultUtil.success_200(null,"token验证成功");
-    }
-
     @JwtIgnore
+    @PreAuthorize("permitAll()")
     @PostMapping("/regist")
     public Result regist(@RequestBody User user){
         userService.addUser(user);
         return ResultUtil.success_200(null,"注册成功");
     }
 
+    /**
+     * token验证，只关闭权限认账，保留jwt验证用于登录验证
+     * @return
+     */
+    @PreAuthorize("permitAll()")
+    @PostMapping("/login/token")
+    public Result tokenVerify() {
+        return ResultUtil.success_200(null,"token验证成功");
+    }
+
     @JwtIgnore
+    @PreAuthorize("permitAll()")
     @GetMapping("/getInfo")
     public Result getInfo(){
         return ResultUtil.success_200("获取用户信息成功");

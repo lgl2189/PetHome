@@ -20,22 +20,25 @@ public class Constant {
     public static final String USER_LOGIN_URL = "/user/login";
     public static final String USER_LOGOUT_URL = "/user/logout";
 
+    public static List<String> EXTRA_IGNORE_AUTHORITY_URL_LIST = List.of(
+            Constant.USER_LOGIN_URL
+    );
     public static List<String> EXTRA_IGNORE_JWT_URL_LIST = List.of(
             Constant.USER_LOGIN_URL
     );
 
     // 权限相关
-    public static final String ROLE_SUPER="super";
-    public static final String ROLE_ADMIN="admin";
-    public static final String ROLE_VOLUNTEER="volunteer";
-    public static final String ROLE_ADOPTER="adopter";
-    public static final String ROLE_DONATOR="donator";
-    public static final String ROLE_NORMAL="normal";
+    public static final String ROLE_SUPER = "super";
+    public static final String ROLE_ADMIN = "admin";
+    public static final String ROLE_VOLUNTEER = "volunteer";
+    public static final String ROLE_ADOPTER = "adopter";
+    public static final String ROLE_DONATOR = "donator";
+    public static final String ROLE_NORMAL = "normal";
 
-    public static final Integer ROLE_SUPER_ID=1;
-    public static final Integer ROLE_ADMIN_ID=2;
-    public static final Integer ROLE_VOLUNTEER_ID=3;
-    public static final Integer ROLE_ADOPTER_ID=4;
-    public static final Integer ROLE_DONATOR_ID=5;
-    public static final Integer ROLE_NORMAL_ID=6;
+    public static final Integer ROLE_SUPER_ID = 1;
+    public static final Integer ROLE_ADMIN_ID = 2;
+    public static final Integer ROLE_VOLUNTEER_ID = 3;
+    public static final Integer ROLE_ADOPTER_ID = 4;
+    public static final Integer ROLE_DONATOR_ID = 5;
+    public static final Integer ROLE_NORMAL_ID = 6;
 }

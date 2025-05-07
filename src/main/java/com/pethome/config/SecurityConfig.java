@@ -5,7 +5,6 @@ import com.pethome.filter.JwtFilter;
 import com.pethome.handler.security.UserLoginFailureHandler;
 import com.pethome.handler.security.UserLoginSuccessHandler;
 import com.pethome.handler.security.UserLogoutSuccessHandler;
-import com.pethome.scanner.JwtIgnoreScanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,24 +38,20 @@ public class SecurityConfig {
     private final UserLoginFailureHandler userLoginFailureHandler;
     private final UserLogoutSuccessHandler userLogoutSuccessHandler;
     private final JwtFilter jwtFilter;
-    private final JwtIgnoreScanner jwtIgnoreScanner;
 
     @Autowired
     public SecurityConfig(UserLoginSuccessHandler userLoginSuccessHandler,
                           UserLoginFailureHandler userLoginFailureHandler,
                           UserLogoutSuccessHandler userLogoutSuccessHandler,
-                          JwtFilter jwtFilter,
-                          JwtIgnoreScanner jwtIgnoreScanner) {
+                          JwtFilter jwtFilter) {
         Assert.notNull(userLoginSuccessHandler, "userLoginSuccessHandler cannot be null");
         Assert.notNull(userLoginFailureHandler, "userLoginFailureHandler cannot be null");
         Assert.notNull(userLogoutSuccessHandler, "userLogoutSuccessHandler cannot be null");
         Assert.notNull(jwtFilter, "jwtFilter cannot be null");
-        Assert.notNull(jwtIgnoreScanner, "jwtIgnoreScanner cannot be null");
         this.userLoginSuccessHandler = userLoginSuccessHandler;
         this.userLoginFailureHandler = userLoginFailureHandler;
         this.userLogoutSuccessHandler = userLogoutSuccessHandler;
         this.jwtFilter = jwtFilter;
-        this.jwtIgnoreScanner = jwtIgnoreScanner;
     }
 
     @Bean
@@ -64,8 +59,6 @@ public class SecurityConfig {
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
         characterEncodingFilter.setEncoding("UTF-8");
         characterEncodingFilter.setForceEncoding(true);
-        List<String> ignoreUrls = jwtIgnoreScanner.getIgnoreUrlList();
-        ignoreUrls.addAll(Constant.EXTRA_IGNORE_JWT_URL_LIST);
         return httpSecurity
                 .addFilterBefore(characterEncodingFilter, CsrfFilter.class)
                 .addFilterBefore(jwtFilter, LogoutFilter.class)
@@ -82,10 +75,11 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement -> {
                     sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
-                // 这个配置用户豁免的登陆和注册对于身份的验证，但不豁免token验证，
+                // 这个配置用户豁免的登陆和注册对于权限的验证，但不豁免jwt验证，
+                // 可以使用 @PreAuthorize("permitAll()") 注解来豁免权限验证，
                 // 所以需要在JwtFilter中手动豁免登录和注册的请求
                 .authorizeHttpRequests(requests -> {
-                    requests.antMatchers(ignoreUrls.toArray(String[]::new)).permitAll();
+                    requests.antMatchers(Constant.EXTRA_IGNORE_AUTHORITY_URL_LIST.toArray(String[]::new)).permitAll();
                 })
                 //跨站请求伪造保护关闭
                 .csrf().disable()
