@@ -54,8 +54,9 @@ public class UserController {
 
     @JwtIgnore
     @PreAuthorize("permitAll()")
-    @GetMapping("/getInfo")
-    public Result getInfo() {
-        return ResultUtil.success_200("获取用户信息成功");
+    @GetMapping("/getInfo/{id}")
+    public Result getInfo(@PathVariable("id") Integer id) {
+        User user = userService.getUserById(id);
+        return ResultUtil.success_200(user, "获取用户信息成功");
     }
 }

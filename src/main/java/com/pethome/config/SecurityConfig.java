@@ -60,8 +60,6 @@ public class SecurityConfig {
         characterEncodingFilter.setEncoding("UTF-8");
         characterEncodingFilter.setForceEncoding(true);
         return httpSecurity
-                .addFilterBefore(characterEncodingFilter, CsrfFilter.class)
-                .addFilterBefore(jwtFilter, LogoutFilter.class)
                 .formLogin(formLogin -> {
                     //没有设置登录成功跳转地址，默认跳转到根路径斜杠（"/"）
                     formLogin.loginProcessingUrl(Constant.USER_LOGIN_URL)
@@ -79,7 +77,8 @@ public class SecurityConfig {
                 // 可以使用 @PreAuthorize("permitAll()") 注解来豁免权限验证，
                 // 所以需要在JwtFilter中手动豁免登录和注册的请求
                 .authorizeHttpRequests(requests -> {
-                    requests.antMatchers(Constant.EXTRA_IGNORE_AUTHORITY_URL_LIST.toArray(String[]::new)).permitAll();
+                    requests.antMatchers(Constant.EXTRA_IGNORE_AUTHORITY_URL_LIST.toArray(String[]::new)).permitAll()
+                            .anyRequest().authenticated();
                 })
                 //跨站请求伪造保护关闭
                 .csrf().disable()
@@ -87,6 +86,8 @@ public class SecurityConfig {
                 .cors(cors -> {
                     cors.configurationSource(corsConfigurationSource());
                 })
+                .addFilterBefore(characterEncodingFilter, CsrfFilter.class)
+                .addFilterBefore(jwtFilter, LogoutFilter.class)
                 .build();
     }
 

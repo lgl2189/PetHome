@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.context.properties.ConstructorBinding;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -42,4 +43,15 @@ public class User implements Serializable {
     private String phone;
 
     private String email;
+
+    public User(User user){
+        this.userId = user.getUserId();
+        this.userName = user.getUserName();
+        this.userPassword = user.getUserPassword();
+        this.chinaId = user.getChinaId();
+        this.realName = user.getRealName();
+        this.birthDate = user.getBirthDate();
+        this.phone = user.getPhone();
+        this.email = user.getEmail();
+    }
 }

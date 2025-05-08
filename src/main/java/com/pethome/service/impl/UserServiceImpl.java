@@ -7,6 +7,7 @@ import com.pethome.entity.mybatis.UserRole;
 import com.pethome.mapper.UserMapper;
 import com.pethome.service.UserRoleService;
 import com.pethome.service.UserService;
+import com.pethome.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,5 +46,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         userRole.setUserId(userId);
         userRole.setRoleId(Constant.ROLE_NORMAL_ID);
         return userRoleService.save(userRole);
+    }
+
+    @Override
+    public User getUserById(Integer id) {
+        User user = this.getById(id);
+        user = UserUtil.removeSensitiveInfo(user);
+        return user;
     }
 }

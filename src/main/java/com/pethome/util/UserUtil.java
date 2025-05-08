@@ -1,5 +1,6 @@
 package com.pethome.util;
 
+import com.pethome.entity.mybatis.User;
 import com.pethome.entity.web.UserDetail;
 
 /**
@@ -22,5 +23,29 @@ public class UserUtil {
         userDetail.setRealName(null);
         return userDetail;
     }
+
+    /**
+     * 去除User类中的禁止显示信息
+     * @param user 原始User对象
+     * @return 去除禁止显示信息的User对象
+     */
+    public static User removeProhibitedInfo(User user) {
+        User newUser = new User(user);
+        user.setUserPassword(null);
+        return newUser;
+    }
+
+    /**
+     * 去除User类中的敏感信息
+     * @param user 原始User对象
+     * @return 去除敏感信息的User对象
+     */
+    public static User removeSensitiveInfo(User user) {
+        User newUser = removeProhibitedInfo(user);
+        newUser.setChinaId(null);
+        newUser.setRealName(null);
+        return newUser;
+    }
+
 
 }
