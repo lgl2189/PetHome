@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.context.properties.ConstructorBinding;
 
 import java.io.Serial;
 import java.io.Serializable;

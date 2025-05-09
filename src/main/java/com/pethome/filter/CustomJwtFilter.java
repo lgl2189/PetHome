@@ -18,7 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.springframework.web.util.ServletRequestPathUtils;
 
 import javax.el.MethodNotFoundException;
 import javax.servlet.FilterChain;
@@ -49,7 +48,7 @@ public class CustomJwtFilter extends JwtFilter {
                            JwtUrlHandler jwtUrlHandler) {
         Assert.notNull(redisTemplate, "redisTemplate must not be null");
         Assert.notNull(objectMapper, "objectMapper must not be null");
-        Assert.notNull(jwtUrlHandler, "jwtIgnoreScanner must not be null");
+        Assert.notNull(jwtUrlHandler, "jwtUrlHandler must not be null");
         this.redisTemplate = redisTemplate;
         this.objectMapper = objectMapper;
         this.jwtUrlHandler = jwtUrlHandler;
