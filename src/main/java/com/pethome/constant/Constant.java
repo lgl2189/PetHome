@@ -21,7 +21,7 @@ public class Constant {
     public static final String REDIS_KEY_LOGIN_TOKEN = "login:token:";
 
     // 接口相关
-    public static final String USER_LOGIN_URL = "/user/login";
+    public static final String USER_LOGIN_URL = "/user/public/login";
     public static final String USER_LOGOUT_URL = "/user/logout";
 
     public static final List<String> SWAGGER_URL_LIST = List.of(
@@ -37,21 +37,21 @@ public class Constant {
             "/v3/api-docs"
     );
 
-    public static final List<String> EXTRA_IGNORE_URL_LIST = Streams.concat(
+    public static final List<String> IGNORE_URL_LIST = Streams.concat(
             SWAGGER_URL_LIST.stream(),
+            Stream.of()
+    ).collect(Collectors.toList());
+
+    public static final List<String> SECURITY_IGNORE_URL_LIST = Streams.concat(
+            IGNORE_URL_LIST.stream(),
+            Stream.of()
+    ).collect(Collectors.toList());
+
+    public static final List<String> JWT_IGNORE_URL_LIST = Streams.concat(
+            IGNORE_URL_LIST.stream(),
             Stream.of(
                     USER_LOGIN_URL
             )
-    ).collect(Collectors.toList());
-
-    public static final List<String> EXTRA_IGNORE_AUTHORITY_URL_LIST = Streams.concat(
-            EXTRA_IGNORE_URL_LIST.stream(),
-            Stream.of()
-    ).collect(Collectors.toList());
-
-    public static final List<String> EXTRA_IGNORE_JWT_URL_LIST = Streams.concat(
-            EXTRA_IGNORE_URL_LIST.stream(),
-            Stream.of()
     ).collect(Collectors.toList());
 
     // 权限相关

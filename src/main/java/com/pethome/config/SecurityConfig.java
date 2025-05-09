@@ -1,7 +1,7 @@
 package com.pethome.config;
 
 import com.pethome.constant.Constant;
-import com.pethome.filter.JwtFilter;
+import com.pethome.filter.CustomJwtFilter;
 import com.pethome.handler.security.UserLoginFailureHandler;
 import com.pethome.handler.security.UserLoginSuccessHandler;
 import com.pethome.handler.security.UserLogoutSuccessHandler;
@@ -37,21 +37,22 @@ public class SecurityConfig {
     private final UserLoginSuccessHandler userLoginSuccessHandler;
     private final UserLoginFailureHandler userLoginFailureHandler;
     private final UserLogoutSuccessHandler userLogoutSuccessHandler;
-    private final JwtFilter jwtFilter;
+    private final CustomJwtFilter customJwtFilter;
 
     @Autowired
     public SecurityConfig(UserLoginSuccessHandler userLoginSuccessHandler,
                           UserLoginFailureHandler userLoginFailureHandler,
                           UserLogoutSuccessHandler userLogoutSuccessHandler,
-                          JwtFilter jwtFilter) {
+                          CustomJwtFilter customJwtFilter
+    ) {
         Assert.notNull(userLoginSuccessHandler, "userLoginSuccessHandler cannot be null");
         Assert.notNull(userLoginFailureHandler, "userLoginFailureHandler cannot be null");
         Assert.notNull(userLogoutSuccessHandler, "userLogoutSuccessHandler cannot be null");
-        Assert.notNull(jwtFilter, "jwtFilter cannot be null");
+        Assert.notNull(customJwtFilter, "jwtFilter cannot be null");
         this.userLoginSuccessHandler = userLoginSuccessHandler;
         this.userLoginFailureHandler = userLoginFailureHandler;
         this.userLogoutSuccessHandler = userLogoutSuccessHandler;
-        this.jwtFilter = jwtFilter;
+        this.customJwtFilter = customJwtFilter;
     }
 
     @Bean
@@ -73,11 +74,13 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement -> {
                     sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
-                // 这个配置用户豁免的登陆和注册对于权限的验证，但不豁免jwt验证，
-                // 可以使用 @PreAuthorize("permitAll()") 注解来豁免权限验证，
+                // 这个配置用户豁免的登陆和注册对于权限的验证，但不豁免jwt验证。
                 // 所以需要在JwtFilter中手动豁免登录和注册的请求
+                // @PreAuthorize("permitAll()")注解时方法级别的权限验证，优先级低于这里的全局配置。
+                // 所以这里配置了.anyRequest().authenticated()，则如果请求没有登录，就无法到达方法级配置的权限验证，进而导致无法访问接口。
                 .authorizeHttpRequests(requests -> {
-                    requests.antMatchers(Constant.EXTRA_IGNORE_AUTHORITY_URL_LIST.toArray(String[]::new)).permitAll()
+                    requests.antMatchers(Constant.SECURITY_IGNORE_URL_LIST.toArray(String[]::new)).permitAll()
+                            .antMatchers("/**/public/**").permitAll()
                             .anyRequest().authenticated();
                 })
                 //跨站请求伪造保护关闭
@@ -87,7 +90,7 @@ public class SecurityConfig {
                     cors.configurationSource(corsConfigurationSource());
                 })
                 .addFilterBefore(characterEncodingFilter, CsrfFilter.class)
-                .addFilterBefore(jwtFilter, LogoutFilter.class)
+                .addFilterBefore(customJwtFilter, LogoutFilter.class)
                 .build();
     }
 

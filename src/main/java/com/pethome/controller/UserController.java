@@ -1,12 +1,11 @@
 package com.pethome.controller;
 
-import com.pethome.annotation.JwtIgnore;
+import com.pethome.annotation.JwtAuthority;
 import com.pethome.entity.mybatis.User;
 import com.pethome.entity.web.Result;
 import com.pethome.service.UserService;
 import com.pethome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,9 +29,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @JwtIgnore
-    @PreAuthorize("permitAll()")
-    @PostMapping("/regist")
+    @JwtAuthority(enabled = false)
+    @PostMapping("/public/regist")
     public Result regist(@RequestBody User user) {
         boolean isSuccess = userService.addUser(user);
         if (!isSuccess) {
@@ -41,20 +39,14 @@ public class UserController {
         return ResultUtil.success_200(null, "注册成功");
     }
 
-    /**
-     * token验证，只关闭权限认账，保留jwt验证用于登录验证
-     *
-     * @return Result
-     */
-    @PreAuthorize("permitAll()")
-    @PostMapping("/login/token")
+    @PostMapping("/public/login/token")
     public Result loginToken() {
+        // 能够进入这个方法，说明已通过jwt验证，可以直接返回成功
         return ResultUtil.success_200(null, "token验证成功");
     }
 
-    @JwtIgnore
-    @PreAuthorize("permitAll()")
-    @GetMapping("/getInfo/{id}")
+    @JwtAuthority(enabled = false)
+    @GetMapping("/public/getInfo/{id}")
     public Result getInfo(@PathVariable("id") Integer id) {
         User user = userService.getUserById(id);
         return ResultUtil.success_200(user, "获取用户信息成功");
