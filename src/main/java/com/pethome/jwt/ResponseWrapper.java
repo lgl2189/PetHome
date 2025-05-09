@@ -8,6 +8,10 @@ import java.io.PrintWriter;
  * 响应包装器，用于监控响应是否已被使用
  */
 class ResponseWrapper extends javax.servlet.http.HttpServletResponseWrapper {
+    /**
+     * 响应使用回调函数，保证用户可以继续使用HttpServletResponse，而不是ResponseWrapper
+     * 使使用难度更低，实现响应状态的透明检测
+     */
     private final Runnable onResponseUsedCallback;
     private boolean writerUsed = false;
     private boolean outputStreamUsed = false;

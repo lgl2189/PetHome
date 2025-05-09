@@ -51,7 +51,7 @@ public abstract class JwtFilter extends OncePerRequestFilter {
      * @param request 请求对象
      * @param response 响应对象
      * @param filterChain 过滤链
-     *
+     * <p>
      * 用户应调用filterChain的doFilter方法以继续执行过滤链，
      * 当调用response的getWriter()、getOutputStream()、sendError()或sendRedirect()方法后，
      * 过滤链将自动停止，无需手动调用doFilter。

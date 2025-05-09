@@ -1,5 +1,6 @@
 package com.pethome.jwt;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -12,16 +13,7 @@ import java.io.IOException;
  */
 
 
-public interface JwtFilterChain {
-    /**
-     * 继续执行过滤链
-     * @param request 请求对象
-     * @param response 响应对象
-     * @throws ServletException
-     * @throws IOException
-     */
-    void doFilter(ServletRequest request, ServletResponse response) throws ServletException, IOException;
-
+public interface JwtFilterChain extends FilterChain {
     /**
      * 检查是否已调用doFilter方法
      * @return 如果已调用doFilter方法返回true，否则返回false
