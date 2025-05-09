@@ -7,6 +7,7 @@ import com.pethome.constant.Constant;
 import com.pethome.entity.web.Result;
 import com.pethome.entity.web.UserDetail;
 import com.pethome.jwt.JwtFilter;
+import com.pethome.jwt.JwtFilterChain;
 import com.pethome.jwt.JwtUrlHandler;
 import com.pethome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class CustomJwtFilter extends JwtFilter {
     }
 
     @Override
-    protected void jwtAuthority(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
+    protected void jwtAuthority(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull JwtFilterChain filterChain) throws ServletException, IOException {
         // 检查请求是否需要jwt验证
         try {
             if (!jwtUrlHandler.matches(request)) {

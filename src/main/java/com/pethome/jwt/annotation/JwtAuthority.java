@@ -1,4 +1,4 @@
-package com.pethome.annotation;
+package com.pethome.jwt.annotation;
 
 
 import org.springframework.core.annotation.AliasFor;

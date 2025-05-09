@@ -1,6 +1,6 @@
 package com.pethome.jwt;
 
-import com.pethome.annotation.JwtAuthority;
+import com.pethome.jwt.annotation.JwtAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.method.HandlerMethod;
@@ -78,10 +78,14 @@ public class JwtUrlHandler {
         catch (Exception e) {
             throw new MethodNotFoundException(e);
         }
-        return switch (defaultAuthorityStrategy) {
-            case ALL_AUTHORITY -> true;
-            default -> false;
-        };
+        switch (defaultAuthorityStrategy) {
+            case ALL_AUTHORITY :{
+                return true;
+            }
+            default :{
+                return false;
+            }
+        }
     }
 
     /**
