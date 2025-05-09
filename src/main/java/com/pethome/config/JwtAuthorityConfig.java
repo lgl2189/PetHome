@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
  */
 
 @Configuration
-public class JwtUrlHandlerConfig {
+public class JwtAuthorityConfig {
     @Bean
     public JwtUrlHandler jwtUrlHandler(RequestMappingHandlerMapping requestMappingHandlerMapping) {
         JwtUrlHandler jwtUrlHandler = new JwtUrlHandler(requestMappingHandlerMapping);
