@@ -114,6 +114,11 @@
             <artifactId>guava</artifactId>
             <version>33.4.0-jre</version>
         </dependency>
+        <dependency>
+            <groupId>com.star.jwt</groupId>
+            <artifactId>JwtAuthority</artifactId>
+            <version>1.0.0.RELEASE</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

@@ -1,8 +1,8 @@
 package com.pethome.config;
 
 import com.pethome.constant.Constant;
-import com.pethome.jwt.JwtAuthorityStrategy;
-import com.pethome.jwt.JwtUrlHandler;
+import com.star.jwt.JwtUrlHandler;
+import com.star.jwt.enums.JwtAuthorityStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;

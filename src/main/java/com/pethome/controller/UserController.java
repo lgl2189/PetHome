@@ -2,9 +2,9 @@ package com.pethome.controller;
 
 import com.pethome.entity.mybatis.User;
 import com.pethome.entity.web.Result;
-import com.pethome.jwt.annotation.JwtAuthority;
 import com.pethome.service.UserService;
 import com.pethome.util.ResultUtil;
+import com.star.jwt.annotation.JwtAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
