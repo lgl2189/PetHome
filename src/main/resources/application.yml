@@ -34,5 +34,10 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /swagger-ui.html
+    url: /v3/api-docs
+    tags-sorter: alpha
+    operations-sorter: alpha
+  packages-to-scan: com.pethome.controller
+  paths-to-match: /**
 
 
