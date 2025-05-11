@@ -1,5 +1,6 @@
 package com.pethome.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -30,6 +31,7 @@ public class JacksonConfig {
         ObjectMapper mapper = new ObjectMapper();
         // 设置蛇形命名策略
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.registerModule(new JavaTimeModule());
         return new MappingJackson2HttpMessageConverter(mapper);
     }

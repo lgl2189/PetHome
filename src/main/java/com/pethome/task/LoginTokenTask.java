@@ -1,7 +1,6 @@
 package com.pethome.task;
 
 import cn.hutool.jwt.JWT;
-import cn.hutool.jwt.JWTUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pethome.constant.Constant;
 import com.pethome.entity.web.UserDetail;
