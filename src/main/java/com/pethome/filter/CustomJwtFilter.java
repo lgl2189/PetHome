@@ -21,7 +21,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import javax.el.MethodNotFoundException;
-import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -128,6 +127,8 @@ public class CustomJwtFilter extends JwtFilter {
                 UsernamePasswordAuthenticationToken authenticationToken
                         = new UsernamePasswordAuthenticationToken(user, null, authorityList);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                // 将userId放入request中，后续的Filter中可以直接使用
+                request.setAttribute("userId", user.getUserId());
                 // 执行后续的Filter
                 filterChain.doFilter(request, response);
                 return;
