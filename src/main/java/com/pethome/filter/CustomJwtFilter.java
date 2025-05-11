@@ -110,30 +110,33 @@ public class CustomJwtFilter extends JwtFilter {
             response.getWriter().write(objectMapper.writeValueAsString(result));
             return;
         }
+        boolean isTokenExist = false;
         for (Object obj : rightTokenList) {
             String rightToken = (String) obj;
+            LocalDateTime now = LocalDateTime.now();
             if (rightToken.equals(token)) {
-                LocalDateTime now = LocalDateTime.now();
-                // token过期
-                if (now.isAfter(user.getExpireDateTime())) {
-                    //TODO: 完成token过期的处理，从Redis中删除过期Token
-                    response.getWriter().write(objectMapper.writeValueAsString(result));
-                    return;
-                }
-                // 获取用户权限信息
-                List<GrantedAuthority> authorityList = new ArrayList<>(user.getAuthorities());
-                // token通过验证后，还需要在SpringSecurity的上下文中设置认证对象，保证在执行后续的Filter时知道该请求是通过登录验证的
-                // 否则后续的Filter将误认为该请求为未登录
-                UsernamePasswordAuthenticationToken authenticationToken
-                        = new UsernamePasswordAuthenticationToken(user, null, authorityList);
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                // 将userId放入request中，后续的Filter中可以直接使用
-                request.setAttribute("userId", user.getUserId());
-                // 执行后续的Filter
-                filterChain.doFilter(request, response);
-                return;
+                isTokenExist = true;
+            }
+            // 清理该用户过期的token
+            String checkedUserJson = JWT.of(rightToken).getPayloads().get("user", String.class);
+            UserDetail checkedUser = objectMapper.readValue(checkedUserJson, UserDetail.class);
+            if(now.isAfter(checkedUser.getExpireDateTime())){
+                redisTemplate.opsForList().remove(redisKey, 0, rightToken);
             }
         }
-        response.getWriter().write(objectMapper.writeValueAsString(result));
+        if (!isTokenExist) {
+            response.getWriter().write(objectMapper.writeValueAsString(result));
+        }
+        // 获取用户权限信息
+        List<GrantedAuthority> authorityList = new ArrayList<>(user.getAuthorities());
+        // token通过验证后，还需要在SpringSecurity的上下文中设置认证对象，保证在执行后续的Filter时知道该请求是通过登录验证的
+        // 否则后续的Filter将误认为该请求为未登录
+        UsernamePasswordAuthenticationToken authenticationToken
+                = new UsernamePasswordAuthenticationToken(user, null, authorityList);
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        // 将userId放入request中，后续的Filter中可以直接使用
+        request.setAttribute("userId", user.getUserId());
+        // 执行后续的Filter
+        filterChain.doFilter(request, response);
     }
 }
