@@ -46,9 +46,9 @@ public class UserController {
     }
 
     @JwtAuthority(enabled = false)
-    @GetMapping("/public/getInfo/{id}")
+    @GetMapping("/public/info/{id}")
     public Result getInfo(@PathVariable("id") Integer id) {
-        User user = userService.getUserById(id);
+        User user = userService.getPublicInfoById(id);
         return ResultUtil.success_200(user, "获取用户信息成功");
     }
 }

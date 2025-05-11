@@ -49,7 +49,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public User getUserById(Integer id) {
+    public User getPublicInfoById(Integer id) {
         User user = this.getById(id);
         user = UserUtil.removeSensitiveInfo(user);
         return user;

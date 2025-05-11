@@ -15,6 +15,6 @@ public interface UserService extends IService<User>{
 
     boolean addUser(User user);
 
-    User getUserById(Integer id);
+    User getPublicInfoById(Integer id);
 
 }
