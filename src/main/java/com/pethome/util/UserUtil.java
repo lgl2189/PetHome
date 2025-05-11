@@ -31,7 +31,7 @@ public class UserUtil {
      */
     public static User removeProhibitedInfo(User user) {
         User newUser = new User(user);
-        user.setUserPassword(null);
+        newUser.setUserPassword(null);
         return newUser;
     }
 
