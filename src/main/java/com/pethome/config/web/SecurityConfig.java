@@ -1,4 +1,4 @@
-package com.pethome.config;
+package com.pethome.config.web;
 
 import com.pethome.constant.Constant;
 import com.pethome.filter.CustomJwtFilter;
