@@ -40,7 +40,6 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         response.setContentType("application/json");
-        // 清除redis中的token
         if (authentication == null) {
             Result result = ResultUtil.fail_402("参数错误，用户未登录");
             response.getWriter().write(objectMapper.writeValueAsString(result));
@@ -52,7 +51,10 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
             response.getWriter().write(objectMapper.writeValueAsString(result));
             return;
         }
-        redisTemplate.opsForHash().delete(Constant.REDIS_KEY_LOGIN_TOKEN, userDetail.getUserId().toString());
+        // 清除redis中的token
+        String token = request.getHeader(Constant.REQUEST_USER_TOKEN_KEY);
+        String redisKey = Constant.REDIS_KEY_LOGIN_TOKEN + ((UserDetail) authentication.getPrincipal()).getUserId();
+        redisTemplate.opsForList().remove(redisKey, 0, token);
         Result result = ResultUtil.success_200(null, "登出成功");
         response.getWriter().write(objectMapper.writeValueAsString(result));
     }

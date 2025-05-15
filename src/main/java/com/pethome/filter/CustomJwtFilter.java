@@ -69,7 +69,7 @@ public class CustomJwtFilter extends JwtFilter {
             return;
         }
         response.setContentType("application/json");
-        String token = request.getHeader("token");
+        String token = request.getHeader(Constant.REQUEST_USER_TOKEN_KEY);
         if (!StringUtils.hasText(token)) {
             Result result = ResultUtil.fail_401("token为空");
             response.getWriter().write(objectMapper.writeValueAsString(result));

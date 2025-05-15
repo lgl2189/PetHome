@@ -20,6 +20,9 @@ public class Constant {
     // 项目名:模块名:功能名:[唯一业务参数]
     public static final String REDIS_KEY_LOGIN_TOKEN = "login:token:";
 
+    //请求参数
+    public static final String REQUEST_USER_TOKEN_KEY = "token";
+
     // 接口相关
     public static final String USER_LOGIN_URL = "/user/public/login";
     public static final String USER_LOGOUT_URL = "/user/logout";

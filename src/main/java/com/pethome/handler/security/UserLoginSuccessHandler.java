@@ -62,7 +62,7 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
         String userId = userDetail.getUserId().toString();
         String redisKey = Constant.REDIS_KEY_LOGIN_TOKEN + userId;
         redisTemplate.opsForList().rightPush(redisKey, jwt);
-        Result result = ResultUtil.success_200(Map.of("token", jwt), "登陆成功");
+        Result result = ResultUtil.success_200(Map.of(Constant.REQUEST_USER_TOKEN_KEY, jwt), "登陆成功");
         String json = objectMapper.writeValueAsString(result);
         response.setContentType("application/json");
         response.getWriter().write(json);
