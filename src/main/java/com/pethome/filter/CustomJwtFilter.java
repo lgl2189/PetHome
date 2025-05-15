@@ -69,14 +69,13 @@ public class CustomJwtFilter extends JwtFilter {
             return;
         }
         response.setContentType("application/json");
+        Result result = ResultUtil.fail_403(null,"token不合法");
         String token = request.getHeader(Constant.REQUEST_USER_TOKEN_KEY);
         if (!StringUtils.hasText(token)) {
-            Result result = ResultUtil.fail_401("token为空");
             response.getWriter().write(objectMapper.writeValueAsString(result));
             return;
         }
         //验证token格式是否正确
-        Result result = ResultUtil.fail_402("token不合法");
         boolean verifyValue;
         try {
             verifyValue = JWTUtil.verify(token, Constant.JWT_SECRET_BYTE);
