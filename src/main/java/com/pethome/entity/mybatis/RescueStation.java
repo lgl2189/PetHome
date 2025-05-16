@@ -28,6 +28,8 @@ public class RescueStation implements Serializable {
     @TableId(value = "rescue_station_id", type = IdType.AUTO)
     private Integer rescueStationId;
 
+    private String rescueStationName;
+
     private String position;
 
     private Integer adminUserId;
