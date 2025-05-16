@@ -32,5 +32,5 @@ public class FileRecord implements Serializable {
 
     private Long fileGroupId;
 
-    private String url;
+    private String file_url;
 }
