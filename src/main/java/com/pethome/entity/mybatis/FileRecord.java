@@ -1,8 +1,14 @@
 package com.pethome.entity.mybatis;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -13,37 +19,19 @@ import java.io.Serializable;
  * @author lgl
  * @since 2025-05-16
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("file_record")
 public class FileRecord implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId("file_id")
+    @TableId(value = "file_id" ,type = IdType.AUTO)
     private Long fileId;
 
+    private Long fileGroupId;
+
     private String url;
-
-    public Long getFileId() {
-        return fileId;
-    }
-
-    public void setFileId(Long fileId) {
-        this.fileId = fileId;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    @Override
-    public String toString() {
-        return "FileRecord{" +
-        "fileId = " + fileId +
-        ", url = " + url +
-        "}";
-    }
 }

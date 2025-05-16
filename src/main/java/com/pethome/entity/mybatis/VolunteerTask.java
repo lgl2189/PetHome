@@ -43,7 +43,7 @@ public class VolunteerTask implements Serializable {
 
     private Boolean isSignIn;
 
-    private Long taskProveId;
+    private Long taskProveGid;
 
     private LocalTime taskDuration;
 

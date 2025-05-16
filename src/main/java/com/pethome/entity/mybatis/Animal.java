@@ -48,15 +48,15 @@ public class Animal implements Serializable {
 
     private String personality;
 
-    private Long imgUrl;
+    private Long imgGid;
 
-    private Long videoUrl;
+    private Long videoGid;
 
-    private Long vaccinationRecordUrl;
+    private Long vaccinationRecordGid;
 
-    private Long dewormingRecordUrl;
+    private Long dewormingRecordGid;
 
-    private Long medicalReportUrl;
+    private Long medicalReportGid;
 
     private Boolean abnormalWarning;
 
