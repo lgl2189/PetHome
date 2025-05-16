@@ -26,6 +26,8 @@ spring:
       enabled: true
       max-file-size: 100MB
       max-request-size: 100MB
+      file-size-threshold: 2MB
+      location: D:\Project\tmp\PetHome\upload\tmp
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -45,4 +47,13 @@ springdoc:
   packages-to-scan: com.pethome.controller
   paths-to-match: /**
 
-
+# 文件上传配置
+file:
+  upload:
+    root-path: D:\Project\tmp\PetHome\upload
+    # 加不加斜杠都可以，注意不要有空格
+    image-folder: image
+    video-folder: video
+    pdf-folder: pdf
+    txt-folder: txt
+    other-folder: other
