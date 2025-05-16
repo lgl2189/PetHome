@@ -33,6 +33,9 @@ public class Animal implements Serializable {
 
     private String breed;
 
+    /**
+     * false-雌性，true雄性
+     */
     private Boolean gender;
 
     private Integer age;
@@ -41,19 +44,19 @@ public class Animal implements Serializable {
 
     private Boolean isSterilized;
 
-    private String personality;
-
     private String description;
 
-    private String imgUrl;
+    private String personality;
 
-    private String videoUrl;
+    private Long imgUrl;
 
-    private String vaccinationRecord;
+    private Long videoUrl;
 
-    private String dewormingRecord;
+    private Long vaccinationRecordUrl;
 
-    private String medicalReportUrl;
+    private Long dewormingRecordUrl;
+
+    private Long medicalReportUrl;
 
     private Boolean abnormalWarning;
 
