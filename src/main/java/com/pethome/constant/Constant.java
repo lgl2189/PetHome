@@ -71,4 +71,7 @@ public class Constant {
     public static final Integer ROLE_ADOPTER_ID = 4;
     public static final Integer ROLE_DONATOR_ID = 5;
     public static final Integer ROLE_NORMAL_ID = 6;
+
+    // 文件相关
+    public static final String UNKNOWN_FILE_TYPE = "unknown";
 }
