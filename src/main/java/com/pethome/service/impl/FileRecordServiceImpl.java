@@ -46,8 +46,14 @@ public class FileRecordServiceImpl extends ServiceImpl<FileRecordMapper, FileRec
 
     @Override
     public ResultWrapper saveFileRecordGroup(MultipartFile[] fileArray) throws IOException {
+        if (fileArray == null || fileArray.length == 0) {
+            return new ResultWrapper(false, null, "上传文件不能为空");
+        }
         List<String> savePathList = new ArrayList<>();
         for (MultipartFile file : fileArray) {
+            if(file == null || file.isEmpty()){
+                continue;
+            }
             savePathList.add(saveFile(file));
         }
         Long maxGid = fileRecordMapper.getMaxGroupId() + 1;
@@ -57,32 +63,35 @@ public class FileRecordServiceImpl extends ServiceImpl<FileRecordMapper, FileRec
             fileRecord.setFileGroupId(maxGid);
             fileRecord.setFile_url(path);
             boolean result = save(fileRecord);
-            if(!result){
+            if (!result) {
                 failList.add(path);
             }
         }
-        if(!failList.isEmpty()){
-            return new ResultWrapper(false,null,failList);
+        if (!failList.isEmpty()) {
+            return new ResultWrapper(false, null, failList);
         }
         return new ResultWrapper(true, maxGid);
     }
 
     @Override
     public Long saveFileRecord(MultipartFile file) throws IOException, DataBaseOperatorException {
+        if (file == null || file.isEmpty()) {
+            return null;
+        }
         String savePath = saveFile(file);
         FileRecord fileRecord = new FileRecord();
         Long maxGid = fileRecordMapper.getMaxGroupId() + 1;
         fileRecord.setFileGroupId(maxGid);
         fileRecord.setFile_url(savePath);
         boolean result = save(fileRecord);
-        if(!result){
+        if (!result) {
             throw new DataBaseOperatorException();
         }
         return fileRecord.getFileId();
     }
 
     @Override
-    public String saveFile(MultipartFile file)throws IOException{
+    public String saveFile(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         String saveFolderPath = getSaveFolderPath(file.getContentType(), fileName);
         String uuid = UUID.randomUUID().toString();

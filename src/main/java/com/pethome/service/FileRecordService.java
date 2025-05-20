@@ -26,7 +26,7 @@ public interface FileRecordService extends IService<FileRecord> {
      * 插入文件记录
      *
      * @param file 上传的文件对象
-     * @return 文件Id
+     * @return 文件Id，返回值为null表示保存失败
      * @throws IOException               IO异常
      * @throws DataBaseOperatorException 数据库操作异常
      */
