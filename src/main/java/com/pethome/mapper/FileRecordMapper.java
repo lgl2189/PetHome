@@ -14,5 +14,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface FileRecordMapper extends BaseMapper<FileRecord> {
-
+    long getMaxGroupId();
 }

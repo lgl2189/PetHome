@@ -2,4 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pethome.mapper.FileRecordMapper">
 
+<!--    COALESC遇到非null值立刻返回，保证当file_group_id不存在时返回，而不是null-->
+    <select id="getMaxGroupId" resultType="java.lang.Long">
+        SELECT COALESCE(MAX(file_group_id), 1) AS max_id FROM file_record;
+    </select>
 </mapper>
