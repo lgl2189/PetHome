@@ -8,10 +8,10 @@ import java.util.Map;
 // 动物健康状态枚举类
 @Getter
 public enum AnimalHealthStatusEnum{
-    HEALTHY("健康"),
-    ILL("患病"),
-    RECOVERING("康复中"),
-    CRITICAL("危急");
+    HEALTHY("healthy"),
+    ILL("ill"),
+    RECOVERING("recovering"),
+    CRITICAL("critical");
 
     private final String value;
     private static final Map<String, AnimalHealthStatusEnum> VALUE_MAP = new HashMap<>();

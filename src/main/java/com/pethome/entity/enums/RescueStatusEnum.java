@@ -8,10 +8,10 @@ import java.util.Map;
 // 救助记录状态枚举类
 @Getter
 public enum RescueStatusEnum {
-    WAITING_FOR_RESCUE("待救助"),
-    IN_TREATMENT("治疗中"),
-    WAITING_FOR_ADOPTION("待领养"),
-    ADOPTED("已领养");
+    WAITING_FOR_RESCUE("wait_rescue"),
+    UNDER_TREATMENT("under_treatment"),
+    WAITING_FOR_ADOPTION("wait_adopted"),
+    ADOPTED("adopted");
 
     private final String value;
     private static final Map<String, RescueStatusEnum> VALUE_MAP = new HashMap<>();

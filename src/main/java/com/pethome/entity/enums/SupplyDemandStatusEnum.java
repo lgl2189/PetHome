@@ -8,8 +8,8 @@ import java.util.Map;
 // 物资需求状态枚举类
 @Getter
 public enum SupplyDemandStatusEnum {
-    INCOMPLETE("未完成"),
-    COMPLETE("已完成");
+    UNFINISHED("unfinished"),
+    FINISHED("finished");
 
     private final String value;
     private static final Map<String, SupplyDemandStatusEnum> VALUE_MAP = new HashMap<>();
@@ -30,7 +30,7 @@ public enum SupplyDemandStatusEnum {
      * @return 枚举对象
      */
     public static SupplyDemandStatusEnum fromValue(String value) {
-        return value == null ? INCOMPLETE : VALUE_MAP.getOrDefault(value, INCOMPLETE);
+        return value == null ? UNFINISHED : VALUE_MAP.getOrDefault(value, UNFINISHED);
     }
 
 }

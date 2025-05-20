@@ -8,10 +8,10 @@ import java.util.Map;
 // 志愿者任务状态枚举类
 @Getter
 public enum VolunteerTaskStatusEnum {
-    AVAILABLE("待接取"),
-    ASSIGNED("已接取"),
-    REVIEWING("完成审核中"),
-    COMPLETED("已完成");
+    AVAILABLE("available"),
+    ASSIGNED("assigned"),
+    FINISH_REVIEWING("finish_reviewing"),
+    COMPLETED("completed");
 
     private final String value;
     private static final Map<String, VolunteerTaskStatusEnum> VALUE_MAP = new HashMap<>();
