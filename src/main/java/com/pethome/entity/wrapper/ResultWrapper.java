@@ -19,5 +19,8 @@ public class ResultWrapper {
     private Object result;
     private Object extraInfo;
 
-    public ResultWrapper(boolean succeeded, Object result) {}
+    public ResultWrapper(boolean succeeded, Object result) {
+        this.succeeded = succeeded;
+        this.result = result;
+    }
 }
