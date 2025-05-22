@@ -50,8 +50,8 @@ springdoc:
 # 文件上传配置
 file:
   upload:
-    root-path: D:\Project\tmp\PetHome\upload
-    # 加不加斜杠都可以，注意不要有空格
+    root-path: D:/Project/tmp/PetHome/upload
+    # 开头加不加斜杠都可以，注意不要有空格
     image-folder: image
     video-folder: video
     pdf-folder: pdf
