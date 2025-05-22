@@ -28,6 +28,8 @@ spring:
       max-request-size: 100MB
       file-size-threshold: 2MB
       location: D:\Project\tmp\PetHome\upload\tmp
+  mvc:
+    static-path-pattern: /static/**
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -50,6 +52,7 @@ springdoc:
 # 文件上传配置
 file:
   upload:
+    # 建议使用斜杠而非反斜杠，因为反斜杠需要转义，反斜杠必须使用两个反斜杠才会被正确解析
     root-path: D:/Project/tmp/PetHome/upload
     # 开头加不加斜杠都可以，注意不要有空格
     image-folder: image
@@ -57,3 +60,6 @@ file:
     pdf-folder: pdf
     txt-folder: txt
     other-folder: other
+logging:
+  level:
+    org.springframework.web: DEBUG

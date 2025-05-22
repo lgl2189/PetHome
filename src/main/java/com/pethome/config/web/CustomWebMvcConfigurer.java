@@ -1,8 +1,13 @@
 package com.pethome.config.web;
 
+import com.pethome.config.FileUploadConfig;
 import com.pethome.config.web.binder.SnakeToCamelArgumentProcessor;
+import org.checkerframework.checker.units.qual.A;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.Assert;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -15,6 +20,21 @@ import java.util.List;
 
 @Configuration
 public class CustomWebMvcConfigurer implements WebMvcConfigurer {
+
+    private final FileUploadConfig fileUploadConfig;
+
+    @Autowired
+    public CustomWebMvcConfigurer(FileUploadConfig fileUploadConfig) {
+        Assert.notNull(fileUploadConfig, "FileUploadConfig must not be null");
+        this.fileUploadConfig = fileUploadConfig;
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resource/**")
+                .addResourceLocations("file:/"+fileUploadConfig.getFileUploadRootPath()+"/");
+    }
+
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new SnakeToCamelArgumentProcessor(true));

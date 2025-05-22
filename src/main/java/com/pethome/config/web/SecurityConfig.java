@@ -8,6 +8,7 @@ import com.pethome.handler.security.UserLogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -81,6 +82,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> {
                     requests.antMatchers(Constant.SECURITY_IGNORE_URL_LIST.toArray(String[]::new)).permitAll()
                             .antMatchers("/**/public/**").permitAll()
+                            .antMatchers("/static/**").permitAll()
+                            .antMatchers("/resource/**").permitAll()
                             .anyRequest().authenticated();
                 })
                 //跨站请求伪造保护关闭
