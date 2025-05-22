@@ -18,7 +18,7 @@ public class JwtAuthorityConfig {
     @Bean
     public JwtUrlHandler jwtUrlHandler(RequestMappingHandlerMapping requestMappingHandlerMapping) {
         JwtUrlHandler jwtUrlHandler = new JwtUrlHandler(requestMappingHandlerMapping);
-        jwtUrlHandler.setDefaultAuthorityStrategy(JwtAuthorityStrategy.ALL_AUTHORITY);
+        jwtUrlHandler.setDefaultAuthorityStrategy(JwtAuthorityStrategy.ALL_IGNORE);
         jwtUrlHandler.addExtraIgnoreUrl(Constant.JWT_IGNORE_URL_LIST);
         return jwtUrlHandler;
     }
