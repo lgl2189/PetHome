@@ -44,7 +44,7 @@ public class UserController {
         return ResultUtil.success_200(null, "注册成功");
     }
 
-    @JwtAuthority(enabled = false)
+    @JwtAuthority
     @PostMapping("/public/login/token")
     public Result loginToken(@RequestAttribute String userId) {
         // 能够进入这个方法，说明已通过jwt验证，可以直接返回成功
