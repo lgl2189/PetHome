@@ -29,6 +29,8 @@ public class Animal implements Serializable {
     @TableId(value = "animal_id", type = IdType.AUTO)
     private Integer animalId;
 
+    private String name;
+
     private String species;
 
     private String breed;
