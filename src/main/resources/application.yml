@@ -30,6 +30,7 @@ spring:
       location: D:\Project\tmp\PetHome\upload\tmp
   mvc:
     static-path-pattern: /static/**
+# 数据库相关配置
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -37,6 +38,11 @@ mybatis-plus:
   global-config:
     banner: false
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+pagehelper:
+  helper-dialect: mysql
+  support-methods-arguments: true
+  page-size-zero: true
+#Api文档相关配置
 springdoc:
   api-docs:
     enabled: true
