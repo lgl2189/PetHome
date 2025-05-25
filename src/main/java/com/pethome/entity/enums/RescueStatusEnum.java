@@ -1,5 +1,6 @@
 package com.pethome.entity.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -13,6 +14,7 @@ public enum RescueStatusEnum {
     WAITING_FOR_ADOPTION("wait_adopted"),
     ADOPTED("adopted");
 
+    @EnumValue
     private final String value;
     private static final Map<String, RescueStatusEnum> VALUE_MAP = new HashMap<>();
 

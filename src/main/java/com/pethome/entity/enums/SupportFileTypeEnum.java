@@ -1,5 +1,6 @@
 package com.pethome.entity.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public enum SupportFileTypeEnum {
     TXT("txt"),
     OTHER("other");
 
+    @EnumValue
     private final String value;
     private static final Map<String, SupportFileTypeEnum> VALUE_MAP = new HashMap<>();
 

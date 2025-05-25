@@ -33,6 +33,7 @@ spring:
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
   global-config:
     banner: false
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -60,6 +61,3 @@ file:
     pdf-folder: pdf
     txt-folder: txt
     other-folder: other
-logging:
-  level:
-    org.springframework.web: DEBUG

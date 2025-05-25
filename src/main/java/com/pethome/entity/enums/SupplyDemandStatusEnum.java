@@ -1,5 +1,6 @@
 package com.pethome.entity.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -11,6 +12,7 @@ public enum SupplyDemandStatusEnum {
     UNFINISHED("unfinished"),
     FINISHED("finished");
 
+    @EnumValue
     private final String value;
     private static final Map<String, SupplyDemandStatusEnum> VALUE_MAP = new HashMap<>();
 
