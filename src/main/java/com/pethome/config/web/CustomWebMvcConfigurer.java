@@ -2,7 +2,6 @@ package com.pethome.config.web;
 
 import com.pethome.config.FileUploadConfig;
 import com.pethome.config.web.binder.SnakeToCamelArgumentProcessor;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
