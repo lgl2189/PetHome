@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pethome.entity.mybatis.Animal;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 存储动物信息 Mapper 接口
@@ -14,5 +16,19 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface AnimalMapper extends BaseMapper<Animal> {
+    /**
+     * 随机获取指定数量的动物信息
+     * @param limit 数量
+     * @return 动物信息列表
+     */
+    List<Animal> selectRandomAnimalList(int limit);
 
+    /**
+     * 根据关键词查询动物信息列表
+     * @param keyList 关键词列表，关键词列表不能为空
+     * @param pageNum 分页当前页码
+     * @param pageSize 分页大小
+     * @return 动物信息列表
+     */
+    List<Animal> selectAnimalByKeyList(List<String> keyList, int pageNum, int pageSize);
 }

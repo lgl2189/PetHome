@@ -1,6 +1,7 @@
 package com.pethome.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageInfo;
 import com.pethome.entity.enums.AnimalHealthStatusEnum;
 import com.pethome.entity.mybatis.Animal;
 import com.pethome.entity.web.AnimalReceiver;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * <p>
@@ -27,11 +29,14 @@ import java.io.IOException;
 public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, Animal> implements AnimalService {
 
     private final FileRecordService fileRecordService;
+    private final AnimalMapper animalMapper;
 
     @Autowired
-    public AnimalServiceImpl(FileRecordService fileRecordService) {
+    public AnimalServiceImpl(FileRecordService fileRecordService, AnimalMapper animalMapper) {
         Assert.notNull(fileRecordService, "fileRecordService must not be null");
+        Assert.notNull(animalMapper, "animalMapper must not be null");
         this.fileRecordService = fileRecordService;
+        this.animalMapper = animalMapper;
     }
 
     @Override
@@ -49,23 +54,23 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, Animal> impleme
                 animal.getHealthStatus() == AnimalHealthStatusEnum.CRITICAL);
         animal.setRescueStationId(animalReceiver.getRescueStationId());
         // 保存上传文件
-        if(animalReceiver.getImageArray()!= null){
+        if (animalReceiver.getImageArray() != null) {
             ResultWrapper imageResult = fileRecordService.saveFileRecordGroup(animalReceiver.getImageArray());
             animal.setImgGid((Long) imageResult.getResult());
         }
-        if(animalReceiver.getVideoArray()!= null){
+        if (animalReceiver.getVideoArray() != null) {
             ResultWrapper videoResult = fileRecordService.saveFileRecordGroup(animalReceiver.getVideoArray());
             animal.setVideoGid((Long) videoResult.getResult());
         }
-        if(animalReceiver.getVaccinationRecordArray() != null){
+        if (animalReceiver.getVaccinationRecordArray() != null) {
             ResultWrapper vaccinationResult = fileRecordService.saveFileRecordGroup(animalReceiver.getVaccinationRecordArray());
             animal.setVaccinationRecordGid((Long) vaccinationResult.getResult());
         }
-        if(animalReceiver.getDewormingRecordArray() != null){
+        if (animalReceiver.getDewormingRecordArray() != null) {
             ResultWrapper dewormingResult = fileRecordService.saveFileRecordGroup(animalReceiver.getDewormingRecordArray());
             animal.setDewormingRecordGid((Long) dewormingResult.getResult());
         }
-        if(animalReceiver.getMedicalReportArray()!=null){
+        if (animalReceiver.getMedicalReportArray() != null) {
             ResultWrapper medicalResult = fileRecordService.saveFileRecordGroup(animalReceiver.getMedicalReportArray());
             animal.setMedicalReportGid((Long) medicalResult.getResult());
         }
@@ -73,4 +78,14 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, Animal> impleme
         save(animal);
     }
 
+    @Override
+    public List<Animal> getAnimalListRecommended(int num) {
+        return animalMapper.selectRandomAnimalList(num);
+    }
+
+    @Override
+    public PageInfo<Animal> searchAnimalInfo(List<String> keyList, int pageNum, int pageSize) {
+        List<Animal> animalList = animalMapper.selectAnimalByKeyList(keyList, pageNum, pageSize);
+        return new PageInfo<>(animalList);
+    }
 }

@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pethome.mapper.AnimalMapper">
-
+    <select id="selectRandomAnimalList" resultType="com.pethome.entity.mybatis.Animal" parameterType="int">
+        SELECT *
+        FROM animal
+        ORDER BY RAND()
+        LIMIT #{limit}
+    </select>
+    <select id="selectAnimalByKeyList" resultType="com.pethome.entity.mybatis.Animal">
+        SELECT *
+        FROM animal
+        WHERE animal.name IN
+        <foreach collection="keyList" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+        OR animal.species IN
+        <foreach collection="keyList" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+        OR animal.breed IN
+        <foreach collection="keyList" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+        OR animal.personality IN
+        <foreach collection="keyList" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+    </select>
 </mapper>
