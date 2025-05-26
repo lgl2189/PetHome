@@ -72,12 +72,13 @@ public class AnimalController {
     @GetMapping("/info/recommend")
     public Result getRecommendList(@RequestParam(defaultValue = "20") int num) {
         List<Animal> animalRecommendList = animalService.getAnimalListRecommended(num);
-        List<Map<String, Object>> resList = new ArrayList<>();
+        List<AnimalSender> animalSenderList = new ArrayList<>();
         for (Animal animal : animalRecommendList) {
-            resList.add(getCompleteAnimalSender(animal));
+            AnimalSender animalSender = getFileUrl(animal);
+            animalSenderList.add(animalSender);
         }
         Map<String, Object> resMap = new HashMap<>();
-        resMap.put("animal_list", resList);
+        resMap.put("animal_list", animalSenderList);
         resMap.put("record_num", num);
         return ResultUtil.success_200(resMap, "获取成功");
     }
@@ -89,12 +90,13 @@ public class AnimalController {
             return ResultUtil.fail_401(null, "搜索关键字不能为空");
         }
         PageInfo<Animal> animalPageInfo = animalService.searchAnimalInfo(keyList, pageNum, pageSize);
-        List<Map<String, Object>> resList = new ArrayList<>();
+        List<AnimalSender> animalSenderList = new ArrayList<>();
         for (Animal animal : animalPageInfo.getList()) {
-            resList.add(getCompleteAnimalSender(animal));
+            AnimalSender animalSender = getFileUrl(animal);
+            animalSenderList.add(animalSender);
         }
         Map<String, Object> resMap = new HashMap<>();
-        resMap.put("animal_list", resList);
+        resMap.put("animal_list", animalSenderList);
         resMap.put("page_info", DatabasePageUtil.getPageInfo(animalPageInfo));
         return ResultUtil.success_200(resMap, "搜索成功");
     }
