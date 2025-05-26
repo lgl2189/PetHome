@@ -41,4 +41,11 @@ public interface AnimalService extends IService<Animal> {
      * @return 搜索结果，动物信息列表
      */
     PageInfo<Animal> searchAnimalInfo(List<String> keyList, int pageNum, int pageSize);
+
+    /**
+     * 根据动物id获取动物信息
+     * @param animalId 动物id
+     * @return Animal类型封装的动物信息
+     */
+    Animal getAnimalInfoById(int animalId);
 }

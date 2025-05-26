@@ -61,7 +61,7 @@ public class AnimalController {
 
     @JwtAuthority
     @GetMapping("/info/search")
-    public Result getSearchList(@RequestParam("key") List<String> keyList, int pageNum, int pageSize) {
+        public Result getSearchList(@RequestParam("key") List<String> keyList, int pageNum, int pageSize) {
         if(keyList == null || keyList.isEmpty()) {
             return ResultUtil.fail_401(null, "搜索关键字不能为空");
         }
@@ -70,5 +70,20 @@ public class AnimalController {
         resMap.put("animal_list",animalPageInfo.getList());
         resMap.put("page_info", DatabasePageUtil.getPageInfo(animalPageInfo));
         return ResultUtil.success_200(resMap, "搜索成功");
+    }
+
+    @JwtAuthority
+    @GetMapping("/info/{id}")
+    public Result getAnimalInfo(@PathVariable("id") Integer id) {
+        if (id == null) {
+            return ResultUtil.fail_401(null, "动物ID不能为空");
+        }
+        Animal animalInfo = animalService.getAnimalInfoById(id);
+        if(animalInfo == null) {
+            return ResultUtil.fail_402(null, "动物不存在");
+        }
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("animal_info", animalInfo);
+        return ResultUtil.success_200(resMap, "获取成功");
     }
 }

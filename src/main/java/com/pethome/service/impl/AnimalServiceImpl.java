@@ -88,4 +88,10 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, Animal> impleme
         List<Animal> animalList = animalMapper.selectAnimalByKeyList(keyList, pageNum, pageSize);
         return new PageInfo<>(animalList);
     }
+
+    @Override
+    public Animal getAnimalInfoById(int animalId) {
+        return animalMapper.selectById(animalId);
+    }
+
 }
