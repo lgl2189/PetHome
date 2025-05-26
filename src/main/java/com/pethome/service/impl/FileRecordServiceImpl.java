@@ -14,7 +14,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,7 +60,7 @@ public class FileRecordServiceImpl extends ServiceImpl<FileRecordMapper, FileRec
         for (String path : savePathList) {
             FileRecord fileRecord = new FileRecord();
             fileRecord.setFileGroupId(maxGid);
-            fileRecord.setFile_url(path);
+            fileRecord.setFileUrl(path);
             boolean result = save(fileRecord);
             if (!result) {
                 failList.add(path);
@@ -82,7 +81,7 @@ public class FileRecordServiceImpl extends ServiceImpl<FileRecordMapper, FileRec
         FileRecord fileRecord = new FileRecord();
         Long maxGid = fileRecordMapper.getMaxGroupId() + 1;
         fileRecord.setFileGroupId(maxGid);
-        fileRecord.setFile_url(savePath);
+        fileRecord.setFileUrl(savePath);
         boolean result = save(fileRecord);
         if (!result) {
             throw new DataBaseOperatorException();
@@ -103,14 +102,14 @@ public class FileRecordServiceImpl extends ServiceImpl<FileRecordMapper, FileRec
             String suffix = fileName.substring(fileName.lastIndexOf("."));
             newFileName = uuid + suffix;
         }
-        String savePath = saveFolderPath + File.separator + newFileName;
+        String savePath = saveFolderPath + Constant.FILE_SEPARATOR + newFileName;
         try (FileOutputStream fos = new FileOutputStream(savePath)) {
             fos.write(file.getBytes());
         }
         catch (IOException e) {
             throw new IOException("上传文件写入失败:" + fileName + "\n" + e.getMessage());
         }
-        return savePath;
+        return fileUploadConfig.getRelativePathFromFullPath(savePath);
     }
 
 

@@ -1,5 +1,6 @@
 package com.pethome.config;
 
+import com.pethome.util.FileUtil;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -53,12 +54,19 @@ public class FileUploadConfig {
         fileUploadPdfFolder = removeStartSlash(fileUploadPdfFolder);
         fileUploadTxtFolder = removeStartSlash(fileUploadTxtFolder);
         fileUploadOtherFolder = removeStartSlash(fileUploadOtherFolder);
-        this.fileUploadRootPath = fileUploadRootPath;
-        this.fileUploadImagePath = Paths.get(fileUploadRootPath, fileUploadImageFolder).toString();
-        this.fileUploadVideoPath = Paths.get(fileUploadRootPath, fileUploadVideoFolder).toString();
-        this.fileUploadPdfPath = Paths.get(fileUploadRootPath, fileUploadPdfFolder).toString();
-        this.fileUploadTxtPath = Paths.get(fileUploadRootPath, fileUploadTxtFolder).toString();
-        this.fileUploadOtherPath = Paths.get(fileUploadRootPath, fileUploadOtherFolder).toString();
+        String tmpFileUploadRootPath = Paths.get(fileUploadRootPath).toString();
+        String tmpFileUploadImagePath = Paths.get(fileUploadRootPath, fileUploadImageFolder).toString();
+        String tmpFileUploadVideoPath = Paths.get(fileUploadRootPath, fileUploadVideoFolder).toString();
+        String tmpFileUploadPdfPath = Paths.get(fileUploadRootPath, fileUploadPdfFolder).toString();
+        String tmpFileUploadTxtPath = Paths.get(fileUploadRootPath, fileUploadTxtFolder).toString();
+        String tmpFileUploadOtherPath = Paths.get(fileUploadRootPath, fileUploadOtherFolder).toString();
+
+        this.fileUploadRootPath = FileUtil.replaceBackSlashToForwardSlash(tmpFileUploadRootPath);
+        this.fileUploadImagePath = FileUtil.replaceBackSlashToForwardSlash(tmpFileUploadImagePath);
+        this.fileUploadVideoPath = FileUtil.replaceBackSlashToForwardSlash(tmpFileUploadVideoPath);
+        this.fileUploadPdfPath = FileUtil.replaceBackSlashToForwardSlash(tmpFileUploadPdfPath);
+        this.fileUploadTxtPath = FileUtil.replaceBackSlashToForwardSlash(tmpFileUploadTxtPath);
+        this.fileUploadOtherPath = FileUtil.replaceBackSlashToForwardSlash(tmpFileUploadOtherPath);
 
         // 确保目录存在
         createDirectoryIfNotExists(this.fileUploadImagePath);
@@ -72,7 +80,7 @@ public class FileUploadConfig {
         if (path == null || path.isEmpty()) {
             return path;
         }
-        if(path.startsWith("/")) {
+        if (path.startsWith("/")) {
             path = path.substring(1);
         }
         return path;
@@ -90,11 +98,22 @@ public class FileUploadConfig {
         return path;
     }
 
+    /**
+     * 从文件的全路径中获取相对路径
+     *
+     * @param fullPath 文件的全路径
+     * @return 文件的在存储跟目录之后的相对路径
+     */
+    public String getRelativePathFromFullPath(String fullPath) {
+        return fullPath.replace(fileUploadRootPath, "");
+    }
+
     // 创建目录的方法
-    private void createDirectoryIfNotExists(String path) {
+    private static void createDirectoryIfNotExists(String path) {
         try {
             Files.createDirectories(Paths.get(path));
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new RuntimeException("创建目录失败: " + path, e);
         }
     }

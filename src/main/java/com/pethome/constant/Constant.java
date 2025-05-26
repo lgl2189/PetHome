@@ -73,5 +73,6 @@ public class Constant {
     public static final Integer ROLE_NORMAL_ID = 6;
 
     // 文件相关
+    public static final String FILE_SEPARATOR = "/";
     public static final String UNKNOWN_FILE_TYPE = "unknown";
 }

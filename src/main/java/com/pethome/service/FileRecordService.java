@@ -35,7 +35,7 @@ public interface FileRecordService extends IService<FileRecord> {
     /**
      * 保存文件到本地
      * @param file 文件对象
-     * @return 文件路径
+     * @return 文件的服务器存储路径，即服务器映射后提供给前端的路径，而不是实际路径
      * @throws IOException IO异常
      */
     String saveFile(MultipartFile file)throws IOException;
