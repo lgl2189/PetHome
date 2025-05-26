@@ -1,4 +1,4 @@
-package com.pethome.entity.web;
+package com.pethome.entity.web.sender;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.pethome.entity.mybatis.Animal;
@@ -39,4 +39,5 @@ public class AnimalSender implements Serializable {
     public AnimalSender(Animal animalInfo) {
         this.animalInfo = animalInfo;
     }
+
 }

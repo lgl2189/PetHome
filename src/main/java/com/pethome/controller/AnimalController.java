@@ -3,11 +3,13 @@ package com.pethome.controller;
 import com.github.pagehelper.PageInfo;
 import com.pethome.config.FileUploadConfig;
 import com.pethome.entity.mybatis.Animal;
-import com.pethome.entity.web.AnimalReceiver;
-import com.pethome.entity.web.AnimalSender;
 import com.pethome.entity.web.Result;
+import com.pethome.entity.web.receiver.AnimalReceiver;
+import com.pethome.entity.web.sender.AnimalSender;
+import com.pethome.entity.web.sender.RescueStationInfo;
 import com.pethome.service.AnimalService;
 import com.pethome.service.FileRecordService;
+import com.pethome.service.RescueStationService;
 import com.pethome.util.DatabasePageUtil;
 import com.pethome.util.ResultUtil;
 import com.star.jwt.annotation.JwtAuthority;
@@ -37,17 +39,21 @@ public class AnimalController {
     private final FileUploadConfig fileUploadConfig;
     private final AnimalService animalService;
     private final FileRecordService fileRecordService;
+    private final RescueStationService rescueStationService;
 
     @Autowired
     public AnimalController(FileUploadConfig fileUploadConfig,
                             AnimalService animalService,
-                            FileRecordService fileRecordService) {
+                            FileRecordService fileRecordService,
+                            RescueStationService rescueStationService) {
         Assert.notNull(fileUploadConfig, "fileUploadConfig must not be null");
         Assert.notNull(animalService, "animalService must not be null");
         Assert.notNull(fileRecordService, "fileRecordService must not be null");
+        Assert.notNull(rescueStationService, "rescueStationService must not be null");
         this.fileUploadConfig = fileUploadConfig;
         this.animalService = animalService;
         this.fileRecordService = fileRecordService;
+        this.rescueStationService = rescueStationService;
     }
 
     // 将参数处理器的 默认为非简单类型 选项设置false，再加@ModelAttribute会导致请求不使用自定义的绑定器，导致参数无法绑定到实体类中
@@ -66,12 +72,12 @@ public class AnimalController {
     @GetMapping("/info/recommend")
     public Result getRecommendList(@RequestParam(defaultValue = "20") int num) {
         List<Animal> animalRecommendList = animalService.getAnimalListRecommended(num);
-        List<AnimalSender> animalSenderList = new ArrayList<>();
+        List<Map<String, Object>> resList = new ArrayList<>();
         for (Animal animal : animalRecommendList) {
-            animalSenderList.add(getFileUrl(animal));
+            resList.add(getCompleteAnimalSender(animal));
         }
         Map<String, Object> resMap = new HashMap<>();
-        resMap.put("animal_list", animalSenderList);
+        resMap.put("animal_list", resList);
         resMap.put("record_num", num);
         return ResultUtil.success_200(resMap, "获取成功");
     }
@@ -83,12 +89,12 @@ public class AnimalController {
             return ResultUtil.fail_401(null, "搜索关键字不能为空");
         }
         PageInfo<Animal> animalPageInfo = animalService.searchAnimalInfo(keyList, pageNum, pageSize);
-        List<AnimalSender> animalSenderList = new ArrayList<>();
+        List<Map<String, Object>> resList = new ArrayList<>();
         for (Animal animal : animalPageInfo.getList()) {
-            animalSenderList.add(getFileUrl(animal));
+            resList.add(getCompleteAnimalSender(animal));
         }
         Map<String, Object> resMap = new HashMap<>();
-        resMap.put("animal_list", animalSenderList);
+        resMap.put("animal_list", resList);
         resMap.put("page_info", DatabasePageUtil.getPageInfo(animalPageInfo));
         return ResultUtil.success_200(resMap, "搜索成功");
     }
@@ -103,10 +109,17 @@ public class AnimalController {
         if (animalInfo == null) {
             return ResultUtil.fail_402(null, "动物不存在");
         }
-        AnimalSender animalSender = getFileUrl(animalInfo);
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("animal_info", animalSender);
+        Map<String, Object> resMap = getCompleteAnimalSender(animalInfo);
         return ResultUtil.success_200(resMap, "获取成功");
+    }
+
+    private Map<String, Object> getCompleteAnimalSender(Animal animal){
+        Map<String, Object> resMap = new HashMap<>();
+        AnimalSender animalSender = getFileUrl(animal);
+        RescueStationInfo rescueStationInfo = rescueStationService.getRescueStationById(animal.getRescueStationId());
+        resMap.put("animal_info", animalSender);
+        resMap.put("rescue_station_info", rescueStationInfo);
+        return resMap;
     }
 
     private AnimalSender getFileUrl(Animal animal) {
