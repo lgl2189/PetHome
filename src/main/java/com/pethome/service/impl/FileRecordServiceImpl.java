@@ -1,5 +1,6 @@
 package com.pethome.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pethome.config.FileUploadConfig;
 import com.pethome.constant.Constant;
@@ -138,5 +139,17 @@ public class FileRecordServiceImpl extends ServiceImpl<FileRecordMapper, FileRec
             }
         }
         return fileUploadConfig.getFileUploadOtherPath();
+    }
+
+    @Override
+    public FileRecord getFileRecordByFileId(long fileId){
+        return fileRecordMapper.selectById(fileId);
+    }
+
+    @Override
+    public List<FileRecord> getFileRecordByFileGroupId(long fileGroupId) {
+        LambdaQueryWrapper<FileRecord> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(FileRecord::getFileGroupId, fileGroupId);
+        return fileRecordMapper.selectList(queryWrapper);
     }
 }

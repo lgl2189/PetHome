@@ -58,6 +58,9 @@ springdoc:
 
 # 文件上传配置
 file:
+  server:
+    # 必须使用斜杠，末尾不要带斜杠
+    resource-base-url: http://localhost:8080/resource
   upload:
     # 建议使用斜杠而非反斜杠，因为反斜杠需要转义，反斜杠必须使用两个反斜杠才会被正确解析
     root-path: D:/Project/tmp/PetHome/upload

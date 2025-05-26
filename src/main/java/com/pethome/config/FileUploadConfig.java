@@ -28,13 +28,15 @@ public class FileUploadConfig {
     private final String fileUploadPdfPath;
     private final String fileUploadTxtPath;
     private final String fileUploadOtherPath;
+    private final String serverResourceBaseUrl;
 
     public FileUploadConfig(@Value("${file.upload.root-path}") String fileUploadRootPath,
                             @Value("${file.upload.image-folder:image}") String fileUploadImageFolder,
                             @Value("${file.upload.video-folder:video}") String fileUploadVideoFolder,
                             @Value("${file.upload.pdf-folder:pdf}") String fileUploadPdfFolder,
                             @Value("${file.upload.txt-folder:txt}") String fileUploadTxtFolder,
-                            @Value("${file.upload.other-folder:other}") String fileUploadOtherFolder) {
+                            @Value("${file.upload.other-folder:other}") String fileUploadOtherFolder,
+                            @Value("${file.server.resource-base-url}") String serverResourceBaseUrl) {
         Assert.notNull(fileUploadRootPath, "fileUploadPath must not be null");
         Assert.notNull(fileUploadImageFolder, "fileUploadImageFolder must not be null");
         Assert.notNull(fileUploadVideoFolder, "fileUploadVideoFolder must not be null");
@@ -74,6 +76,9 @@ public class FileUploadConfig {
         createDirectoryIfNotExists(this.fileUploadPdfPath);
         createDirectoryIfNotExists(this.fileUploadTxtPath);
         createDirectoryIfNotExists(this.fileUploadOtherPath);
+
+        //服务器资源的基础Url
+        this.serverResourceBaseUrl = removeTrailingSlash(serverResourceBaseUrl);
     }
 
     public static String removeStartSlash(String path) {

@@ -7,6 +7,7 @@ import com.pethome.exception.DataBaseOperatorException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 文件相关Service接口
@@ -39,4 +40,19 @@ public interface FileRecordService extends IService<FileRecord> {
      * @throws IOException IO异常
      */
     String saveFile(MultipartFile file)throws IOException;
+
+    /**
+     * 根据文件Id获取文件对象
+     *
+     * @param fileId 文件Id
+     * @return 文件记录对象
+     */
+    FileRecord getFileRecordByFileId(long fileId);
+
+    /**
+     * 根据文件组Id获取文件记录列表
+     * @param fileGroupId 文件组Id
+     * @return 文件记录列表
+     */
+    List<FileRecord> getFileRecordByFileGroupId(long fileGroupId);
 }
