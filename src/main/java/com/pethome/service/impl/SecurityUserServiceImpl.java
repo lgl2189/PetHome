@@ -40,7 +40,7 @@ public class SecurityUserServiceImpl implements SecurityUserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LambdaQueryWrapper<User> query = new LambdaQueryWrapper<>();
-        query.eq(User::getUserName, username);
+        query.eq(User::getUserId, username);
         User user = userMapper.selectOne(query);
         if (user == null) {
             throw new UsernameNotFoundException("登录账号不存在 " + username);
