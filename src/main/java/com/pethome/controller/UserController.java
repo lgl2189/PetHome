@@ -2,8 +2,10 @@ package com.pethome.controller;
 
 import com.pethome.entity.mybatis.User;
 import com.pethome.entity.web.Result;
+import com.pethome.entity.web.UserDetail;
 import com.pethome.service.UserService;
 import com.pethome.util.ResultUtil;
+import com.pethome.util.UserUtil;
 import com.star.jwt.annotation.JwtAuthority;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +57,30 @@ public class UserController {
 
     @JwtAuthority(enabled = false)
     @GetMapping("/public/info/{id}")
-    public Result getInfo(@PathVariable("id") Integer id) {
+    public Result getPublicInfo(@PathVariable("id") Integer id) {
         User user = userService.getPublicInfoById(id);
         return ResultUtil.success_200(user, "获取用户信息成功");
+    }
+
+    @JwtAuthority
+    @GetMapping("/info/{id}")
+    public Result getInfo(@PathVariable("id") Integer id){
+        User user = UserUtil.removeProhibitedInfo(userService.getUserInfoById(id));
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("user_info", user);
+        return ResultUtil.success_200(resMap, "获取用户信息成功");
+    }
+
+    @JwtAuthority
+    @PutMapping("/info/{id}")
+    public Result updateInfo(@PathVariable("id") Integer id, @RequestBody User user){
+        if(id == null || user == null){
+            return ResultUtil.fail_400(null,"参数不能为空");
+        }
+        boolean isSuccess = userService.updateUserInfo(id,user);
+        if(!isSuccess){
+            return ResultUtil.fail_400(null,"更新失败");
+        }
+        return ResultUtil.success_200(null,"更新成功");
     }
 }

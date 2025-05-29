@@ -24,11 +24,14 @@ import org.springframework.util.Assert;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService{
 
+    private final UserMapper userMapper;
     private final UserRoleService userRoleService;
 
     @Autowired
-    public UserServiceImpl(UserRoleService userRoleService) {
+    public UserServiceImpl(UserMapper userMapper,UserRoleService userRoleService) {
+        Assert.notNull(userMapper, "userMapper must not be null");
         Assert.notNull(userRoleService, "userRoleService must not be null");
+        this.userMapper = userMapper;
         this.userRoleService = userRoleService;
     }
 
@@ -50,8 +53,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public User getPublicInfoById(Integer id) {
-        User user = this.getById(id);
+        User user = userMapper.selectById(id);
         user = UserUtil.removeSensitiveInfo(user);
         return user;
+    }
+
+    @Override
+    public User getUserInfoById(Integer id) {
+        return userMapper.selectById(id);
+    }
+
+    @Override
+    public boolean updateUserInfo(int id, User user) {
+        User newUser = UserUtil.getModifiableUser(user);
+        newUser.setUserId(id);
+        int effectRow = userMapper.updateById(newUser);
+        return effectRow == 1;
     }
 }

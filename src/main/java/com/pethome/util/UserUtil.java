@@ -47,5 +47,14 @@ public class UserUtil {
         return newUser;
     }
 
+    public static User getModifiableUser(User user) {
+        User newUser = new User();
+        newUser.setUserName(user.getUserName());
+        newUser.setBirthDate(user.getBirthDate());
+        newUser.setEmail(user.getEmail());
+        newUser.setPhone(user.getPhone());
+        return newUser;
+    }
+
 
 }
