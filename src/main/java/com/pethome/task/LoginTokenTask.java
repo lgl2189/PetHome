@@ -43,7 +43,7 @@ public class LoginTokenTask {
     }
 
     //秒 分 时 日 月 星期
-    @Scheduled(cron = "0 * */1 * * *")
+    @Scheduled(cron = "0 0 */1 * * *")
     public void cleanVerificationToken() {
         try (RedisConnection connection = connectionFactory.getConnection()) {
             // 使用 SCAN 命令避免阻塞 Redis 服务器
