@@ -26,7 +26,7 @@ public enum SupportFileTypeEnum {
 
     static {
         for (SupportFileTypeEnum type : values()) {
-            VALUE_MAP.put(type.value, type);
+            VALUE_MAP.put(type.getValue(), type);
         }
     }
 

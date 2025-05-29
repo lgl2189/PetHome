@@ -18,7 +18,7 @@ public enum SupplyDemandStatusEnum {
 
     static {
         for (SupplyDemandStatusEnum type : values()) {
-            VALUE_MAP.put(type.value, type);
+            VALUE_MAP.put(type.getValue(), type);
         }
     }
 

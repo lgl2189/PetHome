@@ -20,7 +20,7 @@ public enum AnimalHealthStatusEnum {
 
     static {
         for (AnimalHealthStatusEnum type : values()) {
-            VALUE_MAP.put(type.value, type);
+            VALUE_MAP.put(type.getValue(), type);
         }
     }
 

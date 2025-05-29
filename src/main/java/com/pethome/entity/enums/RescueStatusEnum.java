@@ -20,7 +20,7 @@ public enum RescueStatusEnum {
 
     static {
         for (RescueStatusEnum type : values()) {
-            VALUE_MAP.put(type.value, type);
+            VALUE_MAP.put(type.getValue(), type);
         }
     }
 
