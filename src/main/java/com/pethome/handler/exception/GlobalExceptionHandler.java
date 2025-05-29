@@ -1,6 +1,6 @@
 package com.pethome.handler.exception;
 
-import com.pethome.entity.web.Result;
+import com.pethome.dto.Result;
 import com.pethome.util.ResultUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

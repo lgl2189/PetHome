@@ -1,7 +1,7 @@
 package com.pethome.util;
 
 import com.pethome.entity.mybatis.User;
-import com.pethome.entity.web.UserDetail;
+import com.pethome.dto.UserDetail;
 
 /**
  * @author ：李冠良

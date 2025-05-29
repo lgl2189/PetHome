@@ -1,8 +1,7 @@
 package com.pethome.controller;
 
 import com.pethome.entity.mybatis.User;
-import com.pethome.entity.web.Result;
-import com.pethome.entity.web.UserDetail;
+import com.pethome.dto.Result;
 import com.pethome.service.UserService;
 import com.pethome.util.ResultUtil;
 import com.pethome.util.UserUtil;

@@ -1,4 +1,4 @@
-package com.pethome.entity.web.sender;
+package com.pethome.dto.sender;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.pethome.entity.mybatis.Animal;

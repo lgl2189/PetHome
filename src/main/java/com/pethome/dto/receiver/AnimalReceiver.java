@@ -1,4 +1,4 @@
-package com.pethome.entity.web.receiver;
+package com.pethome.dto.receiver;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

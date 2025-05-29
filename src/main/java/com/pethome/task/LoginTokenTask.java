@@ -3,7 +3,7 @@ package com.pethome.task;
 import cn.hutool.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pethome.constant.Constant;
-import com.pethome.entity.web.UserDetail;
+import com.pethome.dto.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

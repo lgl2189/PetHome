@@ -2,7 +2,7 @@ package com.pethome.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pethome.entity.mybatis.RescueStation;
-import com.pethome.entity.web.sender.RescueStationInfo;
+import com.pethome.dto.sender.RescueStationInfo;
 
 import java.util.List;
 

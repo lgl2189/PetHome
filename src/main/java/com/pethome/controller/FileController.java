@@ -1,6 +1,6 @@
 package com.pethome.controller;
 
-import com.pethome.entity.web.Result;
+import com.pethome.dto.Result;
 import com.pethome.service.FileRecordService;
 import com.pethome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;

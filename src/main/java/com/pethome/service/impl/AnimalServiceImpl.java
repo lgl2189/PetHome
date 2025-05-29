@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageInfo;
 import com.pethome.entity.enums.AnimalHealthStatusEnum;
 import com.pethome.entity.mybatis.Animal;
-import com.pethome.entity.web.receiver.AnimalReceiver;
+import com.pethome.dto.receiver.AnimalReceiver;
 import com.pethome.entity.wrapper.ResultWrapper;
 import com.pethome.exception.DataBaseOperatorException;
 import com.pethome.mapper.AnimalMapper;

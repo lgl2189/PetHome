@@ -1,4 +1,4 @@
-package com.pethome.entity.web;
+package com.pethome.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

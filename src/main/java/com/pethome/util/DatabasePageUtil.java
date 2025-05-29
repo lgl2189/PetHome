@@ -1,6 +1,6 @@
 package com.pethome.util;
 
-import com.pethome.entity.web.PageInfo;
+import com.pethome.dto.PageInfo;
 
 /**
  * @author ：Star

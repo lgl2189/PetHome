@@ -2,8 +2,8 @@ package com.pethome.handler.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pethome.constant.Constant;
-import com.pethome.entity.web.Result;
-import com.pethome.entity.web.UserDetail;
+import com.pethome.dto.Result;
+import com.pethome.dto.UserDetail;
 import com.pethome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

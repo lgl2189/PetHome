@@ -1,13 +1,13 @@
 package com.pethome.util;
 
-import com.pethome.entity.web.Result;
+import com.pethome.dto.Result;
 
 /**
  * 该工具类用于创建不同状态的 Result 对象，方便在项目中统一处理响应结果。
  * Result 对象包含数据、状态码和消息，用于封装接口返回的信息。
  *
  * @author ：李冠良
- * @description： 该工具类提供了一系列静态方法，用于创建不同状态的 Result 对象。
+ * @description ： 该工具类提供了一系列静态方法，用于创建不同状态的 Result 对象。
  * 状态码遵循 HTTP 状态码的约定，如 200 表示成功，400 - 404 表示不同类型的失败。
  * @date ：2024/10/27 下午2:15
  */

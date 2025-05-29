@@ -3,7 +3,7 @@ package com.pethome.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.pethome.entity.mybatis.Role;
 import com.pethome.entity.mybatis.User;
-import com.pethome.entity.web.UserDetail;
+import com.pethome.dto.UserDetail;
 import com.pethome.mapper.RoleMapper;
 import com.pethome.mapper.UserMapper;
 import com.pethome.mapper.UserRoleMapper;

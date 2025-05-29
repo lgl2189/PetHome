@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pethome.entity.mybatis.RescueStation;
 import com.pethome.entity.mybatis.User;
-import com.pethome.entity.web.sender.RescueStationInfo;
+import com.pethome.dto.sender.RescueStationInfo;
 import com.pethome.mapper.RescueStationMapper;
 import com.pethome.service.RescueStationService;
 import com.pethome.service.UserService;
