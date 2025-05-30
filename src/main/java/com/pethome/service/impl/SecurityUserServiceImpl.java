@@ -46,7 +46,7 @@ public class SecurityUserServiceImpl implements SecurityUserService {
             throw new UsernameNotFoundException("登录账号不存在 " + username);
         }
         //查询用户角色列表
-        List<Role> roleList = userRoleMapper.getRolesByUserId(user.getUserId());
+        List<Role> roleList = userRoleMapper.getRoleListByUserId(user.getUserId());
         return new UserDetail(user, roleList);
     }
 }
