@@ -23,7 +23,7 @@ public interface AnimalService extends IService<Animal> {
      * @param animalReceiver 动物信接收器实体类
      * @throws IOException 保存文件时发生IoException
      */
-    void saveAnimalInfo(AnimalReceiver animalReceiver) throws IOException;
+    Animal saveAnimalInfo(AnimalReceiver animalReceiver) throws IOException;
 
     /**
      * 获取推荐的动物列表

@@ -64,8 +64,10 @@ public class AnimalController {
         if (animalReceiver == null) {
             return ResultUtil.fail_401("提交表单为空");
         }
-        animalService.saveAnimalInfo(animalReceiver);
-        return ResultUtil.success_200(null, "上传成功");
+        Animal animalInfo = animalService.saveAnimalInfo(animalReceiver);
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("animal_info", animalInfo);
+        return ResultUtil.success_200(resMap, "上传成功");
     }
 
     @JwtAuthority

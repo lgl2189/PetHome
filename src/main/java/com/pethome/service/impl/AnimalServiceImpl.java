@@ -40,7 +40,7 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, Animal> impleme
     }
 
     @Override
-    public void saveAnimalInfo(AnimalReceiver animalReceiver) throws IOException, DataBaseOperatorException {
+    public Animal saveAnimalInfo(AnimalReceiver animalReceiver) throws IOException, DataBaseOperatorException {
         Animal animal = new Animal();
         animal.setSpecies(animalReceiver.getSpecies());
         animal.setBreed(animalReceiver.getBreed());
@@ -76,6 +76,7 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, Animal> impleme
         }
         // 保存动物信息
         save(animal);
+        return animal;
     }
 
     @Override
