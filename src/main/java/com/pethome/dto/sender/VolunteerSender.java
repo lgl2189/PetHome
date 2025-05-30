@@ -24,6 +24,7 @@ public class VolunteerSender implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonUnwrapped
-    private User user;
     private Volunteer volunteer;
+    private RescueStationInfo rescueStationInfo;
+    private User user;
 }
