@@ -127,8 +127,10 @@ public class UserController {
             return ResultUtil.fail_401(null,"参数不能为空");
         }
         Volunteer volunteerInfo = volunteerService.getVolunteerByUserId(id);
-        User user = userService.getUserInfoById(id);
+        User user = userService.getPublicInfoById(id);
         VolunteerSender volunteerSender = new VolunteerSender(user, volunteerInfo);
-        return ResultUtil.success_200(volunteerSender, "获取志愿者信息成功");
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("user", volunteerSender);
+        return ResultUtil.success_200(resMap, "获取志愿者信息成功");
     }
 }
