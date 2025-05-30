@@ -2,7 +2,7 @@ package com.pethome.entity.mybatis;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.pethome.entity.enums.UserRoleEnum;
+import com.pethome.entity.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +29,7 @@ public class Role implements Serializable {
     @TableId(value = "role_id", type = IdType.AUTO)
     private Integer roleId;
 
-    private UserRoleEnum roleTag;
+    private RoleEnum roleTag;
 
     private String roleName;
 }

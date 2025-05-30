@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-public enum UserRoleEnum {
+public enum RoleEnum {
+    SUPER("super"),
     ADMIN("admin"),
     VOLUNTEER("volunteer"),
     ADOPTER("adopter"),
@@ -16,15 +17,15 @@ public enum UserRoleEnum {
 
     @EnumValue
     private final String value;
-    private static final Map<String, UserRoleEnum> VALUE_MAP = new HashMap<>();
+    private static final Map<String, RoleEnum> VALUE_MAP = new HashMap<>();
 
     static {
-        for (UserRoleEnum role : UserRoleEnum.values()) {
+        for (RoleEnum role : RoleEnum.values()) {
             VALUE_MAP.put(role.getValue(), role);
         }
     }
 
-    UserRoleEnum(String value) {
+    RoleEnum(String value) {
         this.value = value;
     }
 
@@ -33,7 +34,7 @@ public enum UserRoleEnum {
      * @param value 枚举值
      * @return 枚举对象
      */
-    public static UserRoleEnum fromValue(String value) {
+    public static RoleEnum fromValue(String value) {
         return value == null ? NORMAL : VALUE_MAP.getOrDefault(value, NORMAL);
     }
 }
