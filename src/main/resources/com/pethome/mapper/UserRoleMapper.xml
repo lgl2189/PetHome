@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pethome.mapper.UserRoleMapper">
-
     <select id="getRoleListByUserId" resultType="com.pethome.entity.mybatis.Role">
         SELECT r.*
         FROM user_role ur
         LEFT JOIN role r ON ur.role_id = r.role_id
         WHERE ur.user_id = #{userId}
     </select>
+
+    <!-- 删除用户ID对应但不在新角色列表中的记录 -->
+    <delete id="deleteUserRolesNotInList">
+        DELETE FROM user_role
+        WHERE user_id = #{userId}
+        AND role_id NOT IN
+        <foreach collection="roleList" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+
+    <!-- 添加用户ID对应的新角色关联（数据库中不存在的） -->
+    <insert id="insertUserRolesNotExists">
+        INSERT INTO user_role (user_id, role_id)
+        SELECT #{userId}, role_id
+        FROM (
+        <foreach collection="roleList" item="roleId" separator="UNION ALL">
+            SELECT #{roleId} AS role_id
+        </foreach>
+        ) AS new_roles
+        WHERE NOT EXISTS (
+        SELECT 1 FROM user_role
+        WHERE user_id = #{userId}
+        AND role_id = new_roles.role_id
+        )
+    </insert>
 </mapper>

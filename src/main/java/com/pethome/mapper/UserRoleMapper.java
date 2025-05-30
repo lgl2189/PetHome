@@ -17,5 +17,10 @@ import java.util.List;
  */
 @Mapper
 public interface UserRoleMapper extends BaseMapper<UserRole> {
+    /**
+     * 根据用户ID获取角色列表
+     * @param userId 用户ID
+     * @return 角色列表
+     */
     List<Role> getRoleListByUserId(Integer userId);
 }

@@ -1,6 +1,7 @@
 package com.pethome.controller;
 
 import com.pethome.dto.Result;
+import com.pethome.entity.enums.RoleEnum;
 import com.pethome.entity.mybatis.Role;
 import com.pethome.entity.mybatis.User;
 import com.pethome.service.UserRoleService;
@@ -93,9 +94,22 @@ public class UserController {
     @JwtAuthority
     @GetMapping("/{id}/role")
     public Result getUserRoleList(@PathVariable("id") Integer id){
+        if(id == null){
+            return ResultUtil.fail_400(null,"参数不能为空");
+        }
         List<Role> roleList = userRoleService.getUserRoleList(id);
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("role_list", roleList);
         return ResultUtil.success_200(resMap, "获取用户角色列表成功");
+    }
+
+    @JwtAuthority
+    @PostMapping("/{id}/role")
+    public Result updateUserRole(@PathVariable("id") Integer id, @RequestBody List<RoleEnum> roleTagList){
+        if(id == null || roleTagList == null){
+            return ResultUtil.fail_400(null,"参数不能为空");
+        }
+        userRoleService.updateUserRole(id,roleTagList);
+        return ResultUtil.success_200(null, "更新用户角色成功");
     }
 }
