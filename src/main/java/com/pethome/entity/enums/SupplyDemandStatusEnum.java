@@ -1,6 +1,7 @@
 package com.pethome.entity.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -24,6 +25,11 @@ public enum SupplyDemandStatusEnum {
 
     SupplyDemandStatusEnum(String value) {
         this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+        return value;
     }
 
     /**
