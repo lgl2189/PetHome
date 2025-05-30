@@ -1,7 +1,7 @@
 package com.pethome.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author lgl
  * @since 2025-04-29
  */
-@Controller
+@RestController
 @RequestMapping("/userRole")
 public class UserRoleController {
 
