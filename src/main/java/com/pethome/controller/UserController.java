@@ -1,11 +1,14 @@
 package com.pethome.controller;
 
 import com.pethome.dto.Result;
+import com.pethome.dto.sender.VolunteerSender;
 import com.pethome.entity.enums.RoleEnum;
 import com.pethome.entity.mybatis.Role;
 import com.pethome.entity.mybatis.User;
+import com.pethome.entity.mybatis.Volunteer;
 import com.pethome.service.UserRoleService;
 import com.pethome.service.UserService;
+import com.pethome.service.VolunteerService;
 import com.pethome.util.ResultUtil;
 import com.pethome.util.UserUtil;
 import com.star.jwt.annotation.JwtAuthority;
@@ -33,14 +36,18 @@ public class UserController {
 
     private final UserService userService;
     private final UserRoleService userRoleService;
+    private final VolunteerService volunteerService;
 
     @Autowired
     public UserController(UserService userService,
-                          UserRoleService userRoleService) {
+                          UserRoleService userRoleService,
+                          VolunteerService volunteerService) {
         Assert.notNull(userService, "userService must not be null");
         Assert.notNull(userRoleService, "userRoleService must not be null");
+        Assert.notNull(volunteerService, "volunteerService must not be null");
         this.userService = userService;
         this.userRoleService = userRoleService;
+        this.volunteerService = volunteerService;
     }
 
     @JwtAuthority(enabled = false)
@@ -111,5 +118,17 @@ public class UserController {
         }
         userRoleService.updateUserRole(id,roleTagList);
         return ResultUtil.success_200(null, "更新用户角色成功");
+    }
+
+    @JwtAuthority
+    @GetMapping("/{id}/volunteer")
+    public Result getVolunteerInfo(@PathVariable("id") Integer id){
+        if(id == null){
+            return ResultUtil.fail_401(null,"参数不能为空");
+        }
+        Volunteer volunteerInfo = volunteerService.getVolunteerByUserId(id);
+        User user = userService.getUserInfoById(id);
+        VolunteerSender volunteerSender = new VolunteerSender(user, volunteerInfo);
+        return ResultUtil.success_200(volunteerSender, "获取志愿者信息成功");
     }
 }

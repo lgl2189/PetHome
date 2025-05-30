@@ -13,4 +13,10 @@ import com.pethome.entity.mybatis.Volunteer;
  */
 public interface VolunteerService extends IService<Volunteer> {
 
+    /**
+     * 根据用户id获取志愿者信息
+     * @param userId 用户id
+     * @return 志愿者信息
+     */
+    Volunteer getVolunteerByUserId(Integer userId);
 }
