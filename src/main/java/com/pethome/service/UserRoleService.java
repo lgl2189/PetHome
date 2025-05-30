@@ -1,7 +1,10 @@
 package com.pethome.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pethome.entity.mybatis.Role;
 import com.pethome.entity.mybatis.UserRole;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,10 @@ import com.pethome.entity.mybatis.UserRole;
  */
 public interface UserRoleService extends IService<UserRole> {
 
+    /**
+     * 根据用户ID获取角色列表，其中不包括超级管理员角色（super）
+     * @param userId 用户ID
+     * @return 角色列表
+     */
+    List<Role> getUserRoleList(Integer userId);
 }

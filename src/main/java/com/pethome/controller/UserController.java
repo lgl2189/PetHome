@@ -1,7 +1,9 @@
 package com.pethome.controller;
 
-import com.pethome.entity.mybatis.User;
 import com.pethome.dto.Result;
+import com.pethome.entity.mybatis.Role;
+import com.pethome.entity.mybatis.User;
+import com.pethome.service.UserRoleService;
 import com.pethome.service.UserService;
 import com.pethome.util.ResultUtil;
 import com.pethome.util.UserUtil;
@@ -12,6 +14,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,11 +31,15 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final UserRoleService userRoleService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService,
+                          UserRoleService userRoleService) {
         Assert.notNull(userService, "userService must not be null");
+        Assert.notNull(userRoleService, "userRoleService must not be null");
         this.userService = userService;
+        this.userRoleService = userRoleService;
     }
 
     @JwtAuthority(enabled = false)
@@ -81,5 +88,14 @@ public class UserController {
             return ResultUtil.fail_400(null,"更新失败");
         }
         return ResultUtil.success_200(null,"更新成功");
+    }
+
+    @JwtAuthority
+    @GetMapping("/{id}/role")
+    public Result getUserRoleList(@PathVariable("id") Integer id){
+        List<Role> roleList = userRoleService.getUserRoleList(id);
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("role_list", roleList);
+        return ResultUtil.success_200(resMap, "获取用户角色列表成功");
     }
 }
