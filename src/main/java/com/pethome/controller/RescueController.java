@@ -26,12 +26,12 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/rescue")
-public class RescueRecordController {
+public class RescueController {
     private final RescueStationService rescueStationService;
     private final RescueRecordService rescueRecordService;
 
     @Autowired
-    public RescueRecordController(RescueStationService rescueStationService,RescueRecordService rescueRecordService) {
+    public RescueController(RescueStationService rescueStationService, RescueRecordService rescueRecordService) {
         Assert.notNull(rescueStationService, "rescueStationService must not be null");
         Assert.notNull(rescueRecordService, "rescueRecordService must not be null");
         this.rescueStationService = rescueStationService;
@@ -46,5 +46,6 @@ public class RescueRecordController {
         rescueStationMap.put("station_info", rescueStationList);
         return ResultUtil.success_200(rescueStationMap);
     }
+
 
 }
