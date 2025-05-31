@@ -7,6 +7,14 @@
         ORDER BY RAND()
         LIMIT #{limit}
     </select>
+    <select id="selectRandomAnimalListWaitAdopt" resultType="com.pethome.entity.mybatis.Animal">
+        SELECT *
+        FROM animal
+                 LEFT JOIN rescue_record r ON animal.animal_id = r.animal_id
+        WHERE r.rescue_status = 'wait_adopted'
+        ORDER BY RAND()
+        LIMIT #{limit}
+    </select>
     <select id="selectAnimalByKeyList" resultType="com.pethome.entity.mybatis.Animal">
         SELECT *
         FROM animal
@@ -30,5 +38,20 @@
         <foreach collection="keyList" item="key" open="(" separator="," close=")">
             #{key}
         </foreach>
+    </select>
+    <select id="selectAnimalWaitAdoptByKeyList" resultType="com.pethome.entity.mybatis.Animal">
+        SELECT a.*, r.rescue_status
+        FROM animal a
+        LEFT JOIN rescue_record r ON a.animal_id = r.animal_id
+        WHERE r.rescue_status = 'wait_adopted' AND
+        (
+        <foreach collection="keyList" item="key" separator="OR">
+            (a.name LIKE CONCAT('%', #{key}, '%')
+            OR a.species LIKE CONCAT('%', #{key}, '%')
+            OR a.breed LIKE CONCAT('%', #{key}, '%')
+            OR a.personality LIKE CONCAT('%', #{key}, '%')
+            OR a.age = #{key})
+        </foreach>
+        )
     </select>
 </mapper>

@@ -23,6 +23,7 @@ public interface AnimalMapper extends BaseMapper<Animal> {
      */
     List<Animal> selectRandomAnimalList(int limit);
 
+    List<Animal> selectRandomAnimalListWaitAdopt(int limit);
     /**
      * 根据关键词查询动物信息列表
      * @param keyList 关键词列表，关键词列表不能为空
@@ -31,4 +32,13 @@ public interface AnimalMapper extends BaseMapper<Animal> {
      * @return 动物信息列表
      */
     List<Animal> selectAnimalByKeyList(List<String> keyList, int pageNum, int pageSize);
+
+    /**
+     * 根据关键词查询待领养的动物信息列表
+     * @param keyList 关键词列表，关键词列表不能为空
+     * @param pageNum 分页当前页码
+     * @param pageSize 分页大小
+     * @return 待领养的动物信息列表
+     */
+    List<Animal> selectAnimalWaitAdoptByKeyList(List<String> keyList, int pageNum, int pageSize);
 }

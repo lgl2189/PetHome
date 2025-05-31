@@ -110,6 +110,39 @@ public class AnimalController {
     }
 
     @JwtAuthority
+    @GetMapping("/list/wait-adopt/recommend")
+    public Result getWaitAdoptRecommendList(@RequestParam(defaultValue = "20") int num) {
+        List<Animal> animalRecommendList = animalService.getAnimalListWaitAdoptRecommended(num);
+        List<AnimalSender> animalSenderList = new ArrayList<>();
+        for (Animal animal : animalRecommendList) {
+            AnimalSender animalSender = getFileUrl(animal);
+            animalSenderList.add(animalSender);
+        }
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("animal_list", animalSenderList);
+        resMap.put("record_num", num);
+        return ResultUtil.success_200(resMap, "获取成功");
+    }
+
+    @JwtAuthority
+    @GetMapping("/list/wait-adopt")
+    public Result getWaitAdoptedList(@RequestParam("key") List<String> keyList, int pageNum, int pageSize) {
+        if (keyList == null || keyList.isEmpty()) {
+            return ResultUtil.fail_401(null, "搜索关键字不能为空");
+        }
+        PageInfo<Animal> animalPageInfo = animalService.searchAnimalInfoWaitAdopt(keyList, pageNum, pageSize);
+        List<AnimalSender> animalSenderList = new ArrayList<>();
+        for (Animal animal : animalPageInfo.getList()) {
+            AnimalSender animalSender = getFileUrl(animal);
+            animalSenderList.add(animalSender);
+        }
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("animal_list", animalSenderList);
+        resMap.put("page_info", DatabasePageUtil.getPageInfo(animalPageInfo));
+        return ResultUtil.success_200(resMap, "搜索成功");
+    }
+
+    @JwtAuthority
     @GetMapping("/info/{id}")
     public Result getAnimalInfo(@PathVariable("id") Integer id) {
         if (id == null) {

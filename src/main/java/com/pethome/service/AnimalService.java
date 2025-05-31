@@ -34,6 +34,13 @@ public interface AnimalService extends IService<Animal> {
     List<Animal> getAnimalListRecommended(int num);
 
     /**
+     * 获取等待领养的动物列表
+     * @param num 推荐数量
+     * @return 等待领养的动物列表
+     */
+    List<Animal> getAnimalListWaitAdoptRecommended(int num);
+
+    /**
      * 搜索动物信息
      *
      * @param keyList  搜索关键次列表
@@ -48,4 +55,6 @@ public interface AnimalService extends IService<Animal> {
      * @return Animal类型封装的动物信息
      */
     Animal getAnimalInfoById(int animalId);
+
+    PageInfo<Animal> searchAnimalInfoWaitAdopt(List<String> keyList, int pageNum, int pageSize);
 }

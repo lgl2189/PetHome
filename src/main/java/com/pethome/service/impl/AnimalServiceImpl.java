@@ -85,6 +85,11 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, Animal> impleme
     }
 
     @Override
+    public List<Animal> getAnimalListWaitAdoptRecommended(int num){
+        return animalMapper.selectRandomAnimalListWaitAdopt(num);
+    }
+
+    @Override
     public PageInfo<Animal> searchAnimalInfo(List<String> keyList, int pageNum, int pageSize) {
         List<Animal> animalList = animalMapper.selectAnimalByKeyList(keyList, pageNum, pageSize);
         return new PageInfo<>(animalList);
@@ -93,6 +98,12 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, Animal> impleme
     @Override
     public Animal getAnimalInfoById(int animalId) {
         return animalMapper.selectById(animalId);
+    }
+
+    @Override
+    public PageInfo<Animal> searchAnimalInfoWaitAdopt(List<String> keyList, int pageNum, int pageSize) {
+        List<Animal> animalList = animalMapper.selectAnimalWaitAdoptByKeyList(keyList, pageNum, pageSize);
+        return new PageInfo<>(animalList);
     }
 
 }
