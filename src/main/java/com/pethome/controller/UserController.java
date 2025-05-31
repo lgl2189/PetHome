@@ -122,6 +122,9 @@ public class UserController {
         if (id == null || roleTagList == null) {
             return ResultUtil.fail_400(null, "参数不能为空");
         }
+        if(!roleTagList.contains(RoleEnum.NORMAL)){
+            return ResultUtil.fail_402(null, "不能删除普通用户权限");
+        }
         userRoleService.updateUserRole(id, roleTagList);
         return ResultUtil.success_200(null, "更新用户角色成功");
     }

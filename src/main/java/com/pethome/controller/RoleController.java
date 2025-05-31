@@ -38,7 +38,7 @@ public class RoleController {
     @JwtAuthority
     @GetMapping("/list")
     public Result getRoleList(){
-        List<Role> roleList = roleService.list();
+        List<Role> roleList = roleService.getUserRoleList();
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("role_list", roleList);
         return ResultUtil.success_200(resMap,"获取角色列表成功");
