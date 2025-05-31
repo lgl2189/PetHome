@@ -13,4 +13,11 @@ import com.pethome.entity.mybatis.RescueRecord;
  */
 public interface RescueRecordService extends IService<RescueRecord> {
 
+    /**
+     * 添加救助记录
+     *
+     * @param rescueRecord 待添加的救助记录
+     * @return 添加后的救助记录，添加失败返回null
+     */
+    RescueRecord addRescueRecord(RescueRecord rescueRecord);
 }

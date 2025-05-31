@@ -1,6 +1,7 @@
 package com.pethome.controller;
 
 import com.pethome.dto.Result;
+import com.pethome.entity.mybatis.RescueRecord;
 import com.pethome.entity.mybatis.RescueStation;
 import com.pethome.service.RescueRecordService;
 import com.pethome.service.RescueStationService;
@@ -8,9 +9,7 @@ import com.pethome.util.ResultUtil;
 import com.star.jwt.annotation.JwtAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,12 +39,23 @@ public class RescueController {
 
     @JwtAuthority(enabled = false)
     @GetMapping("/station/public/info/list")
-    public Result getRescueStationList(){
+    public Result getRescueStationList() {
         List<RescueStation> rescueStationList = rescueStationService.getPublicInfoList();
         Map<String, Object> rescueStationMap = new HashMap<>();
         rescueStationMap.put("station_info", rescueStationList);
         return ResultUtil.success_200(rescueStationMap);
     }
 
-
+    @JwtAuthority
+    @PostMapping("/record")
+    public Result addRescueRecord(@RequestBody RescueRecord rescueRecord) {
+        if (rescueRecord == null) {
+            return ResultUtil.fail_401(null, "提交参数为空");
+        }
+        RescueRecord result = rescueRecordService.addRescueRecord(rescueRecord);
+        if (result == null) {
+            return ResultUtil.fail_500(null, "救助信息提交失败");
+        }
+        return ResultUtil.success_200(null, "救助信息提交成功");
+    }
 }

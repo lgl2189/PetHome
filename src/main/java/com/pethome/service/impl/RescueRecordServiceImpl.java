@@ -16,5 +16,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RescueRecordServiceImpl extends ServiceImpl<RescueRecordMapper, RescueRecord> implements RescueRecordService {
-
+    @Override
+    public RescueRecord addRescueRecord(RescueRecord rescueRecord) {
+        boolean result = this.save(rescueRecord);
+        if(!result){
+            return null;
+        }
+        return rescueRecord;
+    }
 }
