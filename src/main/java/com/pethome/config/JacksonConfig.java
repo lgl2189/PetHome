@@ -30,7 +30,7 @@ public class JacksonConfig {
     static {
         // 注册 Java 8 时间模块（处理 LocalDateTime 等新时间类型）
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(dateFormatter));
         javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(dateFormatter));
         javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(dateTimeFormatter));
