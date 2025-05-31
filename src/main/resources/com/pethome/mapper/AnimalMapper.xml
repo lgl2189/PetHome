@@ -1,50 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pethome.mapper.AnimalMapper">
-    <select id="selectRandomAnimalList" resultType="com.pethome.entity.mybatis.Animal" parameterType="int">
-        SELECT *
-        FROM animal
-        ORDER BY RAND()
-        LIMIT #{limit}
-    </select>
-    <select id="selectRandomAnimalListWaitAdopt" resultType="com.pethome.entity.mybatis.Animal">
-        SELECT *
-        FROM animal
-                 LEFT JOIN rescue_record r ON animal.animal_id = r.animal_id
-        WHERE r.rescue_status = 'wait_adopted'
-        ORDER BY RAND()
-        LIMIT #{limit}
-    </select>
-    <select id="selectAnimalByKeyList" resultType="com.pethome.entity.mybatis.Animal">
-        SELECT *
-        FROM animal
-        WHERE animal.name IN
-        <foreach collection="keyList" item="key" open="(" separator="," close=")">
-            #{key}
-        </foreach>
-        OR animal.species IN
-        <foreach collection="keyList" item="key" open="(" separator="," close=")">
-            #{key}
-        </foreach>
-        OR animal.breed IN
-        <foreach collection="keyList" item="key" open="(" separator="," close=")">
-            #{key}
-        </foreach>
-        OR animal.personality IN
-        <foreach collection="keyList" item="key" open="(" separator="," close=")">
-            #{key}
-        </foreach>
-        OR animal.age IN
-        <foreach collection="keyList" item="key" open="(" separator="," close=")">
-            #{key}
-        </foreach>
-    </select>
-    <select id="selectAnimalWaitAdoptByKeyList" resultType="com.pethome.entity.mybatis.Animal">
-        SELECT a.*, r.rescue_status
-        FROM animal a
-        LEFT JOIN rescue_record r ON a.animal_id = r.animal_id
-        WHERE r.rescue_status = 'wait_adopted' AND
-        (
+
+    <sql id="waitAdoptCondition">
+        r.rescue_status = 'wait_adopted'
+    </sql>
+
+    <sql id="searchByKeyList">
         <foreach collection="keyList" item="key" separator="OR">
             (a.name LIKE CONCAT('%', #{key}, '%')
             OR a.species LIKE CONCAT('%', #{key}, '%')
@@ -52,6 +14,37 @@
             OR a.personality LIKE CONCAT('%', #{key}, '%')
             OR a.age = #{key})
         </foreach>
-        )
+    </sql>
+
+    <select id="selectRandomAnimalList" resultType="com.pethome.entity.mybatis.Animal" parameterType="int">
+        SELECT *
+        FROM animal
+        ORDER BY RAND()
+        LIMIT #{limit}
     </select>
+
+    <select id="selectRandomAnimalListWaitAdopt" resultType="com.pethome.entity.mybatis.Animal">
+        SELECT a.*, r.rescue_status
+        FROM animal a
+        LEFT JOIN rescue_record r ON a.animal_id = r.animal_id
+        WHERE <include refid="waitAdoptCondition"/>
+        ORDER BY RAND()
+        LIMIT #{limit}
+    </select>
+
+    <select id="selectAnimalByKeyList" resultType="com.pethome.entity.mybatis.Animal">
+        SELECT *
+        FROM animal a
+        WHERE
+        <include refid="searchByKeyList"/>
+    </select>
+
+    <select id="selectAnimalWaitAdoptByKeyList" resultType="com.pethome.entity.mybatis.Animal">
+        SELECT a.*, r.rescue_status
+        FROM animal a
+        LEFT JOIN rescue_record r ON a.animal_id = r.animal_id
+        WHERE <include refid="waitAdoptCondition"/> AND
+        <include refid="searchByKeyList"/>
+    </select>
+
 </mapper>
