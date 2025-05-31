@@ -13,6 +13,8 @@ import com.pethome.entity.mybatis.RescueRecord;
  */
 public interface RescueRecordService extends IService<RescueRecord> {
 
+    RescueRecord getRescueRecordByRescueId(Integer rescueId);
+
     /**
      * 添加救助记录
      *

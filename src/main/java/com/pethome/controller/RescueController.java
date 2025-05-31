@@ -1,7 +1,6 @@
 package com.pethome.controller;
 
 import com.pethome.dto.Result;
-import com.pethome.entity.enums.RescueStatusEnum;
 import com.pethome.entity.mybatis.RescueRecord;
 import com.pethome.entity.mybatis.RescueStation;
 import com.pethome.service.RescueRecordService;
@@ -45,6 +44,19 @@ public class RescueController {
         Map<String, Object> rescueStationMap = new HashMap<>();
         rescueStationMap.put("station_info", rescueStationList);
         return ResultUtil.success_200(rescueStationMap);
+    }
+
+    @JwtAuthority
+    @GetMapping("/record/{id}")
+    public Result getRescueRecord(@PathVariable("id") Integer rescueId) {
+        if (rescueId == null) {
+            return ResultUtil.fail_401(null, "缺少参数");
+        }
+        RescueRecord rescueRecord = rescueRecordService.getRescueRecordByRescueId(rescueId);
+        if (rescueRecord == null) {
+            return ResultUtil.fail_404(null, "救助信息不存在");
+        }
+        return ResultUtil.success_200(rescueRecord,"救助信息获取成功");
     }
 
     @JwtAuthority
