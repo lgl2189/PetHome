@@ -34,7 +34,7 @@ public class RescueRecord implements Serializable {
 
     private String rescuePosition;
 
-    private LocalDateTime rescueDate;
+    private LocalDateTime rescueDatetime;
 
     private String rescuerPhone;
 
