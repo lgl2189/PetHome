@@ -36,6 +36,8 @@ public class RescueRecord implements Serializable {
 
     private LocalDateTime rescueDatetime;
 
+    private Integer rescuerId;
+
     private String rescuerPhone;
 
     private RescueStatusEnum rescueStatus;
