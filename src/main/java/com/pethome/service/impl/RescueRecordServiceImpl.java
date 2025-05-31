@@ -1,5 +1,6 @@
 package com.pethome.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pethome.entity.mybatis.RescueRecord;
 import com.pethome.mapper.RescueRecordMapper;
@@ -23,5 +24,11 @@ public class RescueRecordServiceImpl extends ServiceImpl<RescueRecordMapper, Res
             return null;
         }
         return rescueRecord;
+    }
+
+    @Override
+    public boolean updateRescueRecord(RescueRecord rescueRecord) {
+        rescueRecord.setAnimalId(null);
+        return this.updateById(rescueRecord);
     }
 }

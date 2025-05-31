@@ -20,4 +20,11 @@ public interface RescueRecordService extends IService<RescueRecord> {
      * @return 添加后的救助记录，添加失败返回null
      */
     RescueRecord addRescueRecord(RescueRecord rescueRecord);
+
+    /**
+     * 更新救助记录
+     * @param rescueRecord 更新的的救助记录内容
+     * @return 更新成功返回true，更新失败返回false
+     */
+    boolean updateRescueRecord(RescueRecord rescueRecord);
 }

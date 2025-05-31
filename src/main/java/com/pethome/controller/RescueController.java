@@ -1,6 +1,7 @@
 package com.pethome.controller;
 
 import com.pethome.dto.Result;
+import com.pethome.entity.enums.RescueStatusEnum;
 import com.pethome.entity.mybatis.RescueRecord;
 import com.pethome.entity.mybatis.RescueStation;
 import com.pethome.service.RescueRecordService;
@@ -57,5 +58,21 @@ public class RescueController {
             return ResultUtil.fail_500(null, "救助信息提交失败");
         }
         return ResultUtil.success_200(null, "救助信息提交成功");
+    }
+
+    @JwtAuthority
+    @PutMapping("/record/{id}")
+    public Result updateRescueRecordStatus(@PathVariable("id") Integer rescueId,@RequestBody RescueRecord rescueRecord) {
+        if(rescueId == null || rescueRecord == null) {
+            return ResultUtil.fail_401(null,"缺少参数");
+        }
+        if(!rescueId.equals(rescueRecord.getRescueId())){
+            return ResultUtil.fail_402(null,"参数不匹配");
+        }
+        boolean result = rescueRecordService.updateRescueRecord(rescueRecord);
+        if(!result){
+            return ResultUtil.fail_500(null,"修改救助记录状态失败");
+        }
+        return ResultUtil.success_200(null,"修改救助记录状态成功");
     }
 }
