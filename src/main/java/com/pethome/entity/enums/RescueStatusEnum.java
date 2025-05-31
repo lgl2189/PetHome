@@ -10,9 +10,9 @@ import java.util.Map;
 // 救助记录状态枚举类
 @Getter
 public enum RescueStatusEnum {
-    WAITING_FOR_RESCUE("wait_rescue"),
+    WAITING_RESCUE("wait_rescue"),
     UNDER_TREATMENT("under_treatment"),
-    WAITING_FOR_ADOPTION("wait_adopted"),
+    WAITING_ADOPTION("wait_adopted"),
     ADOPTED("adopted");
 
     @EnumValue
@@ -40,7 +40,7 @@ public enum RescueStatusEnum {
      * @return 枚举对象
      */
     public static RescueStatusEnum fromValue(String value) {
-        return value == null ? WAITING_FOR_RESCUE : VALUE_MAP.getOrDefault(value, WAITING_FOR_RESCUE);
+        return value == null ? WAITING_RESCUE : VALUE_MAP.getOrDefault(value, WAITING_RESCUE);
     }
 
 
