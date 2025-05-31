@@ -74,13 +74,18 @@ public class RescueController {
 
     @JwtAuthority
     @PutMapping("/record/{id}")
-    public Result updateRescueRecordStatus(@PathVariable("id") Integer rescueId,@RequestBody RescueRecord rescueRecord) {
+    public Result updateRescueRecordStatus(@RequestAttribute Integer userId,@PathVariable("id") Integer rescueId,@RequestBody RescueRecord rescueRecord) {
         if(rescueId == null || rescueRecord == null) {
             return ResultUtil.fail_401(null,"缺少参数");
         }
         if(!rescueId.equals(rescueRecord.getRescueId())){
             return ResultUtil.fail_402(null,"参数不匹配");
         }
+        RescueRecord rescueRecordByRescueId = rescueRecordService.getRescueRecordByRescueId(rescueId);
+        if(!rescueRecordByRescueId.getRescuerId().equals(userId)){
+            return ResultUtil.fail_403(null,"无权限修改");
+        }
+        rescueRecord.setRescuerId(null);
         boolean result = rescueRecordService.updateRescueRecord(rescueRecord);
         if(!result){
             return ResultUtil.fail_500(null,"修改救助记录状态失败");
