@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -30,9 +30,11 @@ public class RescueRecord implements Serializable {
     @TableId(value = "rescue_id", type = IdType.AUTO)
     private Integer rescueId;
 
+    private Integer animalId;
+
     private String rescuePosition;
 
-    private LocalDate rescueDate;
+    private LocalDateTime rescueDate;
 
     private String rescuerPhone;
 
