@@ -31,6 +31,8 @@ public class AdoptionApplication implements Serializable {
 
     private Integer animalId;
 
+    private Integer adoptorId;
+
     private String career;
 
     private String houseCondition;
