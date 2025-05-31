@@ -7,8 +7,10 @@ import com.pethome.dto.receiver.AnimalReceiver;
 import com.pethome.dto.sender.AnimalSender;
 import com.pethome.dto.sender.RescueStationInfo;
 import com.pethome.entity.mybatis.Animal;
+import com.pethome.entity.mybatis.RescueRecord;
 import com.pethome.service.AnimalService;
 import com.pethome.service.FileRecordService;
+import com.pethome.service.RescueRecordService;
 import com.pethome.service.RescueStationService;
 import com.pethome.util.DatabasePageUtil;
 import com.pethome.util.ResultUtil;
@@ -40,20 +42,24 @@ public class AnimalController {
     private final AnimalService animalService;
     private final FileRecordService fileRecordService;
     private final RescueStationService rescueStationService;
+    private final RescueRecordService rescueRecordService;
 
     @Autowired
     public AnimalController(FileUploadConfig fileUploadConfig,
                             AnimalService animalService,
                             FileRecordService fileRecordService,
-                            RescueStationService rescueStationService) {
+                            RescueStationService rescueStationService,
+                            RescueRecordService rescueRecordService) {
         Assert.notNull(fileUploadConfig, "fileUploadConfig must not be null");
         Assert.notNull(animalService, "animalService must not be null");
         Assert.notNull(fileRecordService, "fileRecordService must not be null");
         Assert.notNull(rescueStationService, "rescueStationService must not be null");
+        Assert.notNull(rescueRecordService, "rescueRecordService must not be null");
         this.fileUploadConfig = fileUploadConfig;
         this.animalService = animalService;
         this.fileRecordService = fileRecordService;
         this.rescueStationService = rescueStationService;
+        this.rescueRecordService = rescueRecordService;
     }
 
     // 将参数处理器的 默认为非简单类型 选项设置false，再加@ModelAttribute会导致请求不使用自定义的绑定器，导致参数无法绑定到实体类中
@@ -121,8 +127,10 @@ public class AnimalController {
         Map<String, Object> resMap = new HashMap<>();
         AnimalSender animalSender = getFileUrl(animal);
         RescueStationInfo rescueStationInfo = rescueStationService.getRescueStationById(animal.getRescueStationId());
+        List<RescueRecord> rescueRecordList = rescueRecordService.getRescueRecordByAnimalId(animal.getAnimalId());
         resMap.put("animal_info", animalSender);
         resMap.put("rescue_station_info", rescueStationInfo);
+        resMap.put("rescue_record_list", rescueRecordList);
         return resMap;
     }
 

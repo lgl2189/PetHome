@@ -1,10 +1,13 @@
 package com.pethome.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pethome.entity.mybatis.RescueRecord;
 import com.pethome.mapper.RescueRecordMapper;
 import com.pethome.service.RescueRecordService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,6 +23,13 @@ public class RescueRecordServiceImpl extends ServiceImpl<RescueRecordMapper, Res
     @Override
     public RescueRecord getRescueRecordByRescueId(Integer rescueId){
         return getById(rescueId);
+    }
+
+    @Override
+    public List<RescueRecord> getRescueRecordByAnimalId(Integer animalId) {
+        LambdaQueryWrapper<RescueRecord> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(RescueRecord::getAnimalId, animalId);
+        return list(queryWrapper);
     }
 
     @Override
