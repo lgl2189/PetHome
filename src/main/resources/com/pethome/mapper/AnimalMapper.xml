@@ -26,5 +26,9 @@
         <foreach collection="keyList" item="key" open="(" separator="," close=")">
             #{key}
         </foreach>
+        OR animal.age IN
+        <foreach collection="keyList" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
     </select>
 </mapper>
