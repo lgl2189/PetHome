@@ -7,8 +7,6 @@ import com.pethome.mapper.RescueRecordMapper;
 import com.pethome.service.RescueRecordService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * <p>
  * 存储救助相关内容 服务实现类
@@ -26,10 +24,10 @@ public class RescueRecordServiceImpl extends ServiceImpl<RescueRecordMapper, Res
     }
 
     @Override
-    public List<RescueRecord> getRescueRecordByAnimalId(Integer animalId) {
+    public RescueRecord getRescueRecordByAnimalId(Integer animalId) {
         LambdaQueryWrapper<RescueRecord> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(RescueRecord::getAnimalId, animalId);
-        return list(queryWrapper);
+        return getOne(queryWrapper);
     }
 
     @Override

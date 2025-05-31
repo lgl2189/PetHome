@@ -3,8 +3,6 @@ package com.pethome.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pethome.entity.mybatis.RescueRecord;
 
-import java.util.List;
-
 /**
  * <p>
  * 存储救助相关内容 服务类
@@ -27,7 +25,7 @@ public interface RescueRecordService extends IService<RescueRecord> {
      * @param animalId 待查询的动物id
      * @return 救助记录
      */
-    List<RescueRecord> getRescueRecordByAnimalId(Integer animalId);
+    RescueRecord getRescueRecordByAnimalId(Integer animalId);
 
     /**
      * 添加救助记录

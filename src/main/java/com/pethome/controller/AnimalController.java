@@ -127,10 +127,10 @@ public class AnimalController {
         Map<String, Object> resMap = new HashMap<>();
         AnimalSender animalSender = getFileUrl(animal);
         RescueStationInfo rescueStationInfo = rescueStationService.getRescueStationById(animal.getRescueStationId());
-        List<RescueRecord> rescueRecordList = rescueRecordService.getRescueRecordByAnimalId(animal.getAnimalId());
+        RescueRecord rescueRecord = rescueRecordService.getRescueRecordByAnimalId(animal.getAnimalId());
         resMap.put("animal_info", animalSender);
         resMap.put("rescue_station_info", rescueStationInfo);
-        resMap.put("rescue_record_list", rescueRecordList);
+        resMap.put("rescue_record", rescueRecord);
         return resMap;
     }
 
