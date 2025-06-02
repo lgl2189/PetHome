@@ -1,0 +1,43 @@
+package com.pethome.controller;
+
+import com.pethome.dto.Result;
+import com.pethome.entity.enums.AdoptionApplicationStatusEnum;
+import com.pethome.entity.mybatis.AdoptionApplication;
+import com.pethome.service.AdoptionApplicationService;
+import com.pethome.util.ResultUtil;
+import com.star.jwt.annotation.JwtAuthority;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * <p>
+ * 存储领养信息 前端控制器
+ * </p>
+ *
+ * @author lgl
+ * @since 2025-04-27
+ */
+@RestController
+@RequestMapping("/adoption")
+public class AdoptionController {
+
+    private final AdoptionApplicationService adoptionApplicationService;
+
+    @Autowired
+    public AdoptionController(AdoptionApplicationService adoptionApplicationService) {
+        Assert.notNull(adoptionApplicationService, "adoptionApplicationService must not be null");
+        this.adoptionApplicationService = adoptionApplicationService;
+    }
+
+    @JwtAuthority
+    @PostMapping("/application")
+    public Result addAdoptionApplication(@RequestBody AdoptionApplication adoptionApplication) {
+        adoptionApplication.setApplicationStatus(AdoptionApplicationStatusEnum.PENDING_REVIEW);
+        boolean result = adoptionApplicationService.addAdoptionApplication(adoptionApplication);
+        if (!result) {
+            return ResultUtil.fail_500(null, "申请提交失败，请稍后再试");
+        }
+        return ResultUtil.success_200(null, "申请成功，请等待管理员审核");
+    }
+}

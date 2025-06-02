@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdoptionApplicationServiceImpl extends ServiceImpl<AdoptionApplicationMapper, AdoptionApplication> implements AdoptionApplicationService {
 
+    @Override
+    public boolean addAdoptionApplication(AdoptionApplication adoptionApplication) {
+        return this.save(adoptionApplication);
+    }
 }
