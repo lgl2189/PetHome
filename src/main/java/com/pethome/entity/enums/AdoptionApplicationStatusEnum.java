@@ -12,7 +12,8 @@ import java.util.Map;
 public enum AdoptionApplicationStatusEnum {
     PENDING_REVIEW("pending_review"),
     REVIEWING("reviewing"),
-    APPROVED("approved");
+    APPROVED("approved"),
+    REFUSED("refused");
 
     @EnumValue
     private final String value;
