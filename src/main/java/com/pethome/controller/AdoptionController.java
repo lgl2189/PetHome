@@ -33,6 +33,9 @@ public class AdoptionController {
     @JwtAuthority
     @PostMapping("/application")
     public Result addAdoptionApplication(@RequestBody AdoptionApplication adoptionApplication) {
+        if(adoptionApplication == null){
+            return ResultUtil.fail_401(null, "申请信息不能为空");
+        }
         adoptionApplication.setApplicationStatus(AdoptionApplicationStatusEnum.PENDING_REVIEW);
         boolean result = adoptionApplicationService.addAdoptionApplication(adoptionApplication);
         if (!result) {
