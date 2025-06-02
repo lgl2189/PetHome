@@ -31,6 +31,19 @@ public class AdoptionController {
     }
 
     @JwtAuthority
+    @GetMapping("/application/{id}")
+    public Result getAdoptionApplicationByUsername(@PathVariable("id") Integer id) {
+        if(id == null){
+            return ResultUtil.fail_400(null, "请传入正确的id");
+        }
+        AdoptionApplication adoptionApplication = adoptionApplicationService.getAdoptionApplicationByAdoptionId(id);
+        if(adoptionApplication == null){
+            return ResultUtil.fail_404(null, "未找到该申请信息");
+        }
+        return ResultUtil.success_200(adoptionApplication, "查询成功");
+    }
+
+    @JwtAuthority
     @PostMapping("/application")
     public Result addAdoptionApplication(@RequestBody AdoptionApplication adoptionApplication) {
         if(adoptionApplication == null){

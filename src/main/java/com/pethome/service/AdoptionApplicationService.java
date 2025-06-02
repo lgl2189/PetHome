@@ -12,6 +12,13 @@ import com.pethome.entity.mybatis.AdoptionApplication;
  * @since 2025-04-27
  */
 public interface AdoptionApplicationService extends IService<AdoptionApplication> {
+
+    /**
+     * 根据领养id查询领养申请
+     * @param adoptionId 领养id
+     * @return 领养申请
+     */
+    AdoptionApplication getAdoptionApplicationByAdoptionId(Integer adoptionId);
     /**
      * 添加一条领养申请
      * @param adoptionApplication 领养申请

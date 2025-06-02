@@ -18,6 +18,11 @@ import org.springframework.stereotype.Service;
 public class AdoptionApplicationServiceImpl extends ServiceImpl<AdoptionApplicationMapper, AdoptionApplication> implements AdoptionApplicationService {
 
     @Override
+    public AdoptionApplication getAdoptionApplicationByAdoptionId(Integer adoptionId) {
+        return this.getById(adoptionId);
+    }
+
+    @Override
     public boolean addAdoptionApplication(AdoptionApplication adoptionApplication) {
         return this.save(adoptionApplication);
     }
