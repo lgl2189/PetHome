@@ -47,8 +47,8 @@ public class RescueController {
     }
 
     @JwtAuthority
-    @GetMapping("/station/list/{adminId}")
-    public Result getStationListByAdminId(@PathVariable Integer adminId) {
+    @GetMapping("/station/list")
+    public Result getStationListByAdminId(@RequestParam("adminId") Integer adminId) {
         if (adminId == null) {
             return ResultUtil.fail_401(null, "缺少参数");
         }
