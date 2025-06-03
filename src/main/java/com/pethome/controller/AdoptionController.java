@@ -5,6 +5,7 @@ import com.pethome.entity.enums.AdoptionApplicationStatusEnum;
 import com.pethome.entity.mybatis.AdoptionApplication;
 import com.pethome.entity.mybatis.Animal;
 import com.pethome.service.AdoptionApplicationService;
+import com.pethome.service.AdoptionBlackService;
 import com.pethome.service.AnimalService;
 import com.pethome.util.ResultUtil;
 import com.star.jwt.annotation.JwtAuthority;
@@ -27,17 +28,23 @@ import java.util.Map;
 @RestController
 @RequestMapping("/adoption")
 public class AdoptionController {
-
-    private final AdoptionApplicationService adoptionApplicationService;
     private final AnimalService animalService;
+    private final AdoptionBlackService adoptionBlackService;
+    private final AdoptionApplicationService adoptionApplicationService;
+
+
+
 
     @Autowired
     public AdoptionController(AdoptionApplicationService adoptionApplicationService,
-                              AnimalService animalService) {
-        Assert.notNull(adoptionApplicationService, "adoptionApplicationService must not be null");
+                              AnimalService animalService,
+                              AdoptionBlackService adoptionBlackService) {
         Assert.notNull(animalService, "animalService must not be null");
-        this.adoptionApplicationService = adoptionApplicationService;
+        Assert.notNull(animalService, "adoptionBlackService must not be null");
+        Assert.notNull(adoptionApplicationService, "adoptionApplicationService must not be null");
         this.animalService = animalService;
+        this.adoptionBlackService = adoptionBlackService;
+        this.adoptionApplicationService = adoptionApplicationService;
     }
 
     @JwtAuthority
@@ -81,6 +88,10 @@ public class AdoptionController {
             return ResultUtil.fail_401(null, "申请信息不能为空");
         }
         adoptionApplication.setApplicationStatus(AdoptionApplicationStatusEnum.PENDING_REVIEW);
+        // 判断该用户是否为黑名单用户
+        if (adoptionBlackService.isBlackUser(adoptionApplication.getAdoptorId())) {
+            return ResultUtil.fail_402(null, "您已被列入领养黑名单，禁止申请领养");
+        }
         Animal animal = animalService.getAnimalInfoById(adoptionApplication.getAnimalId());
         if (animal == null) {
             return ResultUtil.fail_404(null, "未找到该动物信息");

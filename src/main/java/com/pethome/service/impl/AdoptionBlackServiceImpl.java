@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdoptionBlackServiceImpl extends ServiceImpl<AdoptionBlackMapper, AdoptionBlack> implements AdoptionBlackService {
 
+    @Override
+    public boolean isBlackUser(Integer userId) {
+        return this.getById(userId) != null;
+    }
 }
