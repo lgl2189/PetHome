@@ -34,4 +34,12 @@ public interface AdoptionApplicationService extends IService<AdoptionApplication
      * @return 是否添加成功
      */
     boolean addAdoptionApplication(AdoptionApplication adoptionApplication);
+
+    /**
+     * 更新领养申请的审核状态
+     * @param applicationId 待更新的领养申请id
+     * @param status 待更新的审核状态
+     * @return 是否更新成功
+     */
+    boolean updateApplicationStatus(Integer applicationId, String status);
 }

@@ -1,7 +1,9 @@
 package com.pethome.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pethome.entity.enums.AdoptionApplicationStatusEnum;
 import com.pethome.entity.mybatis.AdoptionApplication;
 import com.pethome.mapper.AdoptionApplicationMapper;
 import com.pethome.service.AdoptionApplicationService;
@@ -35,5 +37,14 @@ public class AdoptionApplicationServiceImpl extends ServiceImpl<AdoptionApplicat
     @Override
     public boolean addAdoptionApplication(AdoptionApplication adoptionApplication) {
         return this.save(adoptionApplication);
+    }
+
+    @Override
+    public boolean updateApplicationStatus(Integer applicationId, String status) {
+        AdoptionApplicationStatusEnum statusEnum = AdoptionApplicationStatusEnum.fromValue(status);
+        LambdaUpdateWrapper<AdoptionApplication> update = new LambdaUpdateWrapper<>();
+        update.eq(AdoptionApplication::getAdoptionId, applicationId);
+        update.set(AdoptionApplication::getApplicationStatus, statusEnum);
+        return this.update(update);
     }
 }
