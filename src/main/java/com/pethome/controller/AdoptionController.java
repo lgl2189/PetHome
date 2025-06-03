@@ -12,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 存储领养信息 前端控制器
@@ -47,6 +51,27 @@ public class AdoptionController {
             return ResultUtil.fail_404(null, "未找到该申请信息");
         }
         return ResultUtil.success_200(adoptionApplication, "查询成功");
+    }
+
+    @JwtAuthority
+    @GetMapping("/application/all")
+    public Result getAllAdoptionApplication() {
+        List<AdoptionApplication> adoptionApplicationList = adoptionApplicationService.list();
+        Map<String,Object> resMap = new HashMap<>();
+        resMap.put("application_list",adoptionApplicationList);
+        return ResultUtil.success_200(resMap,"查询成功");
+    }
+
+    @JwtAuthority
+    @GetMapping("/application/list/{rescueStationId}")
+    public Result getAdoptionApplicationList(@PathVariable("rescueStationId") Integer rescueStationId) {
+        if(rescueStationId == null){
+            return ResultUtil.fail_400(null, "请传入正确的rescueStationId");
+        }
+        List<AdoptionApplication> adoptionApplicationList = adoptionApplicationService.getApplicationListByStationId(rescueStationId);
+        Map<String,Object> resMap = new HashMap<>();
+        resMap.put("application_list",adoptionApplicationList);
+        return ResultUtil.success_200(resMap, "查询成功");
     }
 
     @JwtAuthority

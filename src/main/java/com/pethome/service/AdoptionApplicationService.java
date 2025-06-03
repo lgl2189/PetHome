@@ -3,6 +3,8 @@ package com.pethome.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pethome.entity.mybatis.AdoptionApplication;
 
+import java.util.List;
+
 /**
  * <p>
  * 存储领养信息 服务类
@@ -19,6 +21,13 @@ public interface AdoptionApplicationService extends IService<AdoptionApplication
      * @return 领养申请
      */
     AdoptionApplication getAdoptionApplicationByAdoptionId(Integer adoptionId);
+
+    /**
+     * 根据救助站id查询领养申请列表
+     * @param stationId 救助站id
+     * @return 领养申请列表
+     */
+    List<AdoptionApplication> getApplicationListByStationId(Integer stationId);
     /**
      * 添加一条领养申请
      * @param adoptionApplication 领养申请
