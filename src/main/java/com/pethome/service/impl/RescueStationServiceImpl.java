@@ -41,6 +41,13 @@ public class RescueStationServiceImpl extends ServiceImpl<RescueStationMapper, R
     }
 
     @Override
+    public List<RescueStation> getStationListByAdminId(Integer adminId) {
+        LambdaQueryWrapper<RescueStation> query = new LambdaQueryWrapper<>();
+        query.eq(RescueStation::getAdminUserId, adminId);
+        return list(query);
+    }
+
+    @Override
     public RescueStationInfo getRescueStationById(Integer rescueStationId) {
         RescueStation rescueStation = getById(rescueStationId);
         User user = userService.getPublicInfoById(rescueStation.getAdminUserId());

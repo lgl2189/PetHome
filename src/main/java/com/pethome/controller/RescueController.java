@@ -47,6 +47,18 @@ public class RescueController {
     }
 
     @JwtAuthority
+    @GetMapping("/station/list/{adminId}")
+    public Result getStationListByAdminId(@PathVariable Integer adminId) {
+        if (adminId == null) {
+            return ResultUtil.fail_401(null, "缺少参数");
+        }
+        List<RescueStation> rescueStationList = rescueStationService.getStationListByAdminId(adminId);
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("station_list", rescueStationList);
+        return ResultUtil.success_200(resMap);
+    }
+
+    @JwtAuthority
     @GetMapping("/record/{id}")
     public Result getRescueRecord(@PathVariable("id") Integer rescueId) {
         if (rescueId == null) {
