@@ -29,5 +29,7 @@ public class AdoptionBlack implements Serializable {
     @TableId("user_id")
     private Integer userId;
 
+    private Integer rescueStationId;
+
     private String extraInfo;
 }
