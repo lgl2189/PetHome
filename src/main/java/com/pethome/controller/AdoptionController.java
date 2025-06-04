@@ -3,6 +3,7 @@ package com.pethome.controller;
 import com.pethome.dto.Result;
 import com.pethome.entity.enums.AdoptionApplicationStatusEnum;
 import com.pethome.entity.mybatis.AdoptionApplication;
+import com.pethome.entity.mybatis.AdoptionBlack;
 import com.pethome.entity.mybatis.Animal;
 import com.pethome.service.AdoptionApplicationService;
 import com.pethome.service.AdoptionBlackService;
@@ -31,9 +32,6 @@ public class AdoptionController {
     private final AnimalService animalService;
     private final AdoptionBlackService adoptionBlackService;
     private final AdoptionApplicationService adoptionApplicationService;
-
-
-
 
     @Autowired
     public AdoptionController(AdoptionApplicationService adoptionApplicationService,
@@ -107,7 +105,7 @@ public class AdoptionController {
     @JwtAuthority
     @PutMapping("/application/{id}/status")
     public Result updateAdoptionApplicationStatus(@PathVariable("id") Integer id,
-                                                  @RequestBody Map<String,String> reqMap) {
+                                                  @RequestBody Map<String, String> reqMap) {
         String statusValue = reqMap.get("application_status");
         if (id == null || statusValue == null) {
             return ResultUtil.fail_401(null, "请传入正确的id和status");
@@ -118,4 +116,43 @@ public class AdoptionController {
         }
         return ResultUtil.success_200(null, "申请状态更新成功");
     }
+
+    @JwtAuthority
+    @GetMapping("/black/list/station/{rescueStationId}")
+    public Result getBlackListByRescueStationId(@PathVariable("rescueStationId") Integer rescueStationId) {
+        if (rescueStationId == null) {
+            return ResultUtil.fail_400(null, "请传入正确的rescueStationId");
+        }
+        List<AdoptionBlack> adoptionBlackList = adoptionBlackService.getBlackListByStationId(rescueStationId);
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("black_list", adoptionBlackList);
+        return ResultUtil.success_200(resMap, "查询成功");
+    }
+
+    @JwtAuthority
+    @PostMapping("/black")
+    public Result addAdoptionBlack(@RequestBody AdoptionBlack adoptionBlack) {
+        if (adoptionBlack == null) {
+            return ResultUtil.fail_401(null, "黑名单信息不能为空");
+        }
+        boolean result = adoptionBlackService.addBlackUser(adoptionBlack);
+        if (!result) {
+            return ResultUtil.fail_500(null, "黑名单添加失败，请稍后再试");
+        }
+        return ResultUtil.success_200(null, "黑名单添加成功");
+    }
+
+    @JwtAuthority
+    @DeleteMapping("/black/{userId}")
+    public Result deleteAdoptionBlack(@PathVariable("userId") Integer userId) {
+        if(userId == null) {
+            return ResultUtil.fail_401(null, "userId不能为空");
+        }
+        boolean result = adoptionBlackService.deleteBlackUser(userId);
+        if (!result) {
+            return ResultUtil.fail_500(null, "黑名单删除失败，请稍后再试");
+        }
+        return ResultUtil.success_200(null,"黑名单删除成功");
+    }
+
 }
