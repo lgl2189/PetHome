@@ -41,10 +41,6 @@ public class VolunteerTask implements Serializable {
 
     private VolunteerTaskStatusEnum taskStatus;
 
-    private Boolean isSignIn;
-
-    private Long taskProveGid;
-
     private LocalTime taskDuration;
 
     private Integer taskPoint;
