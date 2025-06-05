@@ -2,18 +2,12 @@ package com.pethome.controller;
 
 import com.pethome.dto.Result;
 import com.pethome.entity.mybatis.RescueRecord;
-import com.pethome.entity.mybatis.RescueStation;
 import com.pethome.service.RescueRecordService;
-import com.pethome.service.RescueStationService;
 import com.pethome.util.ResultUtil;
 import com.star.jwt.annotation.JwtAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -26,36 +20,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/rescue")
 public class RescueController {
-    private final RescueStationService rescueStationService;
+
     private final RescueRecordService rescueRecordService;
 
     @Autowired
-    public RescueController(RescueStationService rescueStationService, RescueRecordService rescueRecordService) {
-        Assert.notNull(rescueStationService, "rescueStationService must not be null");
+    public RescueController(RescueRecordService rescueRecordService) {
         Assert.notNull(rescueRecordService, "rescueRecordService must not be null");
-        this.rescueStationService = rescueStationService;
         this.rescueRecordService = rescueRecordService;
-    }
-
-    @JwtAuthority(enabled = false)
-    @GetMapping("/station/public/info/list")
-    public Result getRescueStationList() {
-        List<RescueStation> rescueStationList = rescueStationService.getPublicInfoList();
-        Map<String, Object> rescueStationMap = new HashMap<>();
-        rescueStationMap.put("station_info", rescueStationList);
-        return ResultUtil.success_200(rescueStationMap);
-    }
-
-    @JwtAuthority
-    @GetMapping("/station/list")
-    public Result getStationListByAdminId(@RequestParam("adminId") Integer adminId) {
-        if (adminId == null) {
-            return ResultUtil.fail_401(null, "缺少参数");
-        }
-        List<RescueStation> rescueStationList = rescueStationService.getStationListByAdminId(adminId);
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("station_list", rescueStationList);
-        return ResultUtil.success_200(resMap);
     }
 
     @JwtAuthority
@@ -68,7 +39,7 @@ public class RescueController {
         if (rescueRecord == null) {
             return ResultUtil.fail_404(null, "救助信息不存在");
         }
-        return ResultUtil.success_200(rescueRecord,"救助信息获取成功");
+        return ResultUtil.success_200(rescueRecord, "救助信息获取成功");
     }
 
     @JwtAuthority
@@ -86,22 +57,22 @@ public class RescueController {
 
     @JwtAuthority
     @PutMapping("/record/{id}")
-    public Result updateRescueRecordStatus(@RequestAttribute Integer userId,@PathVariable("id") Integer rescueId,@RequestBody RescueRecord rescueRecord) {
-        if(rescueId == null || rescueRecord == null) {
-            return ResultUtil.fail_401(null,"缺少参数");
+    public Result updateRescueRecordStatus(@RequestAttribute Integer userId, @PathVariable("id") Integer rescueId, @RequestBody RescueRecord rescueRecord) {
+        if (rescueId == null || rescueRecord == null) {
+            return ResultUtil.fail_401(null, "缺少参数");
         }
-        if(!rescueId.equals(rescueRecord.getRescueId())){
-            return ResultUtil.fail_402(null,"参数不匹配");
+        if (!rescueId.equals(rescueRecord.getRescueId())) {
+            return ResultUtil.fail_402(null, "参数不匹配");
         }
         RescueRecord rescueRecordByRescueId = rescueRecordService.getRescueRecordByRescueId(rescueId);
-        if(!rescueRecordByRescueId.getRescuerId().equals(userId)){
-            return ResultUtil.fail_403(null,"无权限修改");
+        if (!rescueRecordByRescueId.getRescuerId().equals(userId)) {
+            return ResultUtil.fail_403(null, "无权限修改");
         }
         rescueRecord.setRescuerId(null);
         boolean result = rescueRecordService.updateRescueRecord(rescueRecord);
-        if(!result){
-            return ResultUtil.fail_500(null,"修改救助记录状态失败");
+        if (!result) {
+            return ResultUtil.fail_500(null, "修改救助记录状态失败");
         }
-        return ResultUtil.success_200(null,"修改救助记录状态成功");
+        return ResultUtil.success_200(null, "修改救助记录状态成功");
     }
 }
