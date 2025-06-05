@@ -30,6 +30,10 @@ spring:
       location: D:\Project\tmp\PetHome\upload\tmp
   mvc:
     static-path-pattern: /static/**
+    format:
+      date-time: yyyy-MM-dd'T'HH:mm:ss  # 配置LocalDateTime格式
+      time: HH:mm:ss                    # 配置LocalTime格式
+      date: yyyy-MM-dd                  # 配置LocalDate格式
 # 数据库相关配置
 mybatis-plus:
   configuration:
