@@ -2,6 +2,7 @@ package com.pethome.config.web;
 
 import com.pethome.constant.Constant;
 import com.pethome.filter.CustomJwtFilter;
+import com.pethome.filter.ParamNameSnakeToCamelFilter;
 import com.pethome.handler.security.UserLoginFailureHandler;
 import com.pethome.handler.security.UserLoginSuccessHandler;
 import com.pethome.handler.security.UserLogoutSuccessHandler;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.util.Assert;
 import org.springframework.web.cors.CorsConfiguration;
@@ -92,6 +94,7 @@ public class SecurityConfig {
                     cors.configurationSource(corsConfigurationSource());
                 })
                 .addFilterBefore(characterEncodingFilter, CsrfFilter.class)
+                .addFilterBefore(new ParamNameSnakeToCamelFilter(), WebAsyncManagerIntegrationFilter.class)
                 .addFilterBefore(customJwtFilter, LogoutFilter.class)
                 .build();
     }
