@@ -2,6 +2,7 @@ package com.pethome.entity.mybatis;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.pethome.entity.enums.VolunteerTaskRecordStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 存储志愿者任务记录
+ * 存储一个志愿者的一个任务的记录
  * </p>
  *
  * @author lgl
@@ -35,4 +36,6 @@ public class VolunteerTaskRecord implements Serializable {
     private Boolean isSignIn;
 
     private Long taskProveGid;
+
+    private VolunteerTaskRecordStatusEnum taskRecordStatus;
 }
