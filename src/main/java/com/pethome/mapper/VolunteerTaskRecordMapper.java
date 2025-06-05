@@ -2,6 +2,7 @@ package com.pethome.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pethome.entity.mybatis.VolunteerTaskRecord;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.pethome.entity.mybatis.VolunteerTaskRecord;
  * @author lgl
  * @since 2025-06-04
  */
+@Mapper
 public interface VolunteerTaskRecordMapper extends BaseMapper<VolunteerTaskRecord> {
 
 }
