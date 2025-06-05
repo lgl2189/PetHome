@@ -15,7 +15,8 @@ import java.util.Map;
 
 @Getter
 public enum VolunteerTaskRecordStatusEnum {
-    UNFINISHED("unfinished"),
+    UNSTART("unstart"),
+    STARTED("started"),
     FINISH_REVIEWING("finish_reviewing"),
     COMPLETED("completed"),
     FAILED("failed");
@@ -46,6 +47,6 @@ public enum VolunteerTaskRecordStatusEnum {
      * @return 枚举对象
      */
     public static VolunteerTaskRecordStatusEnum fromValue(String value) {
-        return value == null ? UNFINISHED : VALUE_MAP.getOrDefault(value, UNFINISHED);
+        return value == null ? UNSTART : VALUE_MAP.getOrDefault(value, UNSTART);
     }
 }

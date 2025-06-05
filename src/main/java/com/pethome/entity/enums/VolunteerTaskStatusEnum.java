@@ -16,6 +16,7 @@ import java.util.Map;
 public enum VolunteerTaskStatusEnum {
     AVAILABLE("available"),
     ASSIGNED("assigned"),
+    STARTED("started"),
     FINISH_REVIEWING("finish_reviewing"),
     COMPLETED("completed");
 
