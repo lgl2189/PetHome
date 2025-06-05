@@ -7,7 +7,11 @@ import lombok.Getter;
 import java.util.HashMap;
 import java.util.Map;
 
-// 志愿者任务状态枚举类
+/**
+ * @author ：Star
+ * @description ：该类用于定义志愿者任务本身的状态枚举类
+ * @date ：2025 6月 05 10:17
+ */
 @Getter
 public enum VolunteerTaskStatusEnum {
     AVAILABLE("available"),

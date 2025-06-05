@@ -14,7 +14,7 @@ import java.time.LocalTime;
 
 /**
  * <p>
- * 存储志愿者任务
+ * 存储志愿者任务本身的信息
  * </p>
  *
  * @author lgl
