@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
@@ -33,7 +33,7 @@ public class VolunteerTask implements Serializable {
 
     private Integer rescueStationId;
 
-    private LocalDate taskDate;
+    private LocalDateTime taskDatetime;
 
     private String taskPosition;
 
