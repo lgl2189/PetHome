@@ -12,5 +12,10 @@ import com.pethome.entity.mybatis.VolunteerTask;
  * @since 2025-04-27
  */
 public interface VolunteerTaskService extends IService<VolunteerTask> {
-
+    /**
+     * 添加志愿者任务
+     * @param volunteerTask 志愿者任务
+     * @return 成功返回true，失败返回false
+     */
+    boolean addVolunteerTask(VolunteerTask volunteerTask);
 }
