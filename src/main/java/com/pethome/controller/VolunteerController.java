@@ -1,17 +1,20 @@
 package com.pethome.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.pethome.dto.Result;
 import com.pethome.entity.mybatis.VolunteerTask;
 import com.pethome.service.VolunteerService;
 import com.pethome.service.VolunteerTaskRecordService;
 import com.pethome.service.VolunteerTaskService;
+import com.pethome.util.DatabasePageUtil;
 import com.pethome.util.ResultUtil;
 import com.star.jwt.annotation.JwtAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -42,8 +45,21 @@ public class VolunteerController {
     }
 
     @JwtAuthority
+    @GetMapping("/task/station/{rescueStationId}")
+    public Result getTaskByRescueStationId(@PathVariable("rescueStationId") Integer rescueStationId,int pageNum, int pageSize) {
+        if(rescueStationId == null) {
+            return ResultUtil.fail_401(null,"任务数据参数为空");
+        }
+        PageInfo<VolunteerTask> volunteerPageInfo = volunteerTaskService.getVolunteerListByStationId(rescueStationId,pageNum,pageSize);
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("task_list", volunteerPageInfo.getList());
+        resMap.put("page_info", DatabasePageUtil.getPageInfo(volunteerPageInfo));
+        return ResultUtil.success_200(resMap,"任务数据获取成功");
+    }
+
+    @JwtAuthority
     @PostMapping("/task")
-    public Result addTask(VolunteerTask volunteerTask) {
+    public Result addTask(@RequestBody VolunteerTask volunteerTask) {
         if(volunteerTask == null){
             return ResultUtil.fail_401(null,"任务数据参数为空");
         }
