@@ -40,4 +40,13 @@ public class VolunteerTaskRecord implements Serializable {
     private Long taskProveGid;
 
     private VolunteerTaskRecordStatusEnum taskRecordStatus;
+
+    public VolunteerTaskRecord(VolunteerTask volunteerTask, Integer userId) {
+        taskId = volunteerTask.getTaskId();
+        this.userId = userId;
+        rescueStationId = volunteerTask.getRescueStationId();
+        isSignIn = false;
+        taskProveGid = null;
+        taskRecordStatus = VolunteerTaskRecordStatusEnum.UNSTART;
+    }
 }

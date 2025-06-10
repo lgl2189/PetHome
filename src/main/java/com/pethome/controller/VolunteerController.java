@@ -1,5 +1,6 @@
 package com.pethome.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.pethome.config.FileUploadConfig;
 import com.pethome.dto.Result;
@@ -7,7 +8,6 @@ import com.pethome.dto.sender.VolunteerTaskRecordSender;
 import com.pethome.entity.mybatis.VolunteerTask;
 import com.pethome.entity.mybatis.VolunteerTaskRecord;
 import com.pethome.service.FileRecordService;
-import com.pethome.service.VolunteerService;
 import com.pethome.service.VolunteerTaskRecordService;
 import com.pethome.service.VolunteerTaskService;
 import com.pethome.util.DatabasePageUtil;
@@ -34,24 +34,21 @@ import java.util.Map;
 @RequestMapping("/volunteer")
 public class VolunteerController {
 
-    private final VolunteerService volunteerService;
     private final VolunteerTaskService volunteerTaskService;
     private final VolunteerTaskRecordService volunteerTaskRecordService;
     private final FileUploadConfig fileUploadConfig;
     private final FileRecordService fileRecordService;
 
     @Autowired
-    public VolunteerController(VolunteerService volunteerService,
-                               VolunteerTaskService volunteerTaskService,
-                               VolunteerTaskRecordService volunteerTaskRecordService,
-                               FileUploadConfig fileUploadConfig,
-                               FileRecordService fileRecordService) {
-        Assert.notNull(volunteerService, "volunteerService must not be null");
+    public VolunteerController(
+            VolunteerTaskService volunteerTaskService,
+            VolunteerTaskRecordService volunteerTaskRecordService,
+            FileUploadConfig fileUploadConfig,
+            FileRecordService fileRecordService) {
         Assert.notNull(volunteerTaskService, "volunteerTaskService must not be null");
         Assert.notNull(volunteerTaskRecordService, "volunteerTaskRecordService must not be null");
         Assert.notNull(fileUploadConfig, "fileRecordService must not be null");
         Assert.notNull(fileRecordService, "fileRecordService must not be null");
-        this.volunteerService = volunteerService;
         this.volunteerTaskService = volunteerTaskService;
         this.volunteerTaskRecordService = volunteerTaskRecordService;
         this.fileUploadConfig = fileUploadConfig;
@@ -99,6 +96,32 @@ public class VolunteerController {
     }
 
     @JwtAuthority
+    @GetMapping("/task/all")
+    public Result getTaskRecordAll(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+        if (pageNum == null || pageSize == null) {
+            return ResultUtil.fail_401(null, "任务记录数据参数为空");
+        }
+        PageInfo<VolunteerTask> taskList = volunteerTaskService.getVolunteerTaskRecordListAll(pageNum, pageSize);
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("task_list", taskList.getList());
+        resMap.put("page_info", DatabasePageUtil.getPageInfo(taskList));
+        return ResultUtil.success_200(resMap, "任务记录数据获取成功");
+    }
+
+    @JwtAuthority
+    @GetMapping("/task/search")
+    public Result getTaskRecordByKeyword(@RequestParam("keyword") String keyword, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+        if (keyword == null || pageNum == null || pageSize == null) {
+            return ResultUtil.fail_401(null, "任务记录数据参数为空");
+        }
+        PageInfo<VolunteerTask> taskList = volunteerTaskService.getVolunteerTaskRecordListByKeyword(keyword, pageNum, pageSize);
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("task_list", taskList.getList());
+        resMap.put("page_info", DatabasePageUtil.getPageInfo(taskList));
+        return ResultUtil.success_200(resMap, "任务记录数据获取成功");
+    }
+
+    @JwtAuthority
     @GetMapping("/task/record/station/{rescueStationId}")
     public Result getTaskRecordByRescueStationId(@PathVariable("rescueStationId") Integer rescueStationId, int pageNum, int pageSize) {
         if (rescueStationId == null) {
@@ -109,10 +132,10 @@ public class VolunteerController {
         for (VolunteerTaskRecord volunteerTaskRecord : volunteerTaskRecordPageInfo.getList()) {
             VolunteerTaskRecordSender volunteerTaskRecordSender = new VolunteerTaskRecordSender();
             volunteerTaskRecordSender.setVolunteerTaskRecord(volunteerTaskRecord);
-            volunteerTaskRecordSender.setTaskProveList(fileRecordService.getFileRecordByFileGroupId(volunteerTaskRecord.getTaskProveGid()));
-            volunteerTaskRecordSender.getTaskProveList().forEach(fileRecord -> {
-                fileRecord.setFileUrl(fileUploadConfig.getServerResourceBaseUrl() + fileRecord.getFileUrl());
-            });
+            if(volunteerTaskRecord.getTaskProveGid() != null){
+                volunteerTaskRecordSender.setTaskProveList(fileRecordService.getFileRecordByFileGroupId(volunteerTaskRecord.getTaskProveGid()));
+                volunteerTaskRecordSender.getTaskProveList().forEach(fileRecord -> fileRecord.setFileUrl(fileUploadConfig.getServerResourceBaseUrl() + fileRecord.getFileUrl()));
+            }
             volunteerTaskRecordSenderList.add(volunteerTaskRecordSender);
         }
         Map<String, Object> resMap = new HashMap<>();
@@ -122,8 +145,30 @@ public class VolunteerController {
     }
 
     @JwtAuthority
+    @PostMapping("/task/record/{taskId}")
+    public Result addTaskRecord(@PathVariable("taskId") Integer taskId,@RequestParam("userId") Integer userId) {
+        VolunteerTask taskInfo = volunteerTaskService.getById(taskId);
+        if (taskInfo == null) {
+            return ResultUtil.fail_401(null, "任务数据不存在");
+        }
+        VolunteerTaskRecord volunteerTaskRecord = new VolunteerTaskRecord(volunteerTaskService.getById(taskId),userId);
+        LambdaQueryWrapper<VolunteerTaskRecord> query = new LambdaQueryWrapper<>();
+        query.eq(VolunteerTaskRecord::getTaskId, taskId);
+        query.eq(VolunteerTaskRecord::getUserId, userId);
+        VolunteerTaskRecord existRecord = volunteerTaskRecordService.getOne(query);
+        if (existRecord != null) {
+            return ResultUtil.fail_402(null, "任务记录数据已存在");
+        }
+        boolean result = volunteerTaskRecordService.save(volunteerTaskRecord);
+        if (!result) {
+            return ResultUtil.fail_500(null, "任务记录数据保存失败");
+        }
+        return ResultUtil.success_200(null, "任务记录数据保存成功");
+    }
+
+    @JwtAuthority
     @PutMapping("/task/record/{recordId}")
-    public Result updateTaskRecord(@PathVariable("recordId") Integer recordId,@RequestBody VolunteerTaskRecord volunteerTaskRecord) {
+    public Result updateTaskRecord(@PathVariable("recordId") Integer recordId, @RequestBody VolunteerTaskRecord volunteerTaskRecord) {
         if (recordId == null || volunteerTaskRecord == null) {
             return ResultUtil.fail_401(null, "任务记录数据参数为空");
         }

@@ -25,12 +25,26 @@ import java.util.List;
 public class VolunteerTaskServiceImpl extends ServiceImpl<VolunteerTaskMapper, VolunteerTask> implements VolunteerTaskService {
 
     @Override
-    public PageInfo<VolunteerTask> getVolunteerListByStationId(Integer id,int pageNum,int pageSize) {
-        List<VolunteerTask> taskList = null;
+    public PageInfo<VolunteerTask> getVolunteerTaskRecordListAll(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return new PageInfo<>(this.list());
+    }
+
+    @Override
+    public PageInfo<VolunteerTask> getVolunteerTaskRecordListByKeyword(String keyword, Integer pageNum, Integer pageSize) {
+        LambdaQueryWrapper<VolunteerTask> query = new LambdaQueryWrapper<>();
+        query.like(VolunteerTask::getTaskPosition, "%" + keyword + "%");
+        PageHelper.startPage(pageNum, pageSize);
+        return new PageInfo<>(this.list(query));
+    }
+
+    @Override
+    public PageInfo<VolunteerTask> getVolunteerListByStationId(Integer id, int pageNum, int pageSize) {
+        List<VolunteerTask> taskList;
         try {
-            PageHelper.startPage(pageNum,pageSize);
+            PageHelper.startPage(pageNum, pageSize);
             LambdaQueryWrapper<VolunteerTask> query = new LambdaQueryWrapper<>();
-            query.eq(VolunteerTask::getRescueStationId,id);
+            query.eq(VolunteerTask::getRescueStationId, id);
             taskList = this.list(query);
         }
         finally {

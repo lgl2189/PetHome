@@ -14,6 +14,23 @@ import com.pethome.entity.mybatis.VolunteerTask;
  */
 public interface VolunteerTaskService extends IService<VolunteerTask> {
     /**
+     * 获取所有志愿者任务列表
+     * @param pageNum 当前页码
+     * @param pageSize 页大小
+     * @return 志愿者任务列表
+     */
+    PageInfo<VolunteerTask> getVolunteerTaskRecordListAll(Integer pageNum, Integer pageSize);
+
+    /**
+     * 根据关键字，获取所有志愿者任务列表
+     *
+     * @param keyword  关键字
+     * @param pageNum  当前页码
+     * @param pageSize 页大小
+     * @return 志愿者任务列表
+     */
+    PageInfo<VolunteerTask> getVolunteerTaskRecordListByKeyword(String keyword,Integer pageNum, Integer pageSize);
+    /**
      * 根据站点id获取志愿者任务列表
      *
      * @param id 站点id
