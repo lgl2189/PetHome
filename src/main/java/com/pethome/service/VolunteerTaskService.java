@@ -26,4 +26,11 @@ public interface VolunteerTaskService extends IService<VolunteerTask> {
      * @return 成功返回true，失败返回false
      */
     boolean addVolunteerTask(VolunteerTask volunteerTask);
+
+    /**
+     * 更新志愿者任务
+     * @param volunteerTask 新的志愿者任务对象
+     * @return 成功返回true，失败返回false
+     */
+    boolean updateVolunteerTask(VolunteerTask volunteerTask);
 }

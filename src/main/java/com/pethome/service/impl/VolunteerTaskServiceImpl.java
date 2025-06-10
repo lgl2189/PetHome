@@ -47,4 +47,9 @@ public class VolunteerTaskServiceImpl extends ServiceImpl<VolunteerTaskMapper, V
         volunteerTask.setTaskPoint(point);
         return this.save(volunteerTask);
     }
+
+    @Override
+    public boolean updateVolunteerTask(VolunteerTask volunteerTask) {
+        return this.updateById(volunteerTask);
+    }
 }
