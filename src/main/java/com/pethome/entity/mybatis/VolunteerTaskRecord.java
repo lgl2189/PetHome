@@ -33,6 +33,8 @@ public class VolunteerTaskRecord implements Serializable {
 
     private Integer userId;
 
+    private Integer rescueStationId;
+
     private Boolean isSignIn;
 
     private Long taskProveGid;
