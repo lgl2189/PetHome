@@ -62,8 +62,6 @@ public class AnimalController {
         this.rescueRecordService = rescueRecordService;
     }
 
-    // 将参数处理器的 默认为非简单类型 选项设置false，再加@ModelAttribute会导致请求不使用自定义的绑定器，导致参数无法绑定到实体类中
-    // 原因未知
     @JwtAuthority
     @PostMapping("/upload/info")
     public Result uploadInfo(AnimalReceiver animalReceiver) throws IOException {
