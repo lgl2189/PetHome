@@ -1,5 +1,6 @@
 package com.pethome.filter;
 
+import com.pethome.util.StringUtil;
 import org.springframework.lang.NonNull;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -8,10 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -25,12 +25,22 @@ public class ParamNameSnakeToCamelFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         final Map<String, String[]> parameters = new ConcurrentHashMap<>();
+        final Map<String, Part> partMap = new ConcurrentHashMap<>();
 
+        // 处理普通参数
         for (String param : request.getParameterMap().keySet()) {
-            String camelCaseParam = snakeToCamel(param);
-
+            String camelCaseParam = StringUtil.snakeToCamel(param);
             parameters.put(camelCaseParam, request.getParameterValues(param));
             parameters.put(param, request.getParameterValues(param));
+        }
+        // 处理文件上传参数
+        for (Part part : request.getParts()) {
+            String originalName = part.getName();
+            String camelCaseName = StringUtil.snakeToCamel(originalName);
+            // 将ApplicationPart对象转换为EnhancedApplicationPart对象，并将其放入partMap中
+            EnhancedCamelPart enhancedCamelPart = new EnhancedCamelPart(part);
+            partMap.put(camelCaseName, enhancedCamelPart);
+            partMap.put(originalName, enhancedCamelPart);
         }
 
         filterChain.doFilter(new HttpServletRequestWrapper(request) {
@@ -53,31 +63,16 @@ public class ParamNameSnakeToCamelFilter extends OncePerRequestFilter {
             public Map<String, String[]> getParameterMap() {
                 return parameters;
             }
+
+            @Override
+            public Part getPart(String name) {
+                return partMap.get(name);
+            }
+
+            @Override
+            public Collection<Part> getParts() {
+                return partMap.values();
+            }
         }, response);
-    }
-
-    // found at https://www.geeksforgeeks.org/convert-snake-case-string-to-camel-case-in-java/#:~:text=replaceFirst()%20method%20to%20convert,next%20letter%20of%20the%20underscore.
-// Function to convert the string
-// from snake case to camel case
-    public static String snakeToCamel(String str) {
-        // Run a loop till string
-        // string contains underscore
-        while (str.contains("_")) {
-
-            // Replace the first occurrence
-            // of letter that present after
-            // the underscore, to capitalize
-            // form of next letter of underscore
-            str = str
-                    .replaceFirst(
-                            "_[a-z]",
-                            String.valueOf(
-                                    Character.toUpperCase(
-                                            str.charAt(
-                                                    str.indexOf("_") + 1))));
-        }
-
-        // Return string
-        return str;
     }
 }

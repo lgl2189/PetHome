@@ -1,5 +1,7 @@
 package com.pethome.util;
 
+import java.util.regex.Pattern;
+
 /**
  * @author ：Star
  * @description ：无描述
@@ -29,16 +31,15 @@ public class StringUtil {
      * @param source 蛇形命名法的字符串
      * @return 驼峰命名法的字符串
      */
-    public static String convertSnakeToCamel(String source) {
-        // 使用正则表达式分割字符串并转换为驼峰
-        String[] parts = source.split("_");
-        StringBuilder result = new StringBuilder(parts[0]);
-        for (int i = 1; i < parts.length; i++) {
-            if (!parts[i].isEmpty()) {
-                result.append(Character.toUpperCase(parts[i].charAt(0)))
-                        .append(parts[i].substring(1));
-            }
+    public static String snakeToCamel(String source) {
+        if (source == null || source.isEmpty()) {
+            return source;
         }
-        return result.toString();
+        // 使用正则表达式匹配单个下划线后跟字母的情况，排除多个下划线的情况
+        return Pattern.compile("(?<![_])_([a-zA-z])")
+                .matcher(source)
+                .replaceAll(match -> match.group(1).toUpperCase());
     }
+
+
 }
