@@ -3,6 +3,7 @@ package com.pethome.filter;
 import com.pethome.util.StringUtil;
 import org.springframework.lang.NonNull;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.multipart.support.MultipartResolutionDelegate;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -33,14 +34,17 @@ public class ParamNameSnakeToCamelFilter extends OncePerRequestFilter {
             parameters.put(camelCaseParam, request.getParameterValues(param));
             parameters.put(param, request.getParameterValues(param));
         }
-        // 处理文件上传参数
-        for (Part part : request.getParts()) {
-            String originalName = part.getName();
-            String camelCaseName = StringUtil.snakeToCamel(originalName);
-            // 将ApplicationPart对象转换为EnhancedApplicationPart对象，并将其放入partMap中
-            EnhancedCamelPart enhancedCamelPart = new EnhancedCamelPart(part);
-            partMap.put(camelCaseName, enhancedCamelPart);
-            partMap.put(originalName, enhancedCamelPart);
+        // 如果是MultiPart请求，则进行Part参数转换，否则会导致错误
+        if (MultipartResolutionDelegate.isMultipartRequest(request)) {
+            // 处理文件参数
+            for (Part part : request.getParts()) {
+                String originalName = part.getName();
+                String camelCaseName = StringUtil.snakeToCamel(originalName);
+                // 将ApplicationPart对象转换为EnhancedApplicationPart对象，并将其放入partMap中
+                EnhancedCamelPart enhancedCamelPart = new EnhancedCamelPart(part);
+                partMap.put(camelCaseName, enhancedCamelPart);
+                partMap.put(originalName, enhancedCamelPart);
+            }
         }
 
         filterChain.doFilter(new HttpServletRequestWrapper(request) {
