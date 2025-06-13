@@ -26,7 +26,7 @@ public class ParamNameSnakeToCamelFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         final Map<String, String[]> parameters = new ConcurrentHashMap<>();
-        final Map<String, Part> partMap = new ConcurrentHashMap<>();
+        final ArrayList<Part> partList = new ArrayList<>();
 
         // 处理普通参数
         for (String param : request.getParameterMap().keySet()) {
@@ -42,8 +42,8 @@ public class ParamNameSnakeToCamelFilter extends OncePerRequestFilter {
                 String camelCaseName = StringUtil.snakeToCamel(originalName);
                 // 将ApplicationPart对象转换为EnhancedApplicationPart对象，并将其放入partMap中
                 EnhancedCamelPart enhancedCamelPart = new EnhancedCamelPart(part);
-                partMap.put(camelCaseName, enhancedCamelPart);
-                partMap.put(originalName, enhancedCamelPart);
+                partList.add(part);
+                partList.add(enhancedCamelPart);
             }
         }
 
@@ -70,12 +70,17 @@ public class ParamNameSnakeToCamelFilter extends OncePerRequestFilter {
 
             @Override
             public Part getPart(String name) {
-                return partMap.get(name);
+                for (Part part : partList) {
+                    if (name.equals(part.getName())) {
+                        return part;
+                    }
+                }
+                return null;
             }
 
             @Override
             public Collection<Part> getParts() {
-                return partMap.values();
+                return partList;
             }
         }, response);
     }
