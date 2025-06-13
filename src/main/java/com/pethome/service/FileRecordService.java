@@ -17,7 +17,7 @@ public interface FileRecordService extends IService<FileRecord> {
      * 插入文件组记录
      *
      * @param fileArray 上传的文件数组
-     * @return 返回一个ResultWrapper对象，保存成功时，result中为文件组id，失败时，result为null，extraInfo中为出错的文件
+     * @return 返回一个ResultWrapper对象，保存成功时，result中为文件组id，失败时，result为null，extraInfo中为出错的文件。result 文件组id，类型为Long
      * @throws IOException               IO异常
      * @throws DataBaseOperatorException 数据库操作异常
      */
