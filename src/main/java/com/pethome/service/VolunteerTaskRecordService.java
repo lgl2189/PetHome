@@ -24,6 +24,15 @@ public interface VolunteerTaskRecordService extends IService<VolunteerTaskRecord
     PageInfo<VolunteerTaskRecord> getVolunteerTaskRecordByStationId(Integer stationId, Integer pageNum, Integer pageSize);
 
     /**
+     * 根据用户id获取志愿者任务记录
+     * @param userId 用户id
+     * @param pageNum 当前页码
+     * @param pageSize 一页包含记录的数量
+     * @return 该用户的志愿者任务记录列表
+     */
+    PageInfo<VolunteerTaskRecord> getVolunteerTaskRecordByUserId(Integer userId, Integer pageNum, Integer pageSize);
+
+    /**
      * 根据志愿者id更新志愿者任务记录
      * @param volunteerTaskRecord 志愿者任务记录
      * @return 是否更新成功

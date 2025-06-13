@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.pethome.config.FileUploadConfig;
 import com.pethome.dto.Result;
+import com.pethome.dto.receiver.VolunteerTaskRecordProofReceiver;
 import com.pethome.dto.sender.VolunteerTaskRecordSender;
+import com.pethome.entity.enums.VolunteerTaskRecordStatusEnum;
 import com.pethome.entity.mybatis.VolunteerTask;
 import com.pethome.entity.mybatis.VolunteerTaskRecord;
 import com.pethome.service.FileRecordService;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -145,6 +148,19 @@ public class VolunteerController {
     }
 
     @JwtAuthority
+    @GetMapping("/task/record/user/{userId}")
+    public Result getTaskRecordByUserId(@PathVariable("userId") Integer userId, int pageNum, int pageSize) {
+        if (userId == null) {
+            return ResultUtil.fail_401(null, "任务记录数据参数为空");
+        }
+        PageInfo<VolunteerTaskRecord> recordPageInfo = volunteerTaskRecordService.getVolunteerTaskRecordByUserId(userId, pageNum, pageSize);
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("record_list", recordPageInfo.getList());
+        resMap.put("page_info", DatabasePageUtil.getPageInfo(recordPageInfo));
+        return ResultUtil.success_200(resMap, "任务记录数据获取成功");
+    }
+
+    @JwtAuthority
     @PostMapping("/task/record/{taskId}")
     public Result addTaskRecord(@PathVariable("taskId") Integer taskId,@RequestParam("userId") Integer userId) {
         VolunteerTask taskInfo = volunteerTaskService.getById(taskId);
@@ -178,5 +194,23 @@ public class VolunteerController {
             return ResultUtil.fail_500(null, "任务记录数据更新失败");
         }
         return ResultUtil.success_200(null, "任务记录数据更新成功");
+    }
+
+    @JwtAuthority
+    @PostMapping("/task/record/{recordId}/proof")
+    public Result addTaskRecordProve(@PathVariable("recordId")String recordId, VolunteerTaskRecordProofReceiver recordReceiver) throws IOException {
+        if (recordReceiver.getImageArray() == null || recordReceiver.getImageArray().length == 0) {
+            return ResultUtil.fail_401(null, "任务证据为空，请上传文件");
+        }
+        if(recordId == null ){
+            return ResultUtil.fail_401(null, "任务记录数据参数为空");
+        }
+        Long fileGroupId = (Long) fileRecordService.saveFileRecordGroup(recordReceiver.getImageArray()).getResult();
+        VolunteerTaskRecord volunteerTaskRecord = new VolunteerTaskRecord();
+        volunteerTaskRecord.setRecordId(Integer.parseInt(recordId));
+        volunteerTaskRecord.setTaskProveGid(fileGroupId);
+        volunteerTaskRecord.setTaskRecordStatus(VolunteerTaskRecordStatusEnum.FINISH_REVIEWING);
+        volunteerTaskRecordService.updateById(volunteerTaskRecord);
+        return ResultUtil.success_200(null,"任务证据上传成功");
     }
 }

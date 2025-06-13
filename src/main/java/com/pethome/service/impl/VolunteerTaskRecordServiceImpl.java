@@ -9,7 +9,6 @@ import com.pethome.mapper.VolunteerTaskRecordMapper;
 import com.pethome.service.VolunteerTaskRecordService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +35,14 @@ public class VolunteerTaskRecordServiceImpl extends ServiceImpl<VolunteerTaskRec
             PageHelper.clearPage();
         }
         return new PageInfo<>(recordList);
+    }
+
+    @Override
+    public PageInfo<VolunteerTaskRecord> getVolunteerTaskRecordByUserId(Integer userId, Integer pageNum, Integer pageSize) {
+        LambdaQueryWrapper<VolunteerTaskRecord> query = new LambdaQueryWrapper<>();
+        query.eq(VolunteerTaskRecord::getUserId, userId);
+        PageHelper.startPage(pageNum, pageSize);
+        return new PageInfo<>(this.list(query));
     }
 
     @Override
