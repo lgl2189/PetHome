@@ -1,6 +1,8 @@
 package com.pethome.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.pethome.entity.mybatis.SupplyDemandRecord;
 import com.pethome.mapper.SupplyDemandRecordMapper;
 import com.pethome.service.SupplyDemandRecordService;
@@ -17,4 +19,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SupplyDemandRecordServiceImpl extends ServiceImpl<SupplyDemandRecordMapper, SupplyDemandRecord> implements SupplyDemandRecordService {
 
+    @Override
+    public PageInfo<SupplyDemandRecord> getAllSupplyDemandRecord(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return new PageInfo<>(this.list());
+    }
 }

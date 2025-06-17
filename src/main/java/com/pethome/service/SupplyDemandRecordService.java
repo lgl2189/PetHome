@@ -1,6 +1,7 @@
 package com.pethome.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.pethome.entity.mybatis.SupplyDemandRecord;
 
 /**
@@ -12,5 +13,12 @@ import com.pethome.entity.mybatis.SupplyDemandRecord;
  * @since 2025-04-27
  */
 public interface SupplyDemandRecordService extends IService<SupplyDemandRecord> {
-
+    /**
+     * 获取所有需求记录
+     *
+     * @param pageNum  当前页码
+     * @param pageSize 每页记录条数
+     * @return 需求记录列表
+     */
+    PageInfo<SupplyDemandRecord> getAllSupplyDemandRecord(Integer pageNum, Integer pageSize);
 }
