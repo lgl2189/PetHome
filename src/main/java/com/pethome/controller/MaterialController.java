@@ -58,7 +58,7 @@ public class MaterialController {
     public Result getInventoryListByStation(@PathVariable Integer stationId,
                                             @RequestParam Integer pageNum,
                                             @RequestParam Integer pageSize) {
-        if (stationId == null) return ResultUtil.fail_401("缺少stationId参数");
+        if (stationId == null) return ResultUtil.fail_401(null,"缺少stationId参数");
         if (pageNum == null) pageNum = 1;
         if (pageSize == null) pageSize = 10;
         PageInfo<Inventory> inventoryPageInfo = inventoryService.getInventoryByStation(stationId, pageNum, pageSize);
