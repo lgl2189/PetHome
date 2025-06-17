@@ -1,5 +1,6 @@
 package com.pethome.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -23,5 +24,13 @@ public class SupplyDemandRecordServiceImpl extends ServiceImpl<SupplyDemandRecor
     public PageInfo<SupplyDemandRecord> getAllSupplyDemandRecord(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return new PageInfo<>(this.list());
+    }
+
+    @Override
+    public PageInfo<SupplyDemandRecord> getRecordListByInventoryId(Integer inventoryId, Integer pageNum, Integer pageSize) {
+        LambdaQueryWrapper<SupplyDemandRecord> query = new LambdaQueryWrapper<>();
+        query.eq(SupplyDemandRecord::getInventoryId, inventoryId);
+        PageHelper.startPage(pageNum, pageSize);
+        return new PageInfo<>(this.list(query));
     }
 }

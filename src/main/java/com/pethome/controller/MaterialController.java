@@ -14,6 +14,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,7 +35,7 @@ public class MaterialController {
     @Autowired
     public MaterialController(InventoryService inventoryService,
                               SupplyDemandRecordService supplyDemandRecordService) {
-        Assert.notNull(inventoryService,"inventoryService must not be null");
+        Assert.notNull(inventoryService, "inventoryService must not be null");
         Assert.notNull(supplyDemandRecordService, "supplyDemandRecordService must not be null");
         this.inventoryService = inventoryService;
         this.supplyDemandRecordService = supplyDemandRecordService;
@@ -55,14 +56,14 @@ public class MaterialController {
     @JwtAuthority
     @GetMapping("/inventory/list/station/{stationId}")
     public Result getInventoryListByStation(@PathVariable Integer stationId,
-                                              @RequestParam Integer pageNum,
-                                              @RequestParam Integer pageSize) {
+                                            @RequestParam Integer pageNum,
+                                            @RequestParam Integer pageSize) {
         if (stationId == null) return ResultUtil.fail_401("缺少stationId参数");
         if (pageNum == null) pageNum = 1;
         if (pageSize == null) pageSize = 10;
         PageInfo<Inventory> inventoryPageInfo = inventoryService.getInventoryByStation(stationId, pageNum, pageSize);
         Map<String, Object> resMap = new HashMap<>();
-        resMap.put("inventory_list",inventoryPageInfo.getList());
+        resMap.put("inventory_list", inventoryPageInfo.getList());
         resMap.put("page_info", DatabasePageUtil.getPageInfo(inventoryPageInfo));
         return ResultUtil.success_200(resMap, "需求列表获取成功");
     }
@@ -70,13 +71,42 @@ public class MaterialController {
     @JwtAuthority
     @PostMapping("/inventory")
     public Result addInventory(@RequestBody Inventory inventory) {
-        if(inventory == null){
+        if (inventory == null) {
             return ResultUtil.fail_401("缺少参数");
         }
         boolean result = inventoryService.save(inventory);
         if (!result) {
-            return ResultUtil.fail_500("新增库存失败");
+            return ResultUtil.fail_500("库存添加失败");
         }
-        return ResultUtil.success_200(null,"库存添加成功");
+        return ResultUtil.success_200(null, "库存添加成功");
+    }
+
+    @JwtAuthority
+    @PutMapping("/inventory/{inventoryId}")
+    public Result updateInventory(@PathVariable Integer inventoryId, @RequestBody Inventory inventory) {
+        if (inventoryId == null || inventory == null) {
+            return ResultUtil.fail_401("缺少参数");
+        }
+        inventory.setInventoryId(inventoryId);
+        boolean result = inventoryService.updateById(inventory);
+        if (!result) {
+            return ResultUtil.fail_500("库存更新失败");
+        }
+        return ResultUtil.success_200(null, "库存更新成功");
+    }
+
+    @JwtAuthority
+    @DeleteMapping("/inventory/{inventoryId}")
+    public Result deleteInventory(@PathVariable Integer inventoryId) {
+        if (inventoryId == null) return ResultUtil.fail_401("缺少参数");
+        boolean isExist = inventoryService.getById(inventoryId) != null;
+        if (!isExist) return ResultUtil.fail_401(null,"参数错误，库存不存在");
+        PageInfo<SupplyDemandRecord> recordPageInfo = supplyDemandRecordService.getRecordListByInventoryId(inventoryId,1,1);
+        if(!recordPageInfo.getList().isEmpty()){
+            return ResultUtil.fail_500(null,"该库存仍有需求，无法删除。请先删除所有需求!");
+        }
+        boolean result = inventoryService.removeById(inventoryId);
+        if(!result) return ResultUtil.fail_500(null,"库存删除失败");
+        return ResultUtil.success_200(null, "库存删除成功");
     }
 }

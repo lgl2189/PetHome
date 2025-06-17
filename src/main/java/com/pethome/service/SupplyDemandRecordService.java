@@ -21,4 +21,13 @@ public interface SupplyDemandRecordService extends IService<SupplyDemandRecord> 
      * @return 需求记录列表
      */
     PageInfo<SupplyDemandRecord> getAllSupplyDemandRecord(Integer pageNum, Integer pageSize);
+
+    /**
+     * 获取一个物资的所有需求记录
+     * @param inventoryId 库存ID
+     * @param pageNum 当前页码
+     * @param pageSize 每页记录条数
+     * @return 需求记录列表
+     */
+    PageInfo<SupplyDemandRecord> getRecordListByInventoryId(Integer inventoryId, Integer pageNum, Integer pageSize);
 }
