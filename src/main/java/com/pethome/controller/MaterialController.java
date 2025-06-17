@@ -14,7 +14,6 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,7 +57,7 @@ public class MaterialController {
     public Result getInventoryListByStation(@PathVariable Integer stationId,
                                             @RequestParam Integer pageNum,
                                             @RequestParam Integer pageSize) {
-        if (stationId == null) return ResultUtil.fail_401(null,"缺少stationId参数");
+        if (stationId == null) return ResultUtil.fail_401(null, "缺少stationId参数");
         if (pageNum == null) pageNum = 1;
         if (pageSize == null) pageSize = 10;
         PageInfo<Inventory> inventoryPageInfo = inventoryService.getInventoryByStation(stationId, pageNum, pageSize);
@@ -100,13 +99,13 @@ public class MaterialController {
     public Result deleteInventory(@PathVariable Integer inventoryId) {
         if (inventoryId == null) return ResultUtil.fail_401("缺少参数");
         boolean isExist = inventoryService.getById(inventoryId) != null;
-        if (!isExist) return ResultUtil.fail_401(null,"参数错误，库存不存在");
-        PageInfo<SupplyDemandRecord> recordPageInfo = supplyDemandRecordService.getRecordListByInventoryId(inventoryId,1,1);
-        if(!recordPageInfo.getList().isEmpty()){
-            return ResultUtil.fail_500(null,"该库存仍有需求，无法删除。请先删除所有需求!");
+        if (!isExist) return ResultUtil.fail_401(null, "参数错误，库存不存在");
+        PageInfo<SupplyDemandRecord> recordPageInfo = supplyDemandRecordService.getDemandListByInventoryId(inventoryId, 1, 1);
+        if (!recordPageInfo.getList().isEmpty()) {
+            return ResultUtil.fail_500(null, "该库存仍有需求，无法删除。请先删除所有需求!");
         }
         boolean result = inventoryService.removeById(inventoryId);
-        if(!result) return ResultUtil.fail_500(null,"库存删除失败");
+        if (!result) return ResultUtil.fail_500(null, "库存删除失败");
         return ResultUtil.success_200(null, "库存删除成功");
     }
 }
