@@ -31,6 +31,8 @@ public class SupplyDemandRecord implements Serializable {
 
     private Integer rescueStationId;
 
+    private Integer inventoryId;
+
     private String supplyName;
 
     private Integer demandQuantity;
