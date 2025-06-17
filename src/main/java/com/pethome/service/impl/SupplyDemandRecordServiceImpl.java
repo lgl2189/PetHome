@@ -27,7 +27,7 @@ public class SupplyDemandRecordServiceImpl extends ServiceImpl<SupplyDemandRecor
     }
 
     @Override
-    public PageInfo<SupplyDemandRecord> getRecordListByInventoryId(Integer inventoryId, Integer pageNum, Integer pageSize) {
+    public PageInfo<SupplyDemandRecord> getInventoryListByInventoryId(Integer inventoryId, Integer pageNum, Integer pageSize) {
         LambdaQueryWrapper<SupplyDemandRecord> query = new LambdaQueryWrapper<>();
         query.eq(SupplyDemandRecord::getInventoryId, inventoryId);
         PageHelper.startPage(pageNum, pageSize);
