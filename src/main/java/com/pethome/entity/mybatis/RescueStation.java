@@ -33,4 +33,6 @@ public class RescueStation implements Serializable {
     private String position;
 
     private Integer adminUserId;
+
+    private Long paymentQrcodeGid;
 }
