@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class RescueStationServiceImpl extends ServiceImpl<RescueStationMapper, RescueStation> implements RescueStationService {
 
     private final UserService userService;
-    private  final FileUploadConfig fileUploadConfig;;
+    private final FileUploadConfig fileUploadConfig;
     private final FileRecordService fileRecordService;
 
     @Autowired
