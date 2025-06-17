@@ -3,7 +3,9 @@ package com.pethome.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pethome.dto.sender.RescueStationInfo;
 import com.pethome.entity.mybatis.RescueStation;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -33,4 +35,13 @@ public interface RescueStationService extends IService<RescueStation> {
      * @return 救助站信息
      */
     RescueStationInfo getRescueStationById(Integer rescueStationId);
+
+    /**
+     * 更新支付二维码列表
+     *
+     * @param rescueStationId        救助站id
+     * @param paymentQrcodeFileArray 支付二维码列表
+     * @return 是否更新成功
+     */
+    boolean updatePaymentQrcodeList(Integer rescueStationId, MultipartFile[] paymentQrcodeFileArray) throws IOException;
 }
