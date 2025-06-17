@@ -29,5 +29,6 @@ public interface SupplyDemandRecordService extends IService<SupplyDemandRecord> 
      * @param pageSize 每页记录条数
      * @return 需求记录列表
      */
-    PageInfo<SupplyDemandRecord> getInventoryListByInventoryId(Integer inventoryId, Integer pageNum, Integer pageSize);
+    PageInfo<SupplyDemandRecord> getDemandListByInventoryId(Integer inventoryId, Integer pageNum, Integer pageSize);
+
 }
