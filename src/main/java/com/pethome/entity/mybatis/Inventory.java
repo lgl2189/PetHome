@@ -32,7 +32,7 @@ public class Inventory implements Serializable {
 
     private String supplyName;
 
-    private Integer supplyQuantity;
+    private Integer inventoryQuantity;
 
     private Integer warningQuantity;
 }
