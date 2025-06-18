@@ -21,4 +21,11 @@ public interface InventoryChangeRecordService extends IService<InventoryChangeRe
      * @return 库存变动记录
      */
     PageInfo<InventoryChangeRecord> getRecordByStation(Integer stationId, int pageNum, int pageSize);
+
+    /**
+     * 添加一条库存变动记录，并返回是否成功。该方法会先修改库存，后添加库存变动记录
+     * @param inventoryChangeRecord 新的库存变动记录
+     * @return 添加库存变动记录是否成功
+     */
+    boolean addInventoryChangeRecord(InventoryChangeRecord inventoryChangeRecord);
 }

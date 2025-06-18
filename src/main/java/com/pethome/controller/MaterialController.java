@@ -2,6 +2,7 @@ package com.pethome.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.pethome.dto.Result;
+import com.pethome.entity.enums.InventoryChangeTypeEnum;
 import com.pethome.entity.mybatis.Inventory;
 import com.pethome.entity.mybatis.InventoryChangeRecord;
 import com.pethome.entity.mybatis.SupplyDemandRecord;
@@ -173,5 +174,27 @@ public class MaterialController {
         resMap.put("change_record_list", changeRecordPageInfo.getList());
         resMap.put("page_info", DatabasePageUtil.getPageInfo(changeRecordPageInfo));
         return ResultUtil.success_200(resMap, "库存变更记录获取成功");
+    }
+
+    @JwtAuthority
+    @PostMapping("/inventory/change")
+    public Result addInventoryChangeRecord(@RequestBody InventoryChangeRecord inventoryChangeRecord) {
+        if (inventoryChangeRecord == null) {
+            return ResultUtil.fail_401("缺少参数");
+        }
+        Inventory oldInventory = inventoryService.getById(inventoryChangeRecord.getInventoryId());
+        if (oldInventory == null) {
+            return ResultUtil.fail_401(null, "库存不存在，请检查物资库存id");
+        }
+        if ((inventoryChangeRecord.getChangeType() == InventoryChangeTypeEnum.IN && oldInventory.getInventoryQuantity() + inventoryChangeRecord.getChangeNum() < 0)
+                || (inventoryChangeRecord.getChangeType() == InventoryChangeTypeEnum.OUT && oldInventory.getInventoryQuantity() - inventoryChangeRecord.getChangeNum() < 0)
+        ) {
+            return ResultUtil.fail_402(null, "库存数量不满足变动数量，请检查变动数量");
+        }
+        boolean result = inventoryChangeRecordService.addInventoryChangeRecord(inventoryChangeRecord);
+        if (!result) {
+            return ResultUtil.fail_500(null, "库存变更记录添加失败");
+        }
+        return ResultUtil.success_200(null, "库存变更记录添加成功");
     }
 }
