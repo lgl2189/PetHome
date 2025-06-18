@@ -49,7 +49,6 @@ public class RescueStationServiceImpl extends ServiceImpl<RescueStationMapper, R
     @Override
     public List<RescueStation> getPublicInfoList() {
         LambdaQueryWrapper<RescueStation> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(RescueStation::getRescueStationId, RescueStation::getRescueStationName);
         return list(queryWrapper);
     }
 
