@@ -51,7 +51,7 @@ public class FileRecordServiceImpl extends ServiceImpl<FileRecordMapper, FileRec
         }
         List<String> savePathList = new ArrayList<>();
         for (MultipartFile file : fileArray) {
-            if(file == null || file.isEmpty()){
+            if (file == null || file.isEmpty()) {
                 continue;
             }
             savePathList.add(saveFile(file));
@@ -142,7 +142,7 @@ public class FileRecordServiceImpl extends ServiceImpl<FileRecordMapper, FileRec
     }
 
     @Override
-    public FileRecord getFileRecordByFileId(long fileId){
+    public FileRecord getFileRecordByFileId(long fileId) {
         return fileRecordMapper.selectById(fileId);
     }
 
@@ -151,5 +151,17 @@ public class FileRecordServiceImpl extends ServiceImpl<FileRecordMapper, FileRec
         LambdaQueryWrapper<FileRecord> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(FileRecord::getFileGroupId, fileGroupId);
         return fileRecordMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public FileRecord getFileFullPath(FileRecord fileRecord) {
+        fileRecord.setFileUrl(fileUploadConfig.getServerResourceBaseUrl() + fileRecord.getFileUrl());
+        return fileRecord;
+    }
+
+    @Override
+    public List<FileRecord> getFileGroupFullPath(List<FileRecord> fileRecordList) {
+        fileRecordList.forEach(this::getFileFullPath);
+        return fileRecordList;
     }
 }

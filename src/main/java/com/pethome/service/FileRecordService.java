@@ -55,4 +55,19 @@ public interface FileRecordService extends IService<FileRecord> {
      * @return 文件记录列表
      */
     List<FileRecord> getFileRecordByFileGroupId(long fileGroupId);
+
+    /**
+     * 根据文件Id获取文件完整路径，并回填到参数对象中
+     * @param fileRecord 文件记录对象
+     * @return 文件记录对象
+     */
+    FileRecord getFileFullPath(FileRecord fileRecord);
+
+    /**
+     * 根据文件组Id获取文件完整路径，并回填到参数对象中
+     * @param fileRecordList 文件记录列表
+     * @return 文件记录列表
+     */
+    List<FileRecord> getFileGroupFullPath(List<FileRecord> fileRecordList);
+
 }
