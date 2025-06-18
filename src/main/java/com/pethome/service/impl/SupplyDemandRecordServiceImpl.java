@@ -33,4 +33,12 @@ public class SupplyDemandRecordServiceImpl extends ServiceImpl<SupplyDemandRecor
         PageHelper.startPage(pageNum, pageSize);
         return new PageInfo<>(this.list(query));
     }
+
+    @Override
+    public PageInfo<SupplyDemandRecord> getDemandListByStation(Integer stationId, Integer pageNum, Integer pageSize) {
+        LambdaQueryWrapper<SupplyDemandRecord> query = new LambdaQueryWrapper<>();
+        query.eq(SupplyDemandRecord::getRescueStationId, stationId);
+        PageHelper.startPage(pageNum, pageSize);
+        return new PageInfo<>(this.list(query));
+    }
 }

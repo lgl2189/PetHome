@@ -53,6 +53,50 @@ public class MaterialController {
     }
 
     @JwtAuthority
+    @GetMapping("/demand/list/station/{stationId}")
+    public Result getDemandListByStation(@PathVariable Integer stationId,
+                                         @RequestParam Integer pageNum,
+                                         @RequestParam Integer pageSize) {
+        if (stationId == null) return ResultUtil.fail_401(null, "缺少stationId参数");
+        if (pageNum == null) pageNum = 1;
+        if (pageSize == null) pageSize = 10;
+        PageInfo<SupplyDemandRecord> supplyPageInfo = supplyDemandRecordService.getDemandListByStation(stationId, pageNum, pageSize);
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("inventory_list", supplyPageInfo.getList());
+        resMap.put("page_info", DatabasePageUtil.getPageInfo(supplyPageInfo));
+        return ResultUtil.success_200(resMap, "需求列表获取成功");
+    }
+
+    @JwtAuthority
+    @PostMapping("/demand")
+    public Result addDemand(@RequestBody SupplyDemandRecord supplyDemandRecord) {
+        if (supplyDemandRecord == null
+                || supplyDemandRecord.getInventoryId() == null
+                || supplyDemandRecord.getDemandQuantity() == null) {
+            return ResultUtil.fail_401(null,"缺少参数");
+        }
+        if(inventoryService.getById(supplyDemandRecord.getInventoryId()) == null){
+            return ResultUtil.fail_401(null,"库存不存在，请检查物资库存id");
+        }
+        boolean result = supplyDemandRecordService.save(supplyDemandRecord);
+        if (!result) {
+            return ResultUtil.fail_500(null,"需求添加失败");
+        }
+        return ResultUtil.success_200(null, "需求添加成功");
+    }
+
+    @JwtAuthority
+    @DeleteMapping("/demand/{demandId}")
+    public Result deleteDemand(@PathVariable Integer demandId) {
+        if(demandId == null) return ResultUtil.fail_401(null,"缺少参数");
+        boolean result = supplyDemandRecordService.removeById(demandId);
+        if (!result) {
+            return ResultUtil.fail_500(null,"需求删除失败");
+        }
+        return ResultUtil.success_200(null,"需求删除成功");
+    }
+
+    @JwtAuthority
     @GetMapping("/inventory/list/station/{stationId}")
     public Result getInventoryListByStation(@PathVariable Integer stationId,
                                             @RequestParam Integer pageNum,
