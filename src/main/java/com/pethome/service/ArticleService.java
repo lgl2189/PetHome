@@ -1,6 +1,7 @@
 package com.pethome.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.pethome.entity.mybatis.Article;
 
 /**
@@ -12,5 +13,5 @@ import com.pethome.entity.mybatis.Article;
  * @since 2025-04-27
  */
 public interface ArticleService extends IService<Article> {
-
+    PageInfo<Article> getArticleList(int pageNum, int pageSize);
 }

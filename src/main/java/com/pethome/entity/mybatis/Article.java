@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -31,7 +31,7 @@ public class Article implements Serializable {
 
     private Integer publisherId;
 
-    private LocalDate publishDate;
+    private LocalDateTime publishDate;
 
     private String content;
 }
