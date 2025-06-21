@@ -29,9 +29,9 @@ public class CommunicationRecord implements Serializable {
     @TableId(value = "communication_id", type = IdType.AUTO)
     private Integer communicationId;
 
-    private Integer user_id_from;
+    private Integer userIdFrom;
 
-    private Integer user_id_to;
+    private Integer userIdTo;
 
     private LocalDate communicationDate;
 
