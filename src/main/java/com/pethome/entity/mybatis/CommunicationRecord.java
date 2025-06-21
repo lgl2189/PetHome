@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -33,7 +33,7 @@ public class CommunicationRecord implements Serializable {
 
     private Integer userIdTo;
 
-    private LocalDate communicationDate;
+    private LocalDateTime communicationDatetime;
 
     private String communicationContent;
 }
