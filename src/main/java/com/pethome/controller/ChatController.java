@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/communicationRecord")
-public class CommunicationRecordController {
+public class ChatController {
 
 }
