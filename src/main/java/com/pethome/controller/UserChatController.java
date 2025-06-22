@@ -45,7 +45,7 @@ public class UserChatController {
         if(pageSize == null) pageSize = 0;
         PageInfo<Message> recentChatUserPageInfo = messageRecordService.getRecentChatUserList(userId, pageNum, pageSize);
         Map<String,Object> resMap = new HashMap<>();
-        resMap.put("chat_list", recentChatUserPageInfo.getList());
+        resMap.put("recent_user_list", recentChatUserPageInfo.getList());
         resMap.put("page_info", DatabasePageUtil.getPageInfo(recentChatUserPageInfo));
         return ResultUtil.success_200(resMap, "获取最近聊天列表成功");
     }
