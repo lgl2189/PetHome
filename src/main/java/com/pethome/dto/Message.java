@@ -20,7 +20,7 @@ public class Message {
     @JsonUnwrapped
     private ChatRecord chatRecord;
 
-    private String userNameFrom;
+    private String senderName;
 
-    private String userNameTo;
+    private String receiverName;
 }
