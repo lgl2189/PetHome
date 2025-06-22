@@ -3,8 +3,8 @@
 <mapper namespace="com.pethome.mapper.ChatRecordMapper">
 
     <resultMap id="MessageResultMap" type="com.pethome.dto.Message">
-        <result property="userNameFrom" column="user_name_from"/>
-        <result property="userNameTo" column="user_name_to"/>
+        <result property="senderName" column="sender_name"/>
+        <result property="receiverName" column="receiver_name"/>
         <association property="chatRecord" javaType="com.pethome.entity.mybatis.ChatRecord">
             <id property="chatId" column="chat_id"/>
             <result property="senderId" column="sender_id"/>
@@ -20,8 +20,8 @@
                          ROW_NUMBER() OVER (PARTITION BY sender_id ORDER BY chat_datetime DESC ) AS rn
                   FROM chat_record)
         SELECT ranked_users.*,
-               sender.user_name   As user_name_from,
-               receiver.user_name As user_name_to
+               sender.user_name   As sender_name,
+               receiver.user_name As receiver_name
         FROM ranked_users
                  LEFT JOIN user sender ON sender_id = sender.user_id
                  LEFT JOIN user receiver ON receiver_id = receiver.user_id
