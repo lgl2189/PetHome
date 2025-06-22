@@ -3,7 +3,7 @@
 <mapper namespace="com.pethome.mapper.MessageRecordMapper">
 
     <resultMap id="MessageResultMap" type="com.pethome.dto.Message">
-        <id property="messageId"  column="messageId"/>
+        <id property="messageId"  column="message_id"/>
         <result property="senderName" column="sender_name"/>
         <result property="receiverName" column="receiver_name"/>
         <association property="messageRecord" javaType="com.pethome.entity.mybatis.MessageRecord">
