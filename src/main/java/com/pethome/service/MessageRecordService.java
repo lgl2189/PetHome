@@ -2,6 +2,8 @@ package com.pethome.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
+import com.pethome.dto.Message;
+import com.pethome.dto.MessageList;
 import com.pethome.entity.mybatis.MessageRecord;
 
 /**
@@ -21,5 +23,14 @@ public interface MessageRecordService extends IService<MessageRecord> {
      * @param pageSize 每页条数
      * @return 最近聊天列表
      */
-    PageInfo<com.pethome.dto.Message> getRecentChatUserList(Integer userId, int pageNum, int pageSize);
+    PageInfo<Message> getRecentChatUserList(Integer userId, int pageNum, int pageSize);
+
+    /**
+     * 获取senderId和receiverId的聊天记录列表
+     *
+     * @param userId1 发送者用户id
+     * @param userId2 接收者用户id
+     * @return 聊天记录列表
+     */
+    MessageList getRecentChatRecordList(Integer userId1, Integer userId2);
 }

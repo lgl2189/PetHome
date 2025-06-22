@@ -1,6 +1,7 @@
 package com.pethome.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.pethome.dto.Message;
 import com.pethome.entity.mybatis.MessageRecord;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,5 +17,5 @@ import java.util.List;
  */
 @Mapper
 public interface MessageRecordMapper extends BaseMapper<MessageRecord> {
-    List<com.pethome.dto.Message> selectRecentChatUserList(Integer userId);
+    List<Message> selectRecentChatUserList(Integer userId);
 }

@@ -70,4 +70,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         int effectRow = userMapper.updateById(newUser);
         return effectRow == 1;
     }
+
+    @Override
+    public String getUserName(Integer userId) {
+        return userMapper.selectById(userId).getUserName();
+    }
 }

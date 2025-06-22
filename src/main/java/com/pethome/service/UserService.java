@@ -42,4 +42,11 @@ public interface UserService extends IService<User>{
      * @return true 成功 false 失败
      */
     boolean updateUserInfo(int id,User user);
+
+    /**
+     * 根据用户id获取用户名
+     * @param userId 用户id
+     * @return 用户名
+     */
+    String getUserName(Integer userId);
 }
