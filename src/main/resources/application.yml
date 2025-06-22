@@ -41,7 +41,6 @@ mybatis-plus:
     default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
   global-config:
     banner: false
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 pagehelper:
   helper-dialect: mysql
   support-methods-arguments: true
