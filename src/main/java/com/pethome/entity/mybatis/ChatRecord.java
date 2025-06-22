@@ -21,19 +21,19 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommunicationRecord implements Serializable {
+public class ChatRecord implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "communication_id", type = IdType.AUTO)
-    private Integer communicationId;
+    @TableId(value = "chat_id", type = IdType.AUTO)
+    private Integer chatId;
 
-    private Integer userIdFrom;
+    private Integer senderId;
 
-    private Integer userIdTo;
+    private Integer receiverId;
 
-    private LocalDateTime communicationDatetime;
+    private LocalDateTime chatDatetime;
 
-    private String communicationContent;
+    private String chatContent;
 }

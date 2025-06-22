@@ -1,7 +1,18 @@
 package com.pethome.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.github.pagehelper.PageInfo;
+import com.pethome.dto.Message;
+import com.pethome.dto.Result;
+import com.pethome.service.ChatRecordService;
+import com.pethome.util.DatabasePageUtil;
+import com.pethome.util.ResultUtil;
+import com.star.jwt.annotation.JwtAuthority;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -12,7 +23,28 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2025-04-27
  */
 @RestController
-@RequestMapping("/communicationRecord")
+@RequestMapping("/chat")
 public class ChatController {
 
+    private final ChatRecordService chatRecordService;
+
+    @Autowired
+    public ChatController(ChatRecordService chatRecordService) {
+        Assert.notNull(chatRecordService, "chatRecordService must not be null");
+        this.chatRecordService = chatRecordService;
+    }
+
+    @JwtAuthority
+    @GetMapping("/user/{userId}/recent-chat-list")
+    public Result getRecentChatUserList(
+            @PathVariable Integer userId,
+            @RequestParam("pageNum") int pageNum,
+            @RequestParam("pageSize") int pageSize) {
+        if (userId == null) return ResultUtil.fail_401(null, "用户id不能为空");
+        PageInfo<Message> recentChatUserPageInfo = chatRecordService.getRecentChatUserList(userId, pageNum, pageSize);
+        Map<String,Object> resMap = new HashMap<>();
+        resMap.put("chat_list", recentChatUserPageInfo.getList());
+        resMap.put("page_info", DatabasePageUtil.getPageInfo(recentChatUserPageInfo));
+        return ResultUtil.success_200(resMap, "获取最近聊天列表成功");
+    }
 }
