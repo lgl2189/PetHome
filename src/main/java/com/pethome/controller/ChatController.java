@@ -38,9 +38,11 @@ public class ChatController {
     @GetMapping("/user/{userId}/recent-chat-list")
     public Result getRecentChatUserList(
             @PathVariable Integer userId,
-            @RequestParam("pageNum") int pageNum,
-            @RequestParam("pageSize") int pageSize) {
+            @RequestParam(value = "pageNum",required = false) Integer pageNum,
+            @RequestParam(value = "pageSize",required = false) Integer pageSize) {
         if (userId == null) return ResultUtil.fail_401(null, "用户id不能为空");
+        if(pageNum == null) pageNum = 0;
+        if(pageSize == null) pageSize = 0;
         PageInfo<Message> recentChatUserPageInfo = chatRecordService.getRecentChatUserList(userId, pageNum, pageSize);
         Map<String,Object> resMap = new HashMap<>();
         resMap.put("chat_list", recentChatUserPageInfo.getList());
