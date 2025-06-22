@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pethome.mapper.ChatRecordMapper">
+<mapper namespace="com.pethome.mapper.MessageRecordMapper">
 
     <resultMap id="MessageResultMap" type="com.pethome.dto.Message">
+        <id property="messageId"  column="messageId"/>
         <result property="senderName" column="sender_name"/>
         <result property="receiverName" column="receiver_name"/>
-        <association property="chatRecord" javaType="com.pethome.entity.mybatis.ChatRecord">
-            <id property="chatId" column="chat_id"/>
+        <association property="messageRecord" javaType="com.pethome.entity.mybatis.MessageRecord">
+            <id property="messageId" column="message_id"/>
             <result property="senderId" column="sender_id"/>
             <result property="receiverId" column="receiver_id"/>
-            <result property="chatDatetime" column="chat_datetime"/>
-            <result property="chatContent" column="chat_content"/>
+            <result property="messageDatetime" column="message_datetime"/>
+            <result property="messageContent" column="message_content"/>
         </association>
     </resultMap>
 
     <select id="selectRecentChatUserList" resultMap="MessageResultMap">
         WITH ranked_users AS
-                 (SELECT *,
-                         ROW_NUMBER() OVER (PARTITION BY sender_id ORDER BY chat_datetime DESC ) AS rn
-                  FROM chat_record)
+                 (SELECT *, ROW_NUMBER() OVER (PARTITION BY sender_id ORDER BY message_datetime DESC ) AS rn
+                  FROM message_record
+                  WHERE receiver_id = #{userId})
         SELECT ranked_users.*,
                sender.user_name   As sender_name,
                receiver.user_name As receiver_name
         FROM ranked_users
                  LEFT JOIN user sender ON sender_id = sender.user_id
                  LEFT JOIN user receiver ON receiver_id = receiver.user_id
-        WHERE receiver_id = #{userId}
-          AND rn = 1
+        WHERE rn = 1
     </select>
 </mapper>

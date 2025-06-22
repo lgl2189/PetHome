@@ -3,7 +3,7 @@ package com.pethome.controller;
 import com.github.pagehelper.PageInfo;
 import com.pethome.dto.Message;
 import com.pethome.dto.Result;
-import com.pethome.service.ChatRecordService;
+import com.pethome.service.MessageRecordService;
 import com.pethome.util.DatabasePageUtil;
 import com.pethome.util.ResultUtil;
 import com.star.jwt.annotation.JwtAuthority;
@@ -24,14 +24,14 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/chat")
-public class ChatController {
+public class UserChatController {
 
-    private final ChatRecordService chatRecordService;
+    private final MessageRecordService messageRecordService;
 
     @Autowired
-    public ChatController(ChatRecordService chatRecordService) {
-        Assert.notNull(chatRecordService, "chatRecordService must not be null");
-        this.chatRecordService = chatRecordService;
+    public UserChatController(MessageRecordService messageRecordService) {
+        Assert.notNull(messageRecordService, "messageRecordService must not be null");
+        this.messageRecordService = messageRecordService;
     }
 
     @JwtAuthority
@@ -43,7 +43,7 @@ public class ChatController {
         if (userId == null) return ResultUtil.fail_401(null, "用户id不能为空");
         if(pageNum == null) pageNum = 0;
         if(pageSize == null) pageSize = 0;
-        PageInfo<Message> recentChatUserPageInfo = chatRecordService.getRecentChatUserList(userId, pageNum, pageSize);
+        PageInfo<Message> recentChatUserPageInfo = messageRecordService.getRecentChatUserList(userId, pageNum, pageSize);
         Map<String,Object> resMap = new HashMap<>();
         resMap.put("chat_list", recentChatUserPageInfo.getList());
         resMap.put("page_info", DatabasePageUtil.getPageInfo(recentChatUserPageInfo));

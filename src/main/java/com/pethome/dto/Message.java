@@ -1,7 +1,7 @@
 package com.pethome.dto;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.pethome.entity.mybatis.ChatRecord;
+import com.pethome.entity.mybatis.MessageRecord;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,8 +17,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Message {
 
+    private Integer messageId;
+
     @JsonUnwrapped
-    private ChatRecord chatRecord;
+    private MessageRecord messageRecord;
 
     private String senderName;
 
