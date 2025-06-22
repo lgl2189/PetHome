@@ -13,7 +13,7 @@ import javax.websocket.server.ServerEndpoint;
  * @description ：无描述
  * @date ：2025 6月 21 14:27
  */
-@ServerEndpoint("/chat")
+@ServerEndpoint("/ws/chat")
 @Component
 public class UserChatEndPoint {
     @OnOpen

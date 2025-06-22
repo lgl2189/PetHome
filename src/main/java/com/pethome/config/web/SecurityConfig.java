@@ -82,6 +82,7 @@ public class SecurityConfig {
                 // 所以这里配置了.anyRequest().authenticated()，则如果请求没有登录，就无法到达方法级配置的权限验证，进而导致无法访问接口。
                 .authorizeHttpRequests(requests -> {
                     requests.antMatchers(Constant.SECURITY_IGNORE_URL_LIST.toArray(String[]::new)).permitAll()
+                            .antMatchers("/ws/**").permitAll()
                             .antMatchers("/static/**").permitAll()
                             .antMatchers("/resource/**").permitAll()
                             .antMatchers("/**/public/**").permitAll()
