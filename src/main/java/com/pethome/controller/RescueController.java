@@ -1,7 +1,9 @@
 package com.pethome.controller;
 
 import com.pethome.dto.Result;
+import com.pethome.entity.mybatis.Animal;
 import com.pethome.entity.mybatis.RescueRecord;
+import com.pethome.service.AnimalService;
 import com.pethome.service.RescueRecordService;
 import com.pethome.util.ResultUtil;
 import com.star.jwt.annotation.JwtAuthority;
@@ -21,11 +23,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/rescue")
 public class RescueController {
 
+    private final AnimalService animalService;
     private final RescueRecordService rescueRecordService;
 
     @Autowired
-    public RescueController(RescueRecordService rescueRecordService) {
+    public RescueController(AnimalService animalService,RescueRecordService rescueRecordService) {
+        Assert.notNull(animalService, "animalService must not be null");
         Assert.notNull(rescueRecordService, "rescueRecordService must not be null");
+        this.animalService = animalService;
         this.rescueRecordService = rescueRecordService;
     }
 
@@ -48,10 +53,14 @@ public class RescueController {
         if (rescueRecord == null) {
             return ResultUtil.fail_401(null, "提交参数为空");
         }
-        RescueRecord result = rescueRecordService.addRescueRecord(rescueRecord);
-        if (result == null) {
+        RescueRecord record = rescueRecordService.addRescueRecord(rescueRecord);
+        if (record == null) {
             return ResultUtil.fail_500(null, "救助信息提交失败");
         }
+        Animal animal = new Animal();
+        animal.setAnimalId(record.getAnimalId());
+        animal.setRescueStationId(record.getRescueStationId());
+        animalService.updateById(animal);
         return ResultUtil.success_200(null, "救助信息提交成功");
     }
 
