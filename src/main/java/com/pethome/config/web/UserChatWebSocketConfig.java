@@ -60,8 +60,11 @@ public class UserChatWebSocketConfig extends ServerEndpointConfig.Configurator i
             String token = tokens.get(0);
             try {
                 if (validateToken(token)) {
-                    // 将用户Token存入 WebSocket 会话属性
+                    // 将用户Token和UserId存入 WebSocket 会话属性
                     config.getUserProperties().put("token", token);
+                    String userJson = JWT.of(token).getPayloads().get("user", String.class);
+                    UserDetail user = objectMapper.readValue(userJson, UserDetail.class);
+                    config.getUserProperties().put("userId", user.getUserId());
                 }
                 else {
                     config.getUserProperties().put("isRejected", true);
