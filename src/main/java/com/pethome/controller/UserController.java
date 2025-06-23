@@ -63,7 +63,12 @@ public class UserController {
         if (!isSuccess) {
             return ResultUtil.fail_400(null, "注册失败");
         }
-        return ResultUtil.success_200(null, "注册成功");
+        Volunteer volunteer = new Volunteer();
+        volunteer.setUserId(user.getUserId());
+        volunteer.setRescueStationId(1);
+        volunteer.setPoint(20);
+        volunteerService.save(volunteer);
+        return ResultUtil.success_200(user, "注册成功");
     }
 
     @JwtAuthority
