@@ -16,16 +16,25 @@
     </resultMap>
 
     <select id="selectRecentChatUserList" resultMap="MessageResultMap">
-        WITH ranked_users AS
-                 (SELECT *, ROW_NUMBER() OVER (PARTITION BY sender_id ORDER BY message_datetime DESC ) AS rn
-                  FROM message_record
-                  WHERE receiver_id = #{userId})
+        WITH ranked_users AS (
+            SELECT *,
+                   ROW_NUMBER() OVER (
+                       PARTITION BY
+                           LEAST(sender_id, receiver_id),  -- 取两者中的较小值
+                           GREATEST(sender_id, receiver_id) -- 取两者中的较大值
+                       ORDER BY message_datetime DESC
+                       ) AS rn
+            FROM message_record
+            -- 移除了 WHERE receiver_id = 1 限制，这样可以查询所有消息
+        )
         SELECT ranked_users.*,
-               sender.user_name   As sender_name,
-               receiver.user_name As receiver_name
+               sender.user_name   AS sender_name,
+               receiver.user_name AS receiver_name
         FROM ranked_users
                  LEFT JOIN user sender ON sender_id = sender.user_id
                  LEFT JOIN user receiver ON receiver_id = receiver.user_id
         WHERE rn = 1
+          AND (sender_id = #{userId} OR receiver_id = #{userId}); -- 确保至少有一条消息涉及用户1
+
     </select>
 </mapper>
