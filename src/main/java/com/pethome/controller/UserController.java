@@ -1,5 +1,6 @@
 package com.pethome.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.pethome.dto.Result;
 import com.pethome.dto.sender.RescueStationInfo;
 import com.pethome.dto.sender.VolunteerSender;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +96,24 @@ public class UserController {
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("user_info", user);
         return ResultUtil.success_200(resMap, "获取用户信息成功");
+    }
+
+    @JwtAuthority
+    @GetMapping("/search")
+    public Result search(@RequestParam String keyword) {
+        if(keyword == null || keyword.isEmpty()){
+            return ResultUtil.fail_401(null, "参数不能为空");
+        }
+        LambdaQueryWrapper<User> query = new LambdaQueryWrapper<>();
+        query.like(User::getUserName, keyword);
+        Map<String, Object> resMap = new HashMap<>();
+        List<User> userList = userService.list(query);
+        List<User> publicUserList = new ArrayList<>();
+        for (User user : userList) {
+            publicUserList.add(UserUtil.removeSensitiveInfo(user));
+        }
+        resMap.put("user_list", publicUserList);
+        return ResultUtil.success_200(resMap, "搜索成功");
     }
 
     @JwtAuthority
